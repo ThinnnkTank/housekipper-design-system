@@ -12,6 +12,11 @@ Intent-named spacing. **Primitives import these, never `SpacingToken.sXX` direct
 | `Space.sectionGap`      | `SpacingToken.s32` | Between sections |
 | `Space.blockSeparator`  | `SpacingToken.s48` | Major content blocks |
 | `Space.tapTarget`       | `SpacingToken.s44` | iOS min tap height (use for `.frame(minHeight:)`) |
+| `Space.buttonPaddingLg` | `SpacingToken.s16` | Large button horizontal padding |
+| `Space.buttonPaddingSm` | `SpacingToken.s12` | Small + micro button horizontal padding |
+| `Space.buttonHeightLg`  | `SpacingToken.s44` | Large button visible height (= tap target) |
+| `Space.buttonHeightSm`  | `SpacingToken.s32` | Small button visible height |
+| `Space.buttonHeightMicro` | `SpacingToken.s24` | Micro button (icon control) |
 
 ## Adding a new intent
 
