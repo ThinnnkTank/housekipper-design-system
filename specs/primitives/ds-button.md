@@ -70,7 +70,7 @@ Three resolved palettes per variant: rest · disabled · pressed. Driver: `Actio
 | Variant | Fill | Border | Foreground |
 |---|---|---|---|
 | primary   | `ink40`         | clear     | `paper` |
-| secondary | `ink05`         | `ink40`   | `ink40` |
+| secondary | `ink05`         | `ink20`   | `ink40` |
 | ghost     | clear           | clear     | `ink40` |
 | urgent    | `signalMuted`   | clear     | `paper` |
 
