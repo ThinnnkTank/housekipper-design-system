@@ -90,10 +90,11 @@ DM Mono ships: Light, Regular, Medium only.
 | Token | Value |
 |---|---|
 | `Tracking.none`   | 0 |
-| `Tracking.label`  | +1.0 |
+| `Tracking.snug`   | +0.4 (small button labels) |
+| `Tracking.label`  | +1.0 (mono utility labels) |
 | `Tracking.wide`   | +1.4 |
 | `Tracking.wider`  | +1.8 |
-| `Tracking.tight`  | -0.6 (large display) |
+| `Tracking.tight`  | -0.6 (large display only) |
 
 ### Line height ratios
 

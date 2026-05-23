@@ -192,3 +192,20 @@ Text("MAINTENANCE")
     .font(.hkButton)
     .tracking(HkType.trackingLabel)
 ```
+
+---
+
+## Icon weight
+
+Icon weight is **decoupled from label weight** so icons hold uniform visual presence across button sizes.
+
+| Token | Value | Use |
+|---|---|---|
+| `IconWeight.action` | `.bold`    | Icons inside `DsButton` / affordances |
+| `IconWeight.body`   | `.regular` | Icons inline in body text |
+
+```swift
+Image(systemName: "checkmark").fontWeight(IconWeight.action)
+```
+
+Without this, an SF Symbol inside a button inherits the surrounding label font weight (DM Mono Medium for large/small, DM Sans Bold for micro), producing inconsistent stroke widths across sizes. `IconWeight.action` forces all button icons to render at bold thickness regardless of size.

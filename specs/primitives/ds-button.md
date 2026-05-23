@@ -44,11 +44,11 @@ enum ButtonShape     { case pill, rounded }
 
 ## Sizes
 
-| Size  | Visible height | Tap area | Horizontal padding | Font |
-|---|---|---|---|---|
-| large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | 16 (`Space.buttonPaddingLg`) | `Font.hkButtonLg` — 13pt DM Mono Medium |
-| small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 (`Space.buttonPaddingSm`) | `Font.hkButtonSm` — 12pt DM Mono Medium |
-| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 (`Space.buttonPaddingSm`) | `Font.hkButtonMicro` — 11pt **DM Sans Bold** |
+| Size  | Visible height | Tap area | H-padding | Font | Tracking |
+|---|---|---|---|---|---|
+| large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | 16 | `Font.hkButtonLg` — 13pt DM Mono Medium | `trackingLabel` (+1.0) |
+| small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 | `Font.hkButtonSm` — 12pt DM Mono Medium | `trackingSnug` (+0.4) |
+| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 | `Font.hkButtonMicro` — 11pt **DM Sans Bold** | `trackingNone` (0) |
 
 Tap area is always ≥44pt via outer `.frame(minHeight: Space.tapTarget)`. Visible button can be smaller.
 
@@ -87,7 +87,15 @@ State change animated with `Motion.quick` (120ms ease-out).
 
 ## Letter spacing
 
-All button labels use `HkType.trackingLabel` (+1.0pt). Tight enough to cluster the bold characters in micro, wide enough for the mono large/small to feel like utility labels.
+Tracking is size-dependent per the sizes table above. Mono labels need breathing room at large; small tightens to `snug` (+0.4); micro goes to `none` (0) since DM Sans Bold clusters naturally.
+
+## Icon weight
+
+Icons render at `IconWeight.action` (`.bold`) regardless of size or surrounding label weight. This keeps stroke width visually constant — without it, the mono Medium labels at large/small would yield thin icons that don't match the bold micro icons.
+
+```swift
+Image(systemName: icon).fontWeight(IconWeight.action)
+```
 
 ## SemanticTokens used
 
