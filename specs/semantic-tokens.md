@@ -150,6 +150,7 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 | `Space.buttonHeightLg`   | `s40` | Large button visible height |
 | `Space.buttonHeightSm`   | `s32` | Small button visible height |
 | `Space.buttonHeightMicro`| `s24` | Micro button (icon control) |
+| `Space.avatarRegular`    | `s32` | `DsAvatar` default diameter |
 
 ### Adding a new intent
 

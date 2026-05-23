@@ -51,6 +51,7 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a | DsDivider primitive | ✅ Locked |
 | 1a | DsKeyButton primitive | ✅ Locked |
 | 1a | DsBadge primitive | ✅ Locked |
+| 1a | DsAvatar primitive | 🟡 Implemented (pending iPad vet) |
 | 1b-2 | Components / Patterns / Screens | Not started |
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)
