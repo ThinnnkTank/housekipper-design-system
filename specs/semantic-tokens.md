@@ -97,21 +97,33 @@ StatusToken.softFill(.urgent)
 
 ## Border
 
-Color + width pairings.
+Two orthogonal axes — width × color. Callers pick independently.
 
-| Token | Color | Width |
+### `Border.Width`
+
+| Token | Value |
+|---|---|
+| `.normal` | 1pt (`BorderToken.hairline`) |
+| `.strong` | 2pt (`BorderToken.strong`)   |
+
+### `Border.Color`
+
+| Token | Maps to | Use |
 |---|---|---|
-| `Border.default`    | `rule`       | 1.0 |
-| `Border.strong`     | `ruleStrong` | 1.5 |
-| `Border.affordance` | `ink`        | 2.0 |
+| `.subtle` | `ink20` | Soft separators, secondary affordances |
+| `.normal` | `ink`   | Default affordance ("this is interactive") |
+| `.strong` | `signal` | Severity / urgent context |
 
-Usage:
+### Usage
+
 ```swift
 RoundedRectangle(cornerRadius: Radius.md)
-    .strokeBorder(Border.default.color, lineWidth: Border.default.width)
+    .strokeBorder(Border.Color.subtle, lineWidth: Border.Width.normal)
 ```
 
-`DsButton` uses `Border.default.width` (1pt) for all variant borders. `Border.affordance` (2pt) reserved for hero-level affordances (`DsKeyButton`, status indicators).
+Six combinations from 3×2. No pre-named pairings (`Border.default`, `Border.affordance` — removed) because they were collapsing the two axes and creating naming debt.
+
+`DsButton` uses `Border.Width.normal` (1pt) for all variant borders; the *color* comes from `ActionToken.border(_:)`/`borderDisabled(_:)`/`borderPressed(_:)` per variant + state.
 
 ---
 

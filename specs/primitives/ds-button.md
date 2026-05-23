@@ -54,7 +54,7 @@ Tap area is always ≥44pt via outer `.frame(minHeight: Space.tapTarget)`. Visib
 
 ## States
 
-Three resolved palettes per variant: rest · disabled · pressed. Driver: `ActionToken.fill/border/foreground(_:)`, `…Disabled(_:)`, `…Pressed(_:)`. Border width is always 1pt (`Border.default.width`).
+Three resolved palettes per variant: rest · disabled · pressed. Driver: `ActionToken.fill/border/foreground(_:)`, `…Disabled(_:)`, `…Pressed(_:)`. Border width is always 1pt (`Border.Width.normal`).
 
 ### Rest
 
@@ -104,7 +104,7 @@ Image(systemName: icon).fontWeight(IconWeight.action)
 
 ## SemanticTokens used
 
-`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.default.width` · `Font.{hkButtonLg, hkButtonSm, hkButtonMicro}` · `HkType.trackingLabel` · `Motion.quick`
+`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.Width.normal` · `Font.{hkButtonLg, hkButtonSm, hkButtonMicro}` · `HkType.trackingLabel` · `Motion.quick`
 
 ## Example
 

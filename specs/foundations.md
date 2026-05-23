@@ -75,18 +75,19 @@ From vnext usage. Specific radii used inline at Primitive layer when needed; sta
 
 ## Border
 
-Borders carry the depth paprLCD chose not to express in shadows. Three roles:
+Borders carry the depth paprLCD chose not to express in shadows. Defined on **two orthogonal axes**:
 
-- **Default** — soft separator (`rule`, 1pt)
-- **Strong** — emphasis (`ruleStrong`, 1.5pt)
-- **Affordance** — "this is interactive" (`ink`, 2pt — used by hero affordances; `DsButton` uses 1pt for variety borders)
+- **Width:** `normal` (1pt) · `strong` (2pt)
+- **Color:** `subtle` (ink20, soft separator) · `normal` (ink, default affordance) · `strong` (signal, severity)
+
+Six combinations from 3×2. Callers pick independently — no pre-named pairings.
 
 ### Rules
 
 - Solid by default. Dashed reserved for special "warmth" dividers (e.g. active nav rail).
 - Never communicate state by border color alone — pair with structure (spine, fill).
-- Signal borders are reserved for `StatusToken` severity. `ActionToken.urgent` is the one button variant with a signal border equivalent (it's the fill, not border).
-- Use `Border.default/strong/affordance` (semantic), never raw `lineWidth:`.
+- Signal borders (`Border.Color.strong`) are reserved for severity contexts (`StatusToken`). Not for ordinary interactive affordances.
+- Use `Border.Color.*` and `Border.Width.*` (semantic), never raw `lineWidth:` or `Color(hex:)`. Audit enforces.
 
 ---
 
