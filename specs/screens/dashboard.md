@@ -25,10 +25,11 @@ DashboardScreen
     ├── TopBar                    title · weather · theme toggle · search · ADD
     ├── Two-column lockup
     │   ├── Left column
-    │   │   ├── SectionedKeyGrid (rooms)        ROOMS — 2 rows × 5 sq tiles
-    │   │   ├── SectionedKeyGrid (outdoor)      OUTDOOR — scrollable row sq tiles
-    │   │   ├── SectionedKeyGrid (systems)      SYSTEMS — row of circle tiles
-    │   │   ├── NextUpCard                      hero, urgent treatment
+    │   │   ├── SpaceCard                       wrapper composing three rails:
+    │   │   │   ├── RoomsRail                     ROOMS — Z-pattern 2-row, flex
+    │   │   │   ├── OutdoorRail                   OUTDOOR — single-row flex
+    │   │   │   └── SystemsRail                   SYSTEMS — single-row fixed circles
+    │   │   ├── NextUpCard                      hero, urgent treatment (Decision 7 applies HERE only)
     │   │   └── ActiveProjectCard               carousel + progress
     │   └── Right column
     │       ├── CalendarMonth                   month grid + dots + legend
@@ -62,13 +63,19 @@ DashboardScreen
 ### New Components (Round 2)
 
 7. **`NavRail`** — spec already exists at [components/nav-rail.md](../components/nav-rail.md). Vertical app nav.
-8. **`SectionedKeyGrid`** — eyebrow + dashed divider + grid of `DsKeyButton`s. Reused 3× (rooms, outdoor, systems).
+8. **`SpaceCard`** — wrapper that composes three rails (`RoomsRail`, `OutdoorRail`, `SystemsRail`) with dashed-divider section labels (ROOMS / OUTDOOR / SYSTEMS). Each rail has its own layout algorithm:
+   - **`RoomsRail`** — Z-pattern 2 rows. Sort by severity (urgent → attention → healthy) THEN split: even sorted-indices to row 1, odd to row 2. Columns flex to fill; below `Inventory.tileMinWidthRect` (100pt) per column horizontal scroll engages. ~12 items fit no-scroll (6 columns × 2 rows); 13+ scrolls.
+   - **`OutdoorRail`** — single-row flex. Tiles stretch evenly when few, scroll horizontally when many.
+   - **`SystemsRail`** — single-row fixed-size circles (no flex). Scroll horizontally when overflow.
+   - **Scrollbars: iOS-native default** (hidden until scroll gesture). NOT always-visible.
 9. **`CalendarMonth`** — header pill + day-label row + date cells + status dots + legend.
-10. **`MaintenanceRow`** — single upcoming-maintenance row.
+10. **`MaintenanceRow`** — single upcoming-maintenance row. Press strategy: invert.
 11. **`MaintenanceList`** — vertical stack of `MaintenanceRow`s + section header.
-12. **`NextUpCard`** — hero urgent card composing icon, eyebrow, title, meta, action buttons.
+12. **`NextUpCard`** — hero urgent card composing icon, eyebrow, title, meta, action buttons. Decision 7 applies HERE (no signalTint fill on urgent).
 13. **`ActiveProjectCard`** — thumbnail + title + meta + `DsProgressBar` + carousel dots/arrows.
 14. **`TopBar`** — assembles title + weather metadata + theme toggle + `DsSearchField` + ADD button.
+
+Note: the "+ ADD" tile at the end of each rail is **deferred** — not built this round. When surfaced, it'll likely be a new appearance-only `DsAddTile` Primitive (separate from `DsKeyButton`) per Luis's call.
 
 ### Candidate — decide as we go
 

@@ -8,6 +8,8 @@
 
 The button primitive. Carries **visual variants** (primary/secondary/ghost/urgent) × three sizes (large/small/micro). Severity (attention/urgent) lives in `DsKeyButton` and status indicators — NOT here.
 
+**Press strategy: soften** (see [semantic-tokens.md → Press strategies](../semantic-tokens.md#press-strategies)) — pressed state reuses the disabled-look palette of a related variant. Different from `DsKeyButton`'s `Press.invert`.
+
 **When to use:** any tappable action.
 **When NOT to use:** room/system tiles (use `DsKeyButton`). Status surfaces (use `DsStatusPill`, TBD).
 

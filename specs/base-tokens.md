@@ -141,6 +141,27 @@ Use `MotionToken.easeOut(_:)`, `.easeIn(_:)`, `.easeInOut(_:)` to construct with
 
 ---
 
+## Inventory (SpaceCard tile + rail geometry)
+
+Component-internal geometry for the `SpaceCard` Component and its rails (Rooms / Outdoor / Systems). These values don't fit the general 4-grid `Space` ladder — they're tile + rail specific. Kept in their own category to avoid polluting `Space` with one-off component values.
+
+| Token | Value (pt) | Use |
+|---|---|---|
+| `InventoryToken.tileHeightRect`    | 56  | Rectangular tile (rooms, outdoor) visible height |
+| `InventoryToken.tileMinWidthRect`  | 100 | Rectangular tile min-width before horizontal scroll |
+| `InventoryToken.tileCircleSize`    | 68  | Circle tile (systems) visible diameter |
+| `InventoryToken.tileCircleWrapper` | 76  | Circle tile tap-area wrapper (gives badge clearance) |
+| `InventoryToken.railColumnGap`     | 6   | Between rect tiles horizontally |
+| `InventoryToken.railRowGap`        | 6   | Between Z-pattern rows |
+| `InventoryToken.badgeSize`         | 18  | Universal counter badge default diameter |
+| `InventoryToken.badgeSizeSmall`    | 15  | Cramped contexts (rare) |
+| `InventoryToken.badgeOverhang`     | 8   | Negative offset from tile top-right (badge bleed) |
+| `InventoryToken.badgeBorderWidth`  | 1.5 | Paper ring for contrast against signal fill |
+
+**Status:** locked.
+**Source:** `BaseTokens/InventoryTokens.swift`.
+**Access rule:** never imported by Primitives. Go through `Inventory.*` (SemanticToken pass-through).
+
 ## Shadow
 
 Single subtle elevation.

@@ -236,6 +236,51 @@ The `Hk` prefix is the houseKipper namespace for type helpers — see [foundatio
 
 ---
 
+## Inventory
+
+Pass-through SemanticToken aliases over `InventoryToken` so Primitives consume the SemanticToken layer (not BaseToken directly). Names match BaseToken since no semantic transformation is needed right now. If/when intent diverges from raw values, rename here.
+
+| Token | Maps to |
+|---|---|
+| `Inventory.tileHeightRect`    | `InventoryToken.tileHeightRect` (56) |
+| `Inventory.tileMinWidthRect`  | `InventoryToken.tileMinWidthRect` (100) |
+| `Inventory.tileCircleSize`    | `InventoryToken.tileCircleSize` (68) |
+| `Inventory.tileCircleWrapper` | `InventoryToken.tileCircleWrapper` (76) |
+| `Inventory.railColumnGap`     | `InventoryToken.railColumnGap` (6) |
+| `Inventory.railRowGap`        | `InventoryToken.railRowGap` (6) |
+| `Inventory.badgeSize`         | `InventoryToken.badgeSize` (18) |
+| `Inventory.badgeSizeSmall`    | `InventoryToken.badgeSizeSmall` (15) |
+| `Inventory.badgeOverhang`     | `InventoryToken.badgeOverhang` (8) |
+| `Inventory.badgeBorderWidth`  | `InventoryToken.badgeBorderWidth` (1.5) |
+
+**Source:** `SemanticTokens/Inventory.swift`.
+
+---
+
+## Press strategies
+
+Documented vocabulary for how a Primitive's pressed state composes from existing SemanticTokens. Two named patterns today. Each Primitive's spec declares which strategy it uses; implementation is Primitive-internal (3-line composition) until a third consumer earns code extraction.
+
+### `Press.soften` — used by `DsButton`
+
+Pressed state reuses the **disabled-look palette** of a related variant. Visual feels like the button momentarily "deactivated."
+
+Resolved via `ActionToken.{fill, border, foreground}Pressed(variant)` — already in code. See [primitives/ds-button.md](primitives/ds-button.md) for the per-variant mapping.
+
+### `Press.invert` — used by `DsKeyButton`, future `MaintenanceRow`, future `ActionSheetItem`
+
+Pressed state **inverts the surface**:
+
+| Property | Resolved color |
+|---|---|
+| `fill`        | `TextToken.primary` (ink) |
+| `border`      | `TextToken.primary` (ink) |
+| `foreground`  | `BackgroundToken.primary` (paper) |
+
+No new code at the SemanticToken layer — Primitives compose the three SemanticTokens directly in their pressed branch. If a third Primitive adopts invert, extract a helper.
+
+---
+
 ## Icon weight
 
 Icon weight is **decoupled from label weight** so icons hold uniform visual presence across button sizes.

@@ -152,27 +152,27 @@ done
 
 # ---------- Layer-reach rules ----------
 
-# Primitives may not import ColorToken/SpacingToken/RadiusToken/TypographyToken directly
+# Primitives may not import ColorToken/SpacingToken/RadiusToken/TypographyToken/InventoryToken directly
 echo "→ checking Primitives don't reach BaseTokens"
-scan_dir "$PRIMITIVES" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken)\.' \
+scan_dir "$PRIMITIVES" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken)\.' \
   "Primitive reaching BaseToken directly" \
-  "use SemanticToken (Space, BackgroundToken, TextToken, ActionToken, Radius, Font)"
+  "use SemanticToken (Space, BackgroundToken, TextToken, ActionToken, Radius, Font, Inventory)"
 
 # Components may not reach any *Token (must go through Primitive)
 echo "→ checking Components don't touch *Token"
-scan_dir "$COMPONENTS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|BackgroundToken|TextToken|ActionToken)\.' \
+scan_dir "$COMPONENTS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
   "Component reaching tokens directly" \
   "compose Primitives; let Primitives consume tokens"
 
 # Patterns same as Components
 echo "→ checking Patterns don't touch *Token"
-scan_dir "$PATTERNS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|BackgroundToken|TextToken|ActionToken)\.' \
+scan_dir "$PATTERNS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
   "Pattern reaching tokens directly" \
   "compose Components; let Primitives consume tokens"
 
 # Screens same
 echo "→ checking Screens don't touch *Token"
-scan_dir "$SCREENS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|BackgroundToken|TextToken|ActionToken)\.' \
+scan_dir "$SCREENS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
   "Screen reaching tokens directly" \
   "compose Patterns/Components"
 
