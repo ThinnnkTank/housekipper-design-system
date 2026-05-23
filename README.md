@@ -6,14 +6,14 @@ Source of truth for every visual and structural decision. **Specs are the contra
 
 ## The 6-layer model
 
-```
-BaseToken       raw values · no SwiftUI
-SemanticToken   intent mapping · asset catalog + Swift aliases
-Primitive       atomic SwiftUI view · consumes SemanticTokens only
-Component       composes Primitives
-Pattern         composes Components
-Screen          composes Patterns + Components
-```
+| Layer | Role | Examples |
+|---|---|---|
+| BaseToken | raw values · no SwiftUI | `#1F1F1D`, `8pt`, `16pt`, `0.18 opacity` |
+| SemanticToken | intent mapping · asset catalog + Swift aliases | `inkPrimary`, `surfaceRaised`, `borderSubtle`, `spaceMd` |
+| Primitive | atomic SwiftUI view · consumes SemanticTokens only | `DsButton`, `DsKeyButton`, `DsTextField` |
+| Component | composes Primitives | task row, room card, confirmation bar |
+| Pattern | composes Components | quick capture flow, chore checklist, room overview |
+| Screen | composes Patterns + Components | Today screen, Room detail screen, Settings screen |
 
 **Rule:** each layer reaches one level down only. `./design-sys/audit.sh` enforces.
 
