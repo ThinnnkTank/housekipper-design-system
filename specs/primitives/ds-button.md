@@ -48,7 +48,7 @@ enum ButtonShape     { case pill, rounded }
 |---|---|---|---|---|---|
 | large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | 16 | `Font.hkButtonLg` — 13pt DM Mono Medium | `trackingLabel` (+1.0) |
 | small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 | `Font.hkButtonSm` — 12pt DM Mono Medium | `trackingSnug` (+0.4) |
-| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 | `Font.hkButtonMicro` — 11pt **DM Sans Bold** | `trackingNone` (0) |
+| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 | `Font.hkButtonMicro` — 11pt **DM Sans Bold** | `trackingMicro` (+1.1) |
 
 Tap area is always ≥44pt via outer `.frame(minHeight: Space.tapTarget)`. Visible button can be smaller.
 
@@ -83,7 +83,12 @@ Three resolved palettes per variant: rest · disabled · pressed. Driver: `Actio
 - **ghost press** → looks like **primary-disabled** treatment (ink-40 fill, paper text)
 - **urgent press** → looks like **urgent-disabled** treatment (signalTint fill, signalStrong text)
 
-State change animated with `Motion.quick` (120ms ease-out).
+**Asymmetric press feedback:** press is **instant** (no animation), release is animated with `Motion.standard` (220ms ease-out). User expects immediate acknowledgement on touch-down, and the slower release gives the eye time to register that a tap happened.
+
+Implementation:
+```swift
+.animation(pressed ? nil : Motion.standard, value: pressed)
+```
 
 ## Letter spacing
 
