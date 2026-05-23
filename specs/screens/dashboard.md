@@ -26,9 +26,9 @@ DashboardScreen
     ├── Two-column lockup
     │   ├── Left column
     │   │   ├── SpaceCard                       wrapper composing three rails:
-    │   │   │   ├── RoomsRail                     ROOMS — Z-pattern 2-row, flex
-    │   │   │   ├── OutdoorRail                   OUTDOOR — single-row flex
-    │   │   │   └── SystemsRail                   SYSTEMS — single-row fixed circles
+    │   │   │   ├── RoomsRail                     ROOMS — Z-pattern 2-row, flex (rect tiles)
+    │   │   │   ├── OutdoorRail                   OUTDOOR — single-row flex (rect tiles)
+    │   │   │   └── SystemsRail                   SYSTEMS — single-row flex (pill tiles)
     │   │   ├── NextUpCard                      hero, urgent treatment (Decision 7 applies HERE only)
     │   │   └── ActiveProjectCard               carousel + progress
     │   └── Right column
@@ -66,7 +66,7 @@ DashboardScreen
 8. **`SpaceCard`** — wrapper that composes three rails (`RoomsRail`, `OutdoorRail`, `SystemsRail`) with dashed-divider section labels (ROOMS / OUTDOOR / SYSTEMS). Each rail has its own layout algorithm:
    - **`RoomsRail`** — Z-pattern 2 rows. Sort by severity (urgent → attention → healthy) THEN split: even sorted-indices to row 1, odd to row 2. Columns flex to fill; below `Inventory.tileMinWidthRect` (100pt) per column horizontal scroll engages. ~12 items fit no-scroll (6 columns × 2 rows); 13+ scrolls.
    - **`OutdoorRail`** — single-row flex. Tiles stretch evenly when few, scroll horizontally when many.
-   - **`SystemsRail`** — single-row fixed-size circles (no flex). Scroll horizontally when overflow.
+   - **`SystemsRail`** — single-row flex (pill tiles, fully rounded ends — `DsKeyButton(shape: .pill)`). Same flex behavior as outdoor; pill shape is the only visual differentiator from rooms/outdoor.
    - **Scrollbars: iOS-native default** (hidden until scroll gesture). NOT always-visible.
 9. **`CalendarMonth`** — header pill + day-label row + date cells + status dots + legend.
 10. **`MaintenanceRow`** — single upcoming-maintenance row. Press strategy: invert.

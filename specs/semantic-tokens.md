@@ -242,10 +242,8 @@ Pass-through SemanticToken aliases over `InventoryToken` so Primitives consume t
 
 | Token | Maps to |
 |---|---|
-| `Inventory.tileHeightRect`    | `InventoryToken.tileHeightRect` (56) |
-| `Inventory.tileMinWidthRect`  | `InventoryToken.tileMinWidthRect` (100) |
-| `Inventory.tileCircleSize`    | `InventoryToken.tileCircleSize` (68) |
-| `Inventory.tileCircleWrapper` | `InventoryToken.tileCircleWrapper` (76) |
+| `Inventory.tileHeight`        | `InventoryToken.tileHeight` (60) |
+| `Inventory.tileMinWidth`      | `InventoryToken.tileMinWidth` (100) |
 | `Inventory.railColumnGap`     | `InventoryToken.railColumnGap` (6) |
 | `Inventory.railRowGap`        | `InventoryToken.railRowGap` (6) |
 | `Inventory.badgeSize`         | `InventoryToken.badgeSize` (18) |

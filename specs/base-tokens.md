@@ -147,11 +147,9 @@ Component-internal geometry for the `SpaceCard` Component and its rails (Rooms /
 
 | Token | Value (pt) | Use |
 |---|---|---|
-| `InventoryToken.tileHeightRect`    | 56  | Rectangular tile (rooms, outdoor) visible height |
-| `InventoryToken.tileMinWidthRect`  | 100 | Rectangular tile min-width before horizontal scroll |
-| `InventoryToken.tileCircleSize`    | 68  | Circle tile (systems) visible diameter |
-| `InventoryToken.tileCircleWrapper` | 76  | Circle tile tap-area wrapper (gives badge clearance) |
-| `InventoryToken.railColumnGap`     | 6   | Between rect tiles horizontally |
+| `InventoryToken.tileHeight`        | 60  | Visible tile height (uniform across rect + pill) |
+| `InventoryToken.tileMinWidth`      | 100 | Tile min-width before horizontal scroll |
+| `InventoryToken.railColumnGap`     | 6   | Between tiles horizontally |
 | `InventoryToken.railRowGap`        | 6   | Between Z-pattern rows |
 | `InventoryToken.badgeSize`         | 18  | Universal counter badge default diameter |
 | `InventoryToken.badgeSizeSmall`    | 15  | Cramped contexts (rare) |
