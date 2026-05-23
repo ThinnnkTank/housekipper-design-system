@@ -16,8 +16,10 @@ Fonts ship as .ttf in `design-sys/fonts/` and must be registered in Info.plist (
 | Token | Size (pt) | Use |
 |---|---|---|
 | `size9`  | 9  | Dense labels, faint utility |
-| `size10` | 10 | Buttons, badges |
-| `size12` | 12 | Data, compact values (mono) |
+| `size10` | 10 | Utility minimum |
+| `size11` | 11 | Micro button labels |
+| `size12` | 12 | Small button labels, data |
+| `size13` | 13 | Large button labels |
 | `size14` | 14 | Titles, dense body |
 | `size17` | 17 | Section titles |
 | `size22` | 22 | Card headlines |
