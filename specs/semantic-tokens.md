@@ -197,9 +197,9 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Font.hkData`         | 12 | DM Mono Regular | Data, timestamps, tabular |
 | `Font.hkButton`       | 10 | DM Mono Medium | Legacy/utility — NOT for DsButton |
 | `Font.hkCaption`      | 9  | DM Mono Regular | Caption, eyebrow |
-| `Font.hkButtonLg`     | 13 | DM Mono Medium | `DsButton` large |
-| `Font.hkButtonSm`     | 12 | DM Mono Medium | `DsButton` small |
-| `Font.hkButtonMicro`  | 11 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
+| `Font.hkButtonLg`     | 14 | DM Mono Medium | `DsButton` large |
+| `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small |
+| `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
 
 Pair with `HkType.tracking*` and `HkType.line*Multiplier` when needed:
 

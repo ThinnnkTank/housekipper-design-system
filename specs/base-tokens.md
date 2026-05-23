@@ -84,9 +84,9 @@ DM Mono ships: Light, Regular, Medium only.
 | Token | Value |
 |---|---|
 | `Tracking.none`   | 0 |
-| `Tracking.snug`   | +0.4 (small button labels) |
-| `Tracking.micro`  | +1.1 (micro button labels — bold sans needs slight breathing at 11pt) |
-| `Tracking.label`  | +1.0 (mono utility labels) |
+| `Tracking.snug`   | +0.2 (small button labels — 13pt mono) |
+| `Tracking.micro`  | +0.9 (micro button labels — 12pt mono) |
+| `Tracking.label`  | +0.8 (large button labels — 14pt mono + mono utility) |
 | `Tracking.wide`   | +1.4 |
 | `Tracking.wider`  | +1.8 |
 | `Tracking.tight`  | -0.6 (large display only) |
