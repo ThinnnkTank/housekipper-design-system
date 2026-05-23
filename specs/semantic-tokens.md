@@ -86,7 +86,7 @@ Severity ladder for **status indicators** (dots, pills, key buttons). Distinct f
 | `attention` | `signal` | — |
 | `urgent`    | `signal` | `signalTint` |
 
-**Decision 7 exception:** Urgent **hero cards** (single dominant card on a screen) drop `signalTint` fill — flat signal border only.
+**Decision 7 exception:** the `NextUpCard` Component (screen-level dominant urgent card) drops `signalTint` fill — flat signal border only. Exception applies ONLY to `NextUpCard`. `DsKeyButton` with `severity: .urgent` always gets the soft fill via `StatusToken.softFill(.urgent)`.
 
 ```swift
 StatusToken.tint(.attention)

@@ -25,8 +25,8 @@ Distinct from `DsButton`:
 ## SemanticTokens used
 
 - `StatusToken.tint(severity)` (border color)
-- `StatusToken.softFill(severity)` (background; `.clear` for healthy/attention, `signalTint` for urgent — except hero exception)
-- `Border.affordance.width` (2pt borders, signal for attention/urgent)
+- `StatusToken.softFill(severity)` (background; `.clear` for healthy/attention, `signalTint` for urgent)
+- `Border.Width.normal` / `Border.Width.strong`
 - `Space.tight`, `Space.bodyPadding`
 - `Radius.md` (square variant) or implicit `Capsule()` (circle)
 - `Font.hkCaption` (label)
@@ -41,7 +41,6 @@ struct DsKeyButton: View {
     var severity: StatusToken.Severity = .healthy
     var shape: Shape = .square
     var badgeCount: Int? = nil
-    var isHero: Bool = false              // suppresses signalTint for urgent hero
     let action: () -> Void
 }
 
@@ -54,8 +53,9 @@ enum Shape { case square, circle }
 |---|---|---|---|
 | `healthy`   | `ink` 1px       | — | Calm default |
 | `attention` | `signal` 2px    | — | Asks for a look |
-| `urgent`    | `signal` 2px    | `signalTint` | Demands action |
-| `urgent + isHero` | `signal` 2px | — | **Decision 7**: hero cards skip the tint |
+| `urgent`    | `signal` 2px    | `signalTint` | Demands action — always tinted |
+
+**Decision 7 does NOT apply here.** The hero-no-fill exception is reserved for `NextUpCard` (the screen-level dominant urgent card). Key tiles always get the soft signal-tint fill on urgent severity, even when they're the most severe tile on a screen.
 
 ## Example
 

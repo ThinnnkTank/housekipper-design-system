@@ -20,7 +20,7 @@ Calm, paper-warm baseline. Signal earns its presence by carrying meaning (attent
 | Attention | 2px signal border, no fill | `StatusToken.attention` |
 | Urgent | 2px signal border + 8px left spine + optional soft tint fill | `StatusToken.urgent` |
 
-**Hero exception (Decision 7):** urgent **hero cards** drop the soft tint — flat signal border only. Avoids softening the alarm.
+**Hero exception (Decision 7):** the `NextUpCard` Component — the screen-level dominant urgent card — drops the soft tint and shows a flat signal border only. Avoids softening the alarm. This exception applies ONLY to `NextUpCard`. Key tiles (`DsKeyButton.urgent`) always get the soft `signalTint` fill regardless of position or prominence.
 
 Severity is a Primitive concern (`DsKeyButton`, status indicators). Buttons use `ActionToken.urgent` for alarm actions but don't carry the severity ladder.
 
