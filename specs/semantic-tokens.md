@@ -200,6 +200,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Font.hkButtonLg`     | 14 | DM Mono Medium | `DsButton` large |
 | `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small |
 | `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
+| `Font.hkBadgeUrgent`  | 12 | DM Sans Bold   | `DsBadge` urgent glyph (`!`) — intentional step out of mono-for-utility; DM Mono ships no Bold and the alert needs visual weight |
 
 ### `HkType` — typography helpers
 
