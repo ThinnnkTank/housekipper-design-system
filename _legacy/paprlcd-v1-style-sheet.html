@@ -1,0 +1,3665 @@
+<!doctype html>
+<html lang="en" data-theme="lcd">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>paprLCD</title>
+  <!-- paprLCD Favicon: Faucet (Base64) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxNiAxNicgZmlsbD0nIzFDMUMxQSc+PHJlY3Qgd2lkdGg9JzE2JyBoZWlnaHQ9JzE2JyBmaWxsPScjRThFREU1Jy8+PHBhdGggZD0nTTYgM2g0TTYgM3YzTTEwIDN2M002IDZoNHYzSDZ6TTIgOWg0TTggOXYzTTYgMTRoNCcgc3Ryb2tlPScjMUMxQzFBJyBzdHJva2Utd2lkdGg9JzEuMicgZmlsbD0nbm9uZScgc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJy8+PC9zdmc+">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- DS canonical files -->
+  <link rel="stylesheet" href="tokens-lcd.css" />
+  <link rel="stylesheet" href="components.css" />
+  <style>
+
+/* ─────────────────────────────────────────────────────────────────
+   B. DOC SITE RESET + BASE
+   ───────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   C. LAYOUT + SIDEBAR
+   ───────────────────────────────────────────────────────────────── */
+
+.ds-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.ds-nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-2);
+}
+
+.ds-nav-header {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ds-logo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ds-version {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  margin-top: 6px;
+}
+
+.ds-nav-section {
+  padding: 16px 12px 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  font-weight: 500;
+}
+
+.ds-nav-link {
+  display: block;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  margin: 1px 8px;
+}
+.ds-nav-link:hover {
+  background: var(--ink-10);
+  color: var(--ink);
+}
+.ds-nav-link.is-active {
+  background: var(--interactive-bg);
+  color: var(--interactive-fg);
+}
+
+.ds-nav-footer {
+  margin-top: auto;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.theme-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink-60);
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.theme-btn.is-active {
+  background: var(--interactive-bg);
+  color: var(--interactive-fg);
+  border-color: var(--interactive-bg);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   D. MAIN CONTENT AREA
+   ───────────────────────────────────────────────────────────────── */
+
+.ds-main {
+  padding: 48px 64px 120px;
+  min-width: 0;
+}
+
+.ds-section {
+  margin-bottom: 88px;
+  scroll-margin-top: 32px;
+}
+
+.ds-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-bottom: 6px;
+}
+
+.ds-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.ds-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-60);
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+.ds-sub-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+hr.ds-divider {
+  height: 1px;
+  background: var(--border);
+  border: 0;
+  margin: 32px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   E. DEMO BOXES
+   ───────────────────────────────────────────────────────────────── */
+
+.demo-box {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 16px;
+  min-height: 80px;
+  box-shadow: 4px 6px 0 0 var(--ink-10);
+}
+
+.demo-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.demo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demo-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   F. TOKEN TABLE
+   ───────────────────────────────────────────────────────────────── */
+
+.tok-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+
+.tok-table th {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  font-weight: 500;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.tok-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.tok-table tr:last-child td {
+  border-bottom: none;
+}
+
+.t-var {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+.t-var:hover { color: var(--signal); }
+
+.t-design {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-60);
+}
+
+.t-swift {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--signal);
+}
+
+.t-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+
+.t-cat {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+}
+
+.swatch-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   G. COLOR PALETTE
+   ───────────────────────────────────────────────────────────────── */
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.swatch-tile {
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.swatch-tile:hover { border-color: var(--border-strong); }
+
+.swatch-color {
+  height: 72px;
+  width: 100%;
+}
+
+.swatch-info {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.swatch-var {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+.swatch-design {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+
+.swatch-swift {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--signal);
+}
+
+.swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-60);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PRIMITIVES — circle swatches
+   ───────────────────────────────────────────────────────────────── */
+.prim-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: flex-start;
+}
+.prim-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.prim-circle {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 120ms var(--ease-out);
+}
+.prim-tile:hover .prim-circle { transform: scale(1.06); }
+.prim-circle.has-border { border: 1px solid var(--border-strong); }
+.prim-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+.prim-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.prim-hex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+.prim-note {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-40);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.prim-divider {
+  background: var(--border);
+  height: 1px;
+  margin: 4px 0 20px;
+}
+.prim-inversion {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.prim-inv-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.prim-inv-circle {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   H. TYPOGRAPHY
+   ───────────────────────────────────────────────────────────────── */
+
+.type-scale-row {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.type-scale-row:first-child { border-top: 1px solid var(--border); }
+
+.type-meta {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.type-token-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+
+.type-px-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-20);
+  margin-top: 2px;
+}
+
+.type-specs {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-40);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.type-specimen {
+  flex: 1;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.font-family-card {
+  border: var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+
+.font-family-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-bottom: 16px;
+}
+
+.font-family-specimen {
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.font-family-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-40);
+}
+
+.tracking-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tracking-token {
+  width: 120px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+
+.tracking-specimen {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   I. SPACING + RADII
+   ───────────────────────────────────────────────────────────────── */
+
+.space-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.space-label {
+  width: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.space-bar {
+  height: 20px;
+  background: var(--interactive-bg);
+  border-radius: var(--radius-xs);
+  opacity: 0.65;
+}
+
+.space-val {
+  width: 36px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.radius-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.radius-box {
+  width: 60px;
+  height: 60px;
+  border: 1.5px solid var(--ink-40);
+  background: transparent;
+}
+
+.radius-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   J. MOTION
+   ───────────────────────────────────────────────────────────────── */
+
+.motion-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.motion-label {
+  width: 130px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-60);
+}
+
+.motion-val {
+  width: 60px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-40);
+  text-align: right;
+}
+
+.motion-track {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-pill);
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.motion-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--interactive-bg);
+  position: absolute;
+  top: -4px;
+  left: 0;
+  pointer-events: none;
+  --motion-duration: var(--duration-base);
+}
+
+.motion-dot--fast { --motion-duration: var(--duration-fast); }
+.motion-dot--base { --motion-duration: var(--duration-base); }
+.motion-dot--slow { --motion-duration: var(--duration-slow); }
+.motion-dot--slower { --motion-duration: var(--duration-slower); }
+
+.motion-dot.is-forward {
+  transition: left var(--motion-duration) cubic-bezier(0.2,0.8,0.2,1);
+  left: calc(100% - 12px);
+}
+
+.motion-dot.is-returning {
+  transition: left var(--motion-duration) cubic-bezier(0.6,0,0.4,1);
+  left: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   L. GOVERNANCE + ICON GRID + UTILITIES
+   ───────────────────────────────────────────────────────────────── */
+
+.gov-rule-box {
+  border: 2px solid var(--signal);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 32px;
+  position: relative;
+}
+.gov-rule-box::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  bottom: -2px;
+  width: 6px;
+  background: var(--signal);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.gov-rule-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--signal);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.gov-rule-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.approval-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.approval-col {
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.approval-col-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.approval-col-title.free { color: var(--ink-60); }
+.approval-col-title.gated { color: var(--signal); }
+
+.approval-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.approval-list li {
+  font-size: 13px;
+  color: var(--ink-60);
+  line-height: 1.4;
+  padding-left: 16px;
+  position: relative;
+}
+.approval-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--ink-20);
+}
+.approval-list.gated li::before {
+  content: "!";
+  color: var(--signal);
+  font-weight: 700;
+}
+
+.proposal-steps {
+  display: flex;
+  flex-direction: column;
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.proposal-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: var(--card-border);
+}
+.proposal-step:last-child { border-bottom: none; }
+
+.proposal-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.proposal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.proposal-desc {
+  font-size: 12px;
+  color: var(--ink-60);
+  line-height: 1.5;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.icon-tile {
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 18px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.icon-tile:hover { background: var(--ink-10); border-color: var(--border-strong); }
+
+.icon-tile svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--ink);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-name {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--ink-40);
+  text-align: center;
+}
+
+.ds-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--interactive-bg);
+  color: var(--interactive-fg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  pointer-events: none;
+  z-index: 100;
+}
+.ds-toast.show { opacity: 1; transform: translateY(0); }
+
+.code-block {
+  background: var(--paper-2);
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-80);
+  line-height: 1.7;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  white-space: pre;
+}
+
+.info-box {
+  border: var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.info-box-text {
+  font-size: 13px;
+  color: var(--ink-60);
+  line-height: 1.55;
+}
+.info-box-text strong { color: var(--ink); font-weight: 600; }
+
+.tok-search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  background: transparent;
+  border: var(--card-border);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.search-input:focus { outline: none; border-color: var(--ink); }
+.search-input::placeholder { color: var(--ink-40); }
+
+.filter-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: var(--card-border);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink-60);
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.filter-btn:hover { background: var(--ink-10); color: var(--ink); }
+.filter-btn.is-active { background: var(--interactive-bg); color: var(--interactive-fg); border-color: var(--interactive-bg); }
+
+  
+/* ---------- Generated doc-shell style migration ---------------------------
+   Transitional classes replacing former inline styles in index.html.
+   Keep canonical component styles in components.css; consolidate repeated dsx
+   rules into semantic doc classes during the next documentation pass.
+   ------------------------------------------------------------------------- */
+.dsx-001 { display:none; }
+.dsx-002 { padding: 8px 12px 0; display: flex; flex-direction: column; gap: 2px; }
+.dsx-003 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+.dsx-004 { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; }
+.dsx-005 { margin-bottom: 8px; }
+.dsx-006 { font-size: 13px; color: var(--ink-60); line-height: 1.55; }
+.dsx-007 { color: var(--signal); font-weight: 600; }
+.dsx-008 { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; grid-column: span 2; }
+.dsx-009 { font-family: var(--font-mono); font-size: 11px; background: var(--ink-10); padding: 2px 5px; border-radius: 3px; }
+.dsx-010 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dsx-011 { border: 2px solid var(--ink); border-radius: var(--radius-md); padding: 18px 20px; }
+.dsx-012 { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.dsx-013 { background: var(--interactive-bg); color: var(--interactive-fg); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius-pill); }
+.dsx-014 { font-family: var(--font-mono); font-size: 10px; }
+.dsx-015 { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; opacity: 0.6; }
+.dsx-016 { border: 1px solid var(--border); color: var(--ink-40); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius-pill); }
+.dsx-017 { font-size: 13px; color: var(--ink-60); line-height: 1.55; margin-bottom: 20px; }
+.dsx-018 { background: #E8EDE5; }
+.dsx-019 { background: #DDE1DA; }
+.dsx-020 { font-family: var(--font-mono); font-size: 11px; }
+.dsx-021 { background: #1C1C1A; }
+.dsx-022 { background: #E06518; }
+.dsx-023 { background: #B84E0E; }
+.dsx-024 { margin-bottom: 32px; }
+.dsx-025 { background: #1C1C1A; color: #E8EDE5; }
+.dsx-026 { background: #E8EDE5; color: #1C1C1A; border: 1px solid rgba(28,28,26,0.22); }
+.dsx-027 { background:#E8EDE5; border-bottom: 1px solid var(--border); }
+.dsx-028 { background:#DDE1DA; border-bottom: 1px solid var(--border); }
+.dsx-029 { background:#1C1C1A; }
+.dsx-030 { background: #E8EDE5; position: relative; }
+.dsx-031 { position:absolute; inset:0; background:rgba(28,28,26,0.82); }
+.dsx-032 { position:absolute; inset:0; background:rgba(28,28,26,0.68); }
+.dsx-033 { position:absolute; inset:0; background:rgba(28,28,26,0.50); }
+.dsx-034 { position:absolute; inset:0; background:rgba(28,28,26,0.22); }
+.dsx-035 { position:absolute; inset:0; background:rgba(28,28,26,0.11); }
+.dsx-036 { background:#1C1C1A; display:flex; align-items:center; justify-content:center; }
+.dsx-037 { color:#E8EDE5; font-family:'DM Mono',monospace; font-size:13px; }
+.dsx-038 { position:absolute; inset:0; background:rgba(28,28,26,0.09); }
+.dsx-039 { background: #E8EDE5; display: flex; align-items: center; justify-content: center; }
+.dsx-040 { width: 80%; height: 1px; background: rgba(28,28,26,0.22); }
+.dsx-041 { width: 80%; height: 1.5px; background: rgba(28,28,26,0.38); }
+.dsx-042 { width: 80%; height: 2px; background: #1C1C1A; }
+.dsx-043 { background:#E06518; }
+.dsx-044 { background:#B84E0E; }
+.dsx-045 { background: rgba(224,101,24,0.12); border-bottom: 1px solid var(--border); }
+.dsx-046 { background: rgba(224,101,24,0.07); border-bottom: 1px solid var(--border); }
+.dsx-047 { background: #E8EDE5; display: flex; align-items:center; justify-content:center; }
+.dsx-048 { width:12px; height:12px; border-radius:50%; border:1.5px solid rgba(28,28,26,0.50); }
+.dsx-049 { font-family:'Space Grotesk',sans-serif; }
+.dsx-050 { font-family:'DM Sans',sans-serif; }
+.dsx-051 { font-family:'DM Mono',monospace; font-size: 24px; }
+.dsx-052 { font-size:48px; font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:-0.03em; line-height:1; }
+.dsx-053 { font-size:38px; font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+.dsx-054 { font-size:30px; font-family:'Space Grotesk',sans-serif; font-weight:600; }
+.dsx-055 { font-size:24px; font-family:'Space Grotesk',sans-serif; font-weight:500; }
+.dsx-056 { font-size:20px; font-family:'Space Grotesk',sans-serif; font-weight:500; }
+.dsx-057 { font-size:17px; font-family:'DM Sans',sans-serif; }
+.dsx-058 { font-size:15px; font-family:'DM Sans',sans-serif; }
+.dsx-059 { font-size:14px; font-family:'DM Sans',sans-serif; }
+.dsx-060 { font-size:12px; font-family:'DM Mono',monospace; letter-spacing:0.12em; text-transform:uppercase; }
+.dsx-061 { font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.12em; text-transform:uppercase; }
+.dsx-062 { font-size:9px; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase; }
+.dsx-063 { font-size:10px; font-family:'DM Mono',monospace; letter-spacing:0.18em; text-transform:uppercase; }
+.dsx-064 { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.dsx-065 { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.dsx-066 { color: var(--ink-20); font-size: 9px; }
+.dsx-067 { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+.dsx-068 { font-family:'DM Sans',sans-serif; font-size:14px; letter-spacing:0; color:var(--ink); }
+.dsx-069 { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink); }
+.dsx-070 { padding: 14px 20px; }
+.dsx-071 { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); }
+.dsx-072 { width:4px; }
+.dsx-073 { width:8px; }
+.dsx-074 { width:12px; }
+.dsx-075 { width:16px; }
+.dsx-076 { width:20px; }
+.dsx-077 { width:24px; }
+.dsx-078 { width:28px; }
+.dsx-079 { width:32px; }
+.dsx-080 { width:40px; }
+.dsx-081 { width:48px; }
+.dsx-082 { width:64px; }
+.dsx-083 { border-radius:3px; }
+.dsx-084 { border-radius:5px; }
+.dsx-085 { border-radius:8px; }
+.dsx-086 { border-radius:12px; }
+.dsx-087 { border-radius:16px; }
+.dsx-088 { border-radius:20px; }
+.dsx-089 { border-radius:999px; }
+.dsx-090 { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 32px; }
+.dsx-091 { flex-shrink:0; width:160px; font-family:var(--font-mono); font-size:11px; color:var(--ink); }
+.dsx-092 { font-size:12px; color:var(--ink-60); }
+.dsx-093 { flex: 1; }
+.dsx-094 { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.dsx-095 { font-size:13px; color:var(--ink-60); line-height:1.5; }
+.dsx-096 { align-items: center; flex-wrap: wrap; gap: 24px; }
+.dsx-097 { font-family:var(--font-mono); font-size:11px; background:var(--ink-10); padding:2px 5px; border-radius:3px; }
+.dsx-098 { position: relative; display: flex; }
+.ds-dropdown-sample .dropdown { position: static; display: block; min-width: 164px; }
+.ds-popout-sample .popout { position: static; display: flex; min-width: 240px; }
+.ds-modal-sample .modal-overlay { position: static; display: flex; min-height: 360px; padding: var(--space-6); }
+.ds-modal-sample .modal { width: min(560px, 100%); }
+.dsx-099 { flex: 1.5; }
+.dsx-100 { align-items:center; gap:32px; }
+.dsx-101 { display:flex; align-items:center; gap:10px; }
+.dsx-102 { font-size:12px; color:var(--ink-40); }
+.dsx-103 { align-items:center; }
+.dsx-104 { position:relative; display:inline-block; }
+.dsx-105 { width:48px; height:48px; border:1px solid var(--border); border-radius:var(--radius-md); }
+.dsx-106 { display:flex; align-items:center; gap:8px; }
+.dsx-107 { font-family:var(--font-mono); font-size:11px; background:var(--ink-10); padding:2px 4px; border-radius:3px; }
+.dsx-108 { display:flex; justify-content:center; }
+.dsx-109 { height:360px; border-radius:24px; padding:14px 10px; display:flex; flex-direction:column; align-items:center; gap:8px; background:var(--paper-2); }
+.dsx-110 { position:relative; }
+.dsx-111 { flex:1; }
+.dsx-112 { margin-top:20px; }
+.dsx-113 { margin-bottom:24px; }
+.dsx-114 { align-items:center; margin-top:8px; }
+.dsx-115 { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.dsx-116 { display:flex; flex-direction:column; gap:16px; max-width:400px; }
+.dsx-117 { margin-top:6px; }
+.dsx-118 { display:flex; flex-direction:column; gap:20px; }
+.dsx-119 { display:block; margin-bottom:8px; }
+.dsx-120 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.dsx-121 { margin-top:10px; }
+.dsx-122 { border-top:1px solid var(--border); padding-top:20px; }
+.dsx-123 { font-family:var(--font-mono); font-size:32px; font-weight:700; }
+.dsx-124 { font-size:15px; color:var(--ink-60); }
+.dsx-125 { padding: 40px 0; display: grid; grid-template-columns: 1fr; gap: 24px; }
+.dsx-126 { display:block; margin-bottom:16px; }
+.dsx-127 { position: relative; height: 80px; background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: flex-start; justify-content: center; padding-top: 24px; }
+.dsx-128 { position: static; transform: none; opacity: 1; }
+.dsx-129 { margin-top:40px; padding:20px; background:var(--paper-2); border-radius:var(--radius-md); border:1px solid var(--border); }
+.dsx-130 { font-family:var(--font-mono); font-size:11px; color:var(--ink-60); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.12em; }
+.dsx-131 { margin:0; }
+.dsx-132 { color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
+.dsx-133 { margin-top:var(--space-6); }
+.dsx-134 { stroke-width:2.0; }
+.dsx-135 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.dsx-136 { margin-bottom: 10px; }
+.dsx-137 { font-size: 13px; color: var(--ink-60); margin-bottom: 20px; line-height: 1.55; }
+.dsx-138 { display: grid; grid-template-columns: 120px 1fr; gap: 0; }
+.dsx-139 { padding: 14px 16px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+.dsx-140 { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.dsx-141 { font-family: var(--font-mono); font-size: 12px; color: var(--ink); }
+.dsx-142 { background: var(--interactive-bg); color: var(--interactive-fg); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-pill); }
+.dsx-143 { font-family: var(--font-mono); font-size: 12px; color: var(--ink-60); }
+.dsx-144 { padding: 14px 16px; border-right: 1px solid var(--border); }
+.dsx-145 { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.dsx-146 { font-family: var(--font-mono); font-size: 11px; color: var(--ink-60); }
+</style>
+
+<body>
+<!-- SVG sprite — inlined so icons work on file:// -->
+<svg xmlns="http://www.w3.org/2000/svg" class="dsx-001">
+  <symbol id="v2-nav-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V11z"/></symbol>
+  <symbol id="v2-nav-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-2.4 2.6-2.6a4 4 0 0 0-.6-.6z"/></symbol>
+  <symbol id="v2-nav-list" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h10"/></symbol>
+  <symbol id="v2-nav-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="v2-nav-shield" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3 9-8 10-5-1-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="v2-nav-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9z"/><path d="M10 21a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="v2-nav-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+  <symbol id="v2-nav-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="v2-room-bed" viewBox="0 0 24 24"><path d="M3 17v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4"/><path d="M3 13h18"/><path d="M3 17v3"/><path d="M21 17v3"/><path d="M8 10V8a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="v2-room-bath" viewBox="0 0 24 24"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M7 12V6a2 2 0 0 1 4 0"/><path d="M6 19v2"/><path d="M18 19v2"/></symbol>
+  <symbol id="v2-room-car" viewBox="0 0 24 24"><path d="M4 16l2-7h12l2 7"/><path d="M3 16h18"/><path d="M5 16v3"/><path d="M19 16v3"/><path d="M7.5 13h2"/><path d="M14.5 13h2"/></symbol>
+  <symbol id="v2-room-pot" viewBox="0 0 24 24"><path d="M3 11h18"/><path d="M5 11l1 8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-8"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="v2-room-utensils" viewBox="0 0 24 24"><path d="M7 4v6a2 2 0 0 1-2 2"/><path d="M7 4v16"/><path d="M11 4v6a2 2 0 0 0 2 2"/><path d="M11 4v16"/><path d="M16 4l3 2v8l-3 1v5"/></symbol>
+  <symbol id="v2-room-couch" viewBox="0 0 24 24"><path d="M3 13a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4H3z"/><path d="M5 17v3"/><path d="M19 17v3"/><path d="M6 13V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/></symbol>
+  <symbol id="v2-room-tv" viewBox="0 0 24 24"><path d="M3 5h18v12H3z"/><path d="M9 21h6"/><path d="M12 17v4"/></symbol>
+  <symbol id="v2-room-briefcase" viewBox="0 0 24 24"><path d="M3 8h18v12H3z"/><path d="M9 8V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3"/><path d="M3 13h18"/></symbol>
+  <symbol id="v2-room-sun" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M12 3v2"/><path d="M12 19v2"/><path d="M5.6 5.6l1.4 1.4"/><path d="M17 17l1.4 1.4"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="M5.6 18.4l1.4-1.4"/><path d="M17 7l1.4-1.4"/></symbol>
+  <symbol id="v2-room-washer" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M12 9a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M9 6h.01"/></symbol>
+  <symbol id="v2-out-grass" viewBox="0 0 24 24"><path d="M4 21c1-3 1-9 1-9"/><path d="M9 21c0-3-1-9-1-9"/><path d="M15 21c0-3 1-9 1-9"/><path d="M20 21c-1-3-1-9-1-9"/></symbol>
+  <symbol id="v2-out-tree" viewBox="0 0 24 24"><path d="M12 21v-7"/><path d="M7 14a5 5 0 0 1 0-7 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1 0 7z"/></symbol>
+  <symbol id="v2-out-shed" viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11"/><path d="M4 21h16"/><path d="M9 21v-6h6v6"/></symbol>
+  <symbol id="v2-sys-fan" viewBox="0 0 24 24"><path d="M12 11.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/><path d="M12 10c0-3-2-6-5-7 1 3 3 5 5 7z"/><path d="M12 14c0 3 2 6 5 7-1-3-3-5-5-7z"/><path d="M10 12c-3 0-6 2-7 5 3-1 5-3 7-5z"/><path d="M14 12c3 0 6-2 7-5-3 1-5 3-7 5z"/></symbol>
+  <symbol id="v2-sys-filter" viewBox="0 0 24 24"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></symbol>
+  <symbol id="v2-sys-flame" viewBox="0 0 24 24"><path d="M12 21c-4 0-7-3-7-7 0-3 2-5 4-7 1 2 0 3 1 4 2-2 4-5 4-8 4 4 5 8 5 11 0 4-3 7-7 7z"/></symbol>
+  <symbol id="v2-sys-faucet" viewBox="0 0 24 24"><path d="M9 4h6"/><path d="M9 4v4"/><path d="M15 4v4"/><path d="M9 8h6v4H9z"/><path d="M3 12h6"/><path d="M12 12v4"/><path d="M9 20h6"/></symbol>
+  <symbol id="v2-sys-bolt" viewBox="0 0 24 24"><path d="M13 3L4 14h7l-1 7 9-12h-7z"/></symbol>
+  <symbol id="v2-sys-droplet" viewBox="0 0 24 24"><path d="M12 3c-3 4-6 8-6 12a6 6 0 0 0 12 0c0-4-3-8-6-12z"/></symbol>
+  <symbol id="v2-sys-fridge" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M5 11h14"/><path d="M9 6v2"/><path d="M9 14v3"/></symbol>
+  <symbol id="v2-ui-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18h.01"/></symbol>
+  <symbol id="v2-ui-thermo" viewBox="0 0 24 24"><path d="M14 14.76V4a2 2 0 0 0-4 0v10.76a4 4 0 1 0 4 0z"/></symbol>
+  <symbol id="v2-ui-cloud-rain" viewBox="0 0 24 24"><path d="M16 13a4 4 0 1 0-7-2.4A4 4 0 0 0 6 18h11a3 3 0 0 0 0-6z"/><path d="M9 19l-1 3"/><path d="M14 19l-1 3"/><path d="M19 19l-1 3"/></symbol>
+  <symbol id="v2-ui-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="v2-ui-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="v2-ui-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></symbol>
+  <symbol id="v2-ui-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+</svg>
+<div class="ds-shell">
+
+<aside class="ds-nav">
+  <div class="ds-nav-header">
+    <div class="ds-logo">paprLCD</div>
+    <span class="ds-version">v1.0 · LCD</span>
+  </div>
+
+  <div class="dsx-002">
+    <a class="ds-nav-link" href="#intro">Introduction</a>
+  </div>
+
+  <div class="dsx-002">
+    <div class="ds-nav-section">Foundation</div>
+    <a class="ds-nav-link" href="#primitives">Primitives</a>
+    <a class="ds-nav-link" href="#color">Color</a>
+    <a class="ds-nav-link" href="#typography">Typography</a>
+    <a class="ds-nav-link" href="#spacing">Spacing &amp; Radii</a>
+    <a class="ds-nav-link" href="#motion">Motion</a>
+  </div>
+
+  <div class="dsx-002">
+    <div class="ds-nav-section">Components</div>
+    <a class="ds-nav-link" href="#cards">Cards</a>
+    <a class="ds-nav-link" href="#buttons">Buttons</a>
+    <a class="ds-nav-link" href="#toggle">Toggle</a>
+    <a class="ds-nav-link" href="#sheets">Action &amp; Menu Sheets</a>
+    <a class="ds-nav-link" href="#status">Status &amp; Badges</a>
+    <a class="ds-nav-link" href="#rail">Navigation Rail</a>
+    <a class="ds-nav-link" href="#inputs">Inputs</a>
+    <a class="ds-nav-link" href="#search">Search</a>
+    <a class="ds-nav-link" href="#key-buttons">Key Buttons</a>
+    <a class="ds-nav-link" href="#calendar">Calendar</a>
+    <a class="ds-nav-link" href="#dashboard-cards">Dashboard Cards</a>
+    <a class="ds-nav-link" href="#upcoming-events">Upcoming Events</a>
+    <a class="ds-nav-link" href="#pagers">Pagers</a>
+    <a class="ds-nav-link" href="#toasts">Notifications</a>
+    <a class="ds-nav-link" href="#type-utils">Typography Utilities</a>
+  </div>
+
+  <div class="dsx-002">
+    <div class="ds-nav-section">Reference</div>
+    <a class="ds-nav-link" href="#icons">Icons</a>
+    <a class="ds-nav-link" href="#token-ref">Token Reference</a>
+    <a class="ds-nav-link" href="#governance">Governance</a>
+  </div>
+
+  <div class="ds-nav-footer">
+    <div class="theme-toggle">
+      <button class="theme-btn is-active" id="btn-lcd" onclick="setTheme('lcd')">LCD</button>
+      <button class="theme-btn" id="btn-dark" onclick="setTheme('lcd-dark')">Dark</button>
+    </div>
+  </div>
+</aside>
+
+<main class="ds-main">
+
+<section class="ds-section" id="intro">
+  <div class="ds-eyebrow">paprLCD</div>
+  <h1 class="ds-title">A single source of truth for every pixel and every token.</h1>
+  <p class="ds-desc">This document is the canonical reference for all visual decisions in paprLCD. Every color, typeface, size, spacing value, and component is defined here with three names: a CSS variable, a semantic design token, and a SwiftUI code name. If a value you need isn't in this document, you must propose it before using it.</p>
+
+  <div class="ds-sub-title">Design principles</div>
+  <div class="dsx-003">
+    <div class="dsx-004">
+      <div class="t-label dsx-005">01 — One Surface</div>
+      <p class="dsx-006">The same background color everywhere. No surface lifting, no card fills that differ from the page. Depth is expressed through borders and contrast alone.</p>
+    </div>
+    <div class="dsx-004">
+      <div class="t-label dsx-005">02 — Monochrome</div>
+      <p class="dsx-006">The palette is a single sage green-grey across all surfaces and ink. No accent colors, no tonal fills. The eye rests on content, not the UI.</p>
+    </div>
+    <div class="dsx-004">
+      <div class="t-label dsx-005">03 — Orange for Status Only</div>
+      <p class="dsx-006"><span class="dsx-007">Orange is the only color deviation.</span> It is used exclusively for attention, notifications, and urgent states. It is never used for interactive affordances.</p>
+    </div>
+    <div class="dsx-004">
+      <div class="t-label dsx-005">04 — Flat Elevation</div>
+      <p class="dsx-006">Zero elevation. No shadows, no blur, no glow. Cards are ink-stroke containers only — a border on the background.</p>
+    </div>
+    <div class="dsx-008">
+      <div class="t-label dsx-005">05 — Inversion for Interaction</div>
+      <p class="dsx-006">Interactive elements use a dark background with light text — the "pressed LCD segment" metaphor. Hover stays light with <code class="dsx-009">--ink-10</code>.</p>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Active vs legacy system</div>
+  <div class="dsx-010">
+    <div class="dsx-011">
+      <div class="dsx-012">
+        <div class="t-label">LCD System</div>
+        <span class="dsx-013">Active</span>
+      </div>
+      <p class="dsx-006">Sage green-grey monochrome. Space Grotesk + DM Mono + DM Sans. File: <code class="dsx-014">tokens-lcd.css</code></p>
+    </div>
+    <div class="dsx-015">
+      <div class="dsx-012">
+        <div class="t-label">Paper System</div>
+        <span class="dsx-016">Legacy</span>
+      </div>
+      <p class="dsx-006">Warm cream paper aesthetic. Inter + IBM Plex Mono. Preserved for reference. File: <code class="dsx-014">tokens.css</code></p>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="primitives">
+  <div class="ds-eyebrow">Foundation</div>
+  <h2 class="ds-title">Primitives</h2>
+  <p class="ds-desc">The raw, hardcoded values at the bottom of the token stack. These are the only actual hex numbers in the system — every semantic token above them points back here. Never reference primitives directly in code; use the named tokens instead.</p>
+
+  <div class="ds-sub-title">Surfaces</div>
+  <p class="dsx-017">Two background values. Paper is the only surface — used everywhere. Paper 2 is the recessed variant used only for the nav rail and inset areas.</p>
+  <div class="prim-grid">
+    <div class="prim-tile" onclick="copy('#E8EDE5')">
+      <div class="prim-circle has-border dsx-018"></div>
+      <div class="prim-meta">
+        <span class="prim-name">Paper</span>
+        <span class="prim-hex">#E8EDE5</span>
+        <span class="prim-note">--paper</span>
+      </div>
+    </div>
+    <div class="prim-tile" onclick="copy('#DDE1DA')">
+      <div class="prim-circle has-border dsx-019"></div>
+      <div class="prim-meta">
+        <span class="prim-name">Paper 2</span>
+        <span class="prim-hex">#DDE1DA</span>
+        <span class="prim-note">--paper-2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Ink</div>
+  <p class="dsx-017">One base hue for all text, borders, and interactive fills. Every <code class="dsx-020">--ink-*</code> token is this same value at a different opacity.</p>
+  <div class="prim-grid">
+    <div class="prim-tile" onclick="copy('#1C1C1A')">
+      <div class="prim-circle dsx-021"></div>
+      <div class="prim-meta">
+        <span class="prim-name">Ink</span>
+        <span class="prim-hex">#1C1C1A</span>
+        <span class="prim-note">--ink base</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Signal Orange</div>
+  <p class="dsx-017">The only color in the system. Used exclusively for status, attention, and urgency — never for interactive affordances.</p>
+  <div class="prim-grid">
+    <div class="prim-tile" onclick="copy('#E06518')">
+      <div class="prim-circle dsx-022"></div>
+      <div class="prim-meta">
+        <span class="prim-name">Signal</span>
+        <span class="prim-hex">#E06518</span>
+        <span class="prim-note">--signal</span>
+      </div>
+    </div>
+    <div class="prim-tile" onclick="copy('#B84E0E')">
+      <div class="prim-circle dsx-023"></div>
+      <div class="prim-meta">
+        <span class="prim-name">Signal Strong</span>
+        <span class="prim-hex">#B84E0E</span>
+        <span class="prim-note">--signal-strong</span>
+      </div>
+    </div>
+  </div>
+  <div class="info-box dsx-024">
+    <span class="info-box-text"><strong>Orange is the only color.</strong> Never use it for interactive affordances (buttons, links, taps). It signals status, attention, and urgency — nothing else.</span>
+  </div>
+
+  <div class="ds-sub-title">The Inversion Pair</div>
+  <p class="dsx-017">All interactive elements flip Paper and Ink. Dark fill for active/tappable, light fill for passive/resting.</p>
+  <div class="prim-inversion">
+    <div class="prim-inv-tile">
+      <div class="prim-inv-circle dsx-025">ACTIVE</div>
+      <div class="prim-meta">
+        <span class="prim-name">Interactive</span>
+        <span class="prim-hex">#1C1C1A fill · #E8EDE5 text</span>
+        <span class="prim-note">--interactive-bg / fg</span>
+      </div>
+    </div>
+    <div class="prim-inv-tile">
+      <div class="prim-inv-circle dsx-026">PASSIVE</div>
+      <div class="prim-meta">
+        <span class="prim-name">Passive</span>
+        <span class="prim-hex">#E8EDE5 fill · #1C1C1A text</span>
+        <span class="prim-note">--paper / --ink</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="color">
+  <div class="ds-eyebrow">Foundation</div>
+  <h2 class="ds-title">Color</h2>
+  <p class="ds-desc">All colors are expressed as CSS custom properties with three registered names. Click any swatch name to copy it to clipboard.</p>
+
+  <div class="ds-sub-title">Surface</div>
+  <div class="swatch-grid">
+    <!-- paper -->
+    <div class="swatch-tile" onclick="copy('--paper')">
+      <div class="swatch-color dsx-027"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--paper</button>
+        <span class="swatch-design">surface/base</span>
+        <span class="swatch-swift">Color.hb.surfaceBase</span>
+        <span class="swatch-hex">#E8EDE5</span>
+      </div>
+    </div>
+    <!-- paper-2 -->
+    <div class="swatch-tile" onclick="copy('--paper-2')">
+      <div class="swatch-color dsx-028"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--paper-2</button>
+        <span class="swatch-design">surface/recessed</span>
+        <span class="swatch-swift">Color.hb.surfaceRecessed</span>
+        <span class="swatch-hex">#DDE1DA</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Ink (text &amp; opacity scale)</div>
+  <div class="info-box">
+    <span class="info-box-text"><strong>All ink values share the same base hue</strong> (#1C1C1A — near-black, neutral). Opacity variants are used for hierarchy: primary text at full, secondary labels at 68%, muted meta at 50%, hairlines at 22%.</span>
+  </div>
+  <div class="swatch-grid">
+    <div class="swatch-tile" onclick="copy('--ink')">
+      <div class="swatch-color dsx-029"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink</button>
+        <span class="swatch-design">text/primary</span>
+        <span class="swatch-swift">Color.hb.textPrimary</span>
+        <span class="swatch-hex">#1C1C1A</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--ink-80')">
+      <div class="swatch-color dsx-030"><div class="dsx-031"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink-80</button>
+        <span class="swatch-design">text/strong</span>
+        <span class="swatch-swift">Color.hb.textStrong</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.82)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--ink-60')">
+      <div class="swatch-color dsx-030"><div class="dsx-032"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink-60</button>
+        <span class="swatch-design">text/secondary</span>
+        <span class="swatch-swift">Color.hb.textSecondary</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.68)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--ink-40')">
+      <div class="swatch-color dsx-030"><div class="dsx-033"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink-40</button>
+        <span class="swatch-design">text/muted</span>
+        <span class="swatch-swift">Color.hb.textMuted</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.50)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--ink-20')">
+      <div class="swatch-color dsx-030"><div class="dsx-034"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink-20</button>
+        <span class="swatch-design">text/faint</span>
+        <span class="swatch-swift">Color.hb.textFaint</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.22)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--ink-10')">
+      <div class="swatch-color dsx-030"><div class="dsx-035"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--ink-10</button>
+        <span class="swatch-design">fill/hover</span>
+        <span class="swatch-swift">Color.hb.fillHover</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.11)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Interactive</div>
+  <div class="info-box">
+    <span class="info-box-text"><strong>Interactive tokens define the tap/press affordance.</strong> Dark background + light text = "pressed LCD segment." Used for buttons, active nav items, and selected states.</span>
+  </div>
+  <div class="swatch-grid">
+    <div class="swatch-tile" onclick="copy('--interactive-bg')">
+      <div class="swatch-color dsx-029"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--interactive-bg</button>
+        <span class="swatch-design">interactive/background</span>
+        <span class="swatch-swift">Color.hb.interactiveBg</span>
+        <span class="swatch-hex">#1C1C1A</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--interactive-fg')">
+      <div class="swatch-color dsx-036">
+        <span class="dsx-037">Fg</span>
+      </div>
+      <div class="swatch-info">
+        <button class="swatch-var">--interactive-fg</button>
+        <span class="swatch-design">interactive/foreground</span>
+        <span class="swatch-swift">Color.hb.interactiveFg</span>
+        <span class="swatch-hex">#E8EDE5 · text on dark bg</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--interactive-hover')">
+      <div class="swatch-color dsx-030"><div class="dsx-038"></div></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--interactive-hover</button>
+        <span class="swatch-design">interactive/hover</span>
+        <span class="swatch-swift">Color.hb.interactiveHover</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.09)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Border</div>
+  <div class="swatch-grid">
+    <div class="swatch-tile" onclick="copy('--border')">
+      <div class="swatch-color dsx-039">
+        <div class="dsx-040"></div>
+      </div>
+      <div class="swatch-info">
+        <button class="swatch-var">--border</button>
+        <span class="swatch-design">border/default</span>
+        <span class="swatch-swift">Color.hb.borderDefault</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.22)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--border-emphasis')">
+      <div class="swatch-color dsx-039">
+        <div class="dsx-041"></div>
+      </div>
+      <div class="swatch-info">
+        <button class="swatch-var">--border-emphasis</button>
+        <span class="swatch-design">border/strong</span>
+        <span class="swatch-swift">Color.hb.borderStrong</span>
+        <span class="swatch-hex">rgba(28,28,26, 0.38)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--border-strong')">
+      <div class="swatch-color dsx-039">
+        <div class="dsx-042"></div>
+      </div>
+      <div class="swatch-info">
+        <button class="swatch-var">--border-strong</button>
+        <span class="swatch-design">border/affordance</span>
+        <span class="swatch-swift">Color.hb.borderAffordance</span>
+        <span class="swatch-hex">#1C1C1A · full ink</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Status / Signal</div>
+  <div class="info-box">
+    <span class="info-box-text"><strong>Orange is the only color deviation from monochrome.</strong> Used exclusively for attention, notifications, and urgent states. Never for interactive affordances like buttons or nav.</span>
+  </div>
+  <div class="swatch-grid">
+    <div class="swatch-tile" onclick="copy('--signal')">
+      <div class="swatch-color dsx-043"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--signal</button>
+        <span class="swatch-design">status/signal</span>
+        <span class="swatch-swift">Color.hb.statusSignal</span>
+        <span class="swatch-hex">#E06518</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--signal-strong')">
+      <div class="swatch-color dsx-044"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--signal-strong</button>
+        <span class="swatch-design">status/signalStrong</span>
+        <span class="swatch-swift">Color.hb.statusSignalStrong</span>
+        <span class="swatch-hex">#B84E0E · text on light bg</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--signal-tint')">
+      <div class="swatch-color dsx-045"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--signal-tint</button>
+        <span class="swatch-design">status/signalTint</span>
+        <span class="swatch-swift">Color.hb.statusSignalTint</span>
+        <span class="swatch-hex">rgba(224,101,24, 0.12)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--signal-tint-soft')">
+      <div class="swatch-color dsx-046"></div>
+      <div class="swatch-info">
+        <button class="swatch-var">--signal-tint-soft</button>
+        <span class="swatch-design">status/signalTintSoft</span>
+        <span class="swatch-swift">Color.hb.statusSignalTintSoft</span>
+        <span class="swatch-hex">rgba(224,101,24, 0.07)</span>
+      </div>
+    </div>
+    <div class="swatch-tile" onclick="copy('--healthy')">
+      <div class="swatch-color dsx-047">
+        <div class="dsx-048"></div>
+      </div>
+      <div class="swatch-info">
+        <button class="swatch-var">--healthy</button>
+        <span class="swatch-design">status/healthy</span>
+        <span class="swatch-swift">Color.hb.statusHealthy</span>
+        <span class="swatch-hex">= --ink-40 · no status = calm</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="ds-section" id="typography">
+  <div class="ds-eyebrow">Foundation</div>
+  <h2 class="ds-title">Typography</h2>
+  <p class="ds-desc">Three typefaces with distinct roles. They never overlap — each has a job and only does that job.</p>
+
+  <!-- Font families -->
+  <div class="ds-sub-title">Font families</div>
+  <div class="font-family-card" onclick="copy('--font-display')">
+    <div class="font-family-label">--font-display · Space Grotesk · titles, headings, high-signal UI copy</div>
+    <div class="font-family-specimen dsx-049">Clear skies today</div>
+    <div class="font-family-meta">Space Grotesk · weights 300 400 500 600 · Color.hb.fontDisplay</div>
+  </div>
+  <div class="font-family-card" onclick="copy('--font-body')">
+    <div class="font-family-label">--font-body · DM Sans · body copy, descriptions, longer prose</div>
+    <div class="font-family-specimen dsx-050">HVAC filter needs replacing in the next 7 days</div>
+    <div class="font-family-meta">DM Sans · weights 300 400 500 · Color.hb.fontBody</div>
+  </div>
+  <div class="font-family-card" onclick="copy('--font-mono')">
+    <div class="font-family-label">--font-mono · DM Mono · labels, metadata, cadence, tokens, utility numbers</div>
+    <div class="font-family-specimen dsx-051">GARAGE · HVAC · 47°F</div>
+    <div class="font-family-meta">DM Mono · weights 300 400 500 · Color.hb.fontMono</div>
+  </div>
+
+  <!-- Type scale -->
+  <div class="ds-sub-title">Type scale</div>
+  <div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-display</div><div class="type-px-val">96px</div><div class="type-specs">Space Grotesk · 700 · −0.03em</div></div>
+      <div class="type-specimen dsx-052">2</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-4xl</div><div class="type-px-val">38px</div><div class="type-specs">Space Grotesk · 600 · −0.01em</div></div>
+      <div class="type-specimen dsx-053">All systems clear</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-3xl</div><div class="type-px-val">30px</div><div class="type-specs">Space Grotesk · 600 · 0</div></div>
+      <div class="type-specimen dsx-054">Maintenance</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-2xl</div><div class="type-px-val">24px</div><div class="type-specs">Space Grotesk · 500 · 0</div></div>
+      <div class="type-specimen dsx-055">Active Projects</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-xl</div><div class="type-px-val">20px</div><div class="type-specs">Space Grotesk · 500 · 0</div></div>
+      <div class="type-specimen dsx-056">Next Up</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-lg</div><div class="type-px-val">17px</div><div class="type-specs">DM Sans · 400 · 0</div></div>
+      <div class="type-specimen dsx-057">Replace HVAC filter in master bedroom</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-md</div><div class="type-px-val">15px</div><div class="type-specs">DM Sans · 400 · 0</div></div>
+      <div class="type-specimen dsx-058">Water softener salt level check</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-base</div><div class="type-px-val">14px</div><div class="type-specs">DM Sans · 400 · 0</div></div>
+      <div class="type-specimen dsx-059">Generator self-test due Sunday. Last run: March 3.</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-sm</div><div class="type-px-val">12px</div><div class="type-specs">DM Mono · 500 · 0.12em · UC</div></div>
+      <div class="type-specimen dsx-060">EVERY 3 MONTHS · LUIS</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-xs</div><div class="type-px-val">11px</div><div class="type-specs">DM Mono · 500 · 0.12em · UC</div></div>
+      <div class="type-specimen dsx-061">HVAC · MASTER BEDROOM · OVERDUE</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-3xs</div><div class="type-px-val">9px</div><div class="type-specs">DM Mono · 500 · 0.10em · UC</div></div>
+      <div class="type-specimen dsx-062">EVERY 90 DAYS · KITCHEN</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-meta"><div class="type-token-name">--text-2xs</div><div class="type-px-val">10px</div><div class="type-specs">DM Mono · 500 · 0.18em · UC</div></div>
+      <div class="type-specimen dsx-063">ATTENTION · 2 ITEMS</div>
+    </div>
+  </div>
+
+  <!-- Tracking -->
+  <div class="ds-sub-title">Letter spacing</div>
+  <div class="dsx-064">
+    <div class="tracking-row dsx-065">
+      <div class="tracking-token">--tracking-tight<br><span class="dsx-066">-0.01em</span></div>
+      <div class="dsx-067">Maintenance Schedule</div>
+    </div>
+    <div class="tracking-row dsx-065">
+      <div class="tracking-token">--tracking-normal<br><span class="dsx-066">0</span></div>
+      <div class="dsx-068">HVAC filter replacement overdue</div>
+    </div>
+    <div class="tracking-row dsx-065">
+      <div class="tracking-token">--tracking-wide<br><span class="dsx-066">0.12em</span></div>
+      <div class="dsx-069">EVERY 3 MONTHS · OVERDUE</div>
+    </div>
+    <div class="tracking-row dsx-070">
+      <div class="tracking-token">--tracking-wider<br><span class="dsx-066">0.18em</span></div>
+      <div class="dsx-071">ATTENTION · 2 ITEMS</div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="spacing">
+  <div class="ds-eyebrow">Foundation</div>
+  <h2 class="ds-title">Spacing &amp; Radii</h2>
+  <p class="ds-desc">A fixed 4px base grid. All spacing values are multiples of 4. Never use ad-hoc values.</p>
+
+  <div class="ds-sub-title">Spacing scale</div>
+  <div class="dsx-024">
+    <div class="space-row"><span class="space-label">--space-1</span><div class="space-bar-wrap"><div class="space-bar dsx-072"></div></div><span class="space-val">4px</span></div>
+    <div class="space-row"><span class="space-label">--space-2</span><div class="space-bar-wrap"><div class="space-bar dsx-073"></div></div><span class="space-val">8px</span></div>
+    <div class="space-row"><span class="space-label">--space-3</span><div class="space-bar-wrap"><div class="space-bar dsx-074"></div></div><span class="space-val">12px</span></div>
+    <div class="space-row"><span class="space-label">--space-4</span><div class="space-bar-wrap"><div class="space-bar dsx-075"></div></div><span class="space-val">16px</span></div>
+    <div class="space-row"><span class="space-label">--space-5</span><div class="space-bar-wrap"><div class="space-bar dsx-076"></div></div><span class="space-val">20px</span></div>
+    <div class="space-row"><span class="space-label">--space-6</span><div class="space-bar-wrap"><div class="space-bar dsx-077"></div></div><span class="space-val">24px</span></div>
+    <div class="space-row"><span class="space-label">--space-7</span><div class="space-bar-wrap"><div class="space-bar dsx-078"></div></div><span class="space-val">28px</span></div>
+    <div class="space-row"><span class="space-label">--space-8</span><div class="space-bar-wrap"><div class="space-bar dsx-079"></div></div><span class="space-val">32px</span></div>
+    <div class="space-row"><span class="space-label">--space-10</span><div class="space-bar-wrap"><div class="space-bar dsx-080"></div></div><span class="space-val">40px</span></div>
+    <div class="space-row"><span class="space-label">--space-12</span><div class="space-bar-wrap"><div class="space-bar dsx-081"></div></div><span class="space-val">48px</span></div>
+    <div class="space-row"><span class="space-label">--space-16</span><div class="space-bar-wrap"><div class="space-bar dsx-082"></div></div><span class="space-val">64px</span></div>
+  </div>
+
+  <div class="ds-sub-title">Border radius scale</div>
+  <div class="radius-grid">
+    <div class="radius-tile"><div class="radius-box dsx-083"></div><span class="radius-name">--radius-xs<br>3px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-084"></div><span class="radius-name">--radius-sm<br>5px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-085"></div><span class="radius-name">--radius-md<br>8px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-086"></div><span class="radius-name">--radius-lg<br>12px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-087"></div><span class="radius-name">--radius-xl<br>16px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-088"></div><span class="radius-name">--radius-2xl<br>20px</span></div>
+    <div class="radius-tile"><div class="radius-box dsx-089"></div><span class="radius-name">--radius-pill<br>999px</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="motion">
+  <div class="ds-eyebrow">Foundation</div>
+  <h2 class="ds-title">Motion</h2>
+  <p class="ds-desc">All animation uses named duration and easing tokens. Click a row to preview the animation.</p>
+
+  <div class="ds-sub-title">Duration scale</div>
+  <div class="dsx-090">
+    <div class="motion-row dsx-065">
+      <span class="motion-label dsx-091">--duration-fast</span>
+      <div class="motion-track" id="track-fast" onclick="runMotion('fast',120)">
+        <div class="motion-dot motion-dot--fast" id="dot-fast"></div>
+      </div>
+      <span class="motion-val">120ms</span>
+    </div>
+    <div class="motion-row dsx-065">
+      <span class="motion-label dsx-091">--duration-base</span>
+      <div class="motion-track" id="track-base" onclick="runMotion('base',220)">
+        <div class="motion-dot motion-dot--base" id="dot-base"></div>
+      </div>
+      <span class="motion-val">220ms</span>
+    </div>
+    <div class="motion-row dsx-065">
+      <span class="motion-label dsx-091">--duration-slow</span>
+      <div class="motion-track" id="track-slow" onclick="runMotion('slow',400)">
+        <div class="motion-dot motion-dot--slow" id="dot-slow"></div>
+      </div>
+      <span class="motion-val">400ms</span>
+    </div>
+    <div class="motion-row dsx-070">
+      <span class="motion-label dsx-091">--duration-slower</span>
+      <div class="motion-track" id="track-slower" onclick="runMotion('slower',600)">
+        <div class="motion-dot motion-dot--slower" id="dot-slower"></div>
+      </div>
+      <span class="motion-val">600ms</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Easing</div>
+  <table class="tok-table">
+    <thead><tr><th>Token</th><th>CSS Value</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">--ease-out</span></td><td><span class="t-val">cubic-bezier(0.2, 0.8, 0.2, 1)</span></td><td class="dsx-092">Most UI transitions — things arriving</td></tr>
+      <tr><td><span class="t-var">--ease-in</span></td><td><span class="t-val">cubic-bezier(0.6, 0.04, 0.98, 0.34)</span></td><td class="dsx-092">Things leaving — rarely used</td></tr>
+      <tr><td><span class="t-var">--ease-in-out</span></td><td><span class="t-val">cubic-bezier(0.6, 0, 0.4, 1)</span></td><td class="dsx-092">Shared-axis transitions, modals</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="cards">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Cards</h2>
+  <p class="ds-desc">Cards are ink-stroke containers — a border on the background, never a lifted surface. Three states based on item health.</p>
+
+  <div class="demo-box">
+    <div class="demo-row">
+      <div class="dsx-093">
+        <span class="demo-label">Default · healthy</span>
+        <div class="card">
+          <div class="dsx-094">
+            <span class="t-label">HVAC System</span>
+            <span class="status-dot status-dot--healthy"></span>
+          </div>
+          <p class="dsx-095">Last serviced March 3, 2026. Next due in 47 days.</p>
+        </div>
+      </div>
+      <div class="dsx-093">
+        <span class="demo-label">Tinted · attention</span>
+        <div class="card is-attention">
+          <div class="dsx-094">
+            <span class="t-label">Water Softener</span>
+            <span class="status-dot status-dot--attention"></span>
+          </div>
+          <p class="dsx-095">Salt level low. Check within 2 weeks.</p>
+        </div>
+      </div>
+      <div class="dsx-093">
+        <span class="demo-label">Urgent</span>
+        <div class="card is-urgent">
+          <div class="dsx-094">
+            <span class="t-label">Generator Test</span>
+            <span class="status-dot status-dot--urgent"></span>
+          </div>
+          <p class="dsx-095">Self-test 14 days overdue. Run now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>State</th><th>Background</th><th>Border</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.card</span></td><td class="dsx-092">Default (healthy)</td><td><span class="t-val">--surface (= paper)</span></td><td><span class="t-val">--border</span></td></tr>
+      <tr><td><span class="t-var">.card.is-attention</span></td><td class="dsx-092">Attention</td><td><span class="t-val">--signal-tint-soft</span></td><td><span class="t-val">--signal</span></td></tr>
+      <tr><td><span class="t-var">.card.is-urgent</span></td><td class="dsx-092">Urgent + left spine</td><td><span class="t-val">--signal-tint-soft</span></td><td><span class="t-val">--signal</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="buttons">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Buttons</h2>
+  <p class="ds-desc">All buttons use DM Mono, uppercase, letter-spaced. Interaction is expressed through inversion (dark bg / light text). Four weight variants × 5 states × 3 icon positions × 2 sizes.</p>
+
+  <div class="ds-sub-title dsx-133">Full size — all variants × states</div>
+  <p class="ds-desc">Each row shows one variant. Columns: default · pressed (active) · disabled · with icon-left · with icon-right.</p>
+  <div class="demo-box">
+    <table style="width:100%;border-collapse:separate;border-spacing:12px 12px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Variant</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Default</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Pressed</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Disabled</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Icon left</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Icon right</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.btn-primary</code></td>
+          <td><button class="btn btn-primary">Add Task</button></td>
+          <td><button class="btn btn-primary" style="background:var(--paper);color:var(--ink);border-color:var(--ink);">Pressed</button></td>
+          <td><button class="btn btn-primary" disabled>Disabled</button></td>
+          <td><button class="btn btn-primary"><svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add Task</button></td>
+          <td><button class="btn btn-primary">View All<svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><code>.btn-secondary</code></td>
+          <td><button class="btn btn-secondary">View All</button></td>
+          <td><button class="btn btn-secondary" style="background:var(--interactive-bg);color:var(--interactive-fg);border-color:transparent;">Pressed</button></td>
+          <td><button class="btn btn-secondary" disabled>Disabled</button></td>
+          <td><button class="btn btn-secondary"><svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add Task</button></td>
+          <td><button class="btn btn-secondary">View All<svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><code>.btn-ghost</code></td>
+          <td><button class="btn btn-ghost">Cancel</button></td>
+          <td><button class="btn btn-ghost" style="background:var(--ink-20);color:var(--ink);">Pressed</button></td>
+          <td><button class="btn btn-ghost" disabled>Disabled</button></td>
+          <td><button class="btn btn-ghost"><svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add</button></td>
+          <td><button class="btn btn-ghost">More<svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><code>.btn-urgent</code></td>
+          <td><button class="btn btn-urgent">3 Urgent</button></td>
+          <td><button class="btn btn-urgent" style="background:var(--signal-strong);">Pressed</button></td>
+          <td><button class="btn btn-urgent" disabled>Disabled</button></td>
+          <td><button class="btn btn-urgent"><svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M7 3v5M7 10v.01"/></svg>3 Urgent</button></td>
+          <td><button class="btn btn-urgent">3 Urgent<svg width="14" height="14" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Compact size (–sm) — all variants × states</div>
+  <p class="ds-desc">28px tall pill version. Same variants, same states, same icon-l/r options.</p>
+  <div class="demo-box">
+    <table style="width:100%;border-collapse:separate;border-spacing:12px 12px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Variant</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Default</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Pressed</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Icon left</th>
+          <th style="text-align:left;font:500 10px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);">Icon right</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.btn-primary-sm</code></td>
+          <td><button class="btn btn-sm btn-primary-sm">Save</button></td>
+          <td><button class="btn btn-sm btn-primary-sm" style="background:var(--paper);color:var(--ink);border-color:var(--ink);">Pressed</button></td>
+          <td><button class="btn btn-sm btn-primary-sm"><svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add</button></td>
+          <td><button class="btn btn-sm btn-primary-sm">All<svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><code>.btn-secondary-sm</code></td>
+          <td><button class="btn btn-sm btn-secondary-sm">Snooze</button></td>
+          <td><button class="btn btn-sm btn-secondary-sm" style="background:var(--interactive-bg);color:var(--interactive-fg);border-color:transparent;">Pressed</button></td>
+          <td><button class="btn btn-sm btn-secondary-sm"><svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add</button></td>
+          <td><button class="btn btn-sm btn-secondary-sm">All<svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+        <tr>
+          <td><code>.btn-ghost-sm</code></td>
+          <td><button class="btn btn-sm btn-ghost-sm">View all</button></td>
+          <td><button class="btn btn-sm btn-ghost-sm is-open">Open</button></td>
+          <td><button class="btn btn-sm btn-ghost-sm"><svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M7 3v8"/></svg>Add</button></td>
+          <td><button class="btn btn-sm btn-ghost-sm">View all<svg width="11" height="11" class="svg-icon svg-icon--strong"><path d="M3 7h8M8 4l3 3-3 3"/></svg></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Default state</th><th>Pressed state</th><th>Use when</th></tr></thead>
+    <tbody>
+      <tr><td><code>.btn-primary</code></td><td>ink bg / paper text</td><td>paper bg / ink text + ink border (inverted)</td><td>Primary action on any screen</td></tr>
+      <tr><td><code>.btn-secondary</code></td><td>transparent / ink text / ink-20 border</td><td>ink bg / paper text (inverts to primary)</td><td>Secondary or supporting action</td></tr>
+      <tr><td><code>.btn-ghost</code></td><td>transparent / ink-60 text</td><td>ink-20 bg / ink text</td><td>Inline text-like, cancel</td></tr>
+      <tr><td><code>.btn-urgent</code></td><td>signal bg / paper text</td><td>signal-strong bg</td><td>Status-driven urgent CTAs only</td></tr>
+      <tr><td><code>.btn-block</code></td><td colspan="2">Full-width modifier — flex:1, 54px tall. Used in modal/sheet footers.</td><td>Modal confirm row</td></tr>
+    </tbody>
+  </table>
+
+  <div class="info-box">
+    <span class="info-box-text"><strong>Never use orange buttons for standard actions.</strong> <code>.btn-urgent</code> is reserved for status-driven CTAs (e.g. "3 Urgent Items"). Standard add/save/complete actions use <code>.btn-primary</code>.</span>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Icon-position rule</div>
+  <p class="ds-desc">Icons go inside the same <code>&lt;button&gt;</code> as the label, before or after. The button's <code>display: inline-flex; gap: var(--space-2)</code> handles spacing. Use <code>.svg-icon.svg-icon--strong</code> (1.6 → 2.4 stroke) so the icon reads at the same weight as the mono label.</p>
+
+  <div class="ds-sub-title dsx-133">Dashboard-specific buttons</div>
+  <div class="demo-box">
+    <div class="demo-row dsx-096">
+      <div><span class="demo-label">.btn-complete</span><button class="btn-complete">Complete</button></div>
+      <div><span class="demo-label">.btn-snooze</span><button class="btn-snooze">Snooze</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="toggle">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Toggle</h2>
+  <p class="ds-desc">Standard iOS-style inline switch. Used for boolean states like settings or preference toggles. Resized to be standard size.</p>
+
+  <div class="demo-box">
+    <div class="demo-row">
+      <div>
+        <span class="demo-label">Off State</span>
+        <div class="toggle"></div>
+      </div>
+      <div>
+        <span class="demo-label">On State</span>
+        <div class="toggle is-on"></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.toggle</span></td><td class="dsx-092">Default off state (ink-20 background)</td></tr>
+      <tr><td><span class="t-var">.toggle.is-on</span></td><td class="dsx-092">On state (ink background, thumb translated)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="modal">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Modal</h2>
+  <p class="ds-desc">Full-viewport scrim with a centered detail sheet. Modal dismissal is explicit-close-only; tap-outside behavior belongs to JavaScript and is not encoded as CSS.</p>
+
+  <div class="demo-box ds-modal-sample">
+    <div class="modal-overlay is-open">
+      <div class="modal">
+        <div class="modal-hdr">
+          <div>
+            <div class="type-title-md">System detail</div>
+            <div class="type-label-sm u-muted">Explicit close required</div>
+          </div>
+          <button class="icon-btn icon-btn--md" aria-label="Close">
+            <svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="ds-desc dsx-134">Modal body content is free-form. Use this surface for focused detail views that need a return action before the dashboard regains focus.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-primary">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Part</th><th>Class / token</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td>Scrim</td><td><code>.modal-overlay</code> · <code>--ink-20</code></td><td>Fixed viewport overlay. Uses ink tint only, never a solid fill.</td></tr>
+      <tr><td>Open state</td><td><code>.modal-overlay.is-open</code></td><td>Displays the overlay as centered flex content.</td></tr>
+      <tr><td>Sheet</td><td><code>.modal</code> · <code>--radius-lg</code></td><td>Centered paper sheet with all four corners rounded.</td></tr>
+      <tr><td>Header</td><td><code>.modal-hdr</code></td><td>Title and explicit close control.</td></tr>
+      <tr><td>Body</td><td><code>.modal-body</code> · <code>.is-loading</code></td><td>Scrollable free-form content; loading state lives on the body.</td></tr>
+      <tr><td>Footer</td><td><code>.modal-footer</code></td><td>Action row for explicit completion or cancellation.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="popout">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Popout</h2>
+  <p class="ds-desc">Floating panel anchored to an icon-button trigger. Use <code>.popout</code> for action lists, results lists, and radio-style selection groups. Rows stay on the canonical <code>.sheet-item</code> primitive.</p>
+
+  <div class="demo-box">
+    <div class="demo-row">
+      <div class="ds-popout-sample">
+        <span class="demo-label">Action list</span>
+        <div class="popout is-open">
+          <button class="sheet-item">
+            <svg class="sheet-item-icon"><use href="#v2-ui-check"/></svg>
+            <div class="sheet-item-content">
+              <span class="sheet-item-title">New maintenance task</span>
+              <span class="sheet-item-sub">Schedule a recurring task</span>
+            </div>
+          </button>
+          <button class="sheet-item">
+            <svg class="sheet-item-icon"><use href="#v2-ui-box"/></svg>
+            <div class="sheet-item-content">
+              <span class="sheet-item-title">New item</span>
+              <span class="sheet-item-sub">Appliance, fixture, or inventory</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="ds-popout-sample">
+        <span class="demo-label">Radio group</span>
+        <div class="popout popout--radio is-open">
+          <button class="sheet-item">
+            <svg class="sheet-item-icon"><use href="#v2-room-sun"/></svg>
+            <span class="sheet-item-title">Light</span>
+          </button>
+          <button class="sheet-item">
+            <svg class="sheet-item-icon"><use href="#v2-ui-moon"/></svg>
+            <span class="sheet-item-title">Dark</span>
+          </button>
+          <button class="sheet-item is-selected">
+            <svg class="sheet-item-icon" viewBox="0 0 24 24">
+              <path d="M12 21a10 10 0 1 0 0-20v20z" fill="currentColor" />
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+            <span class="sheet-item-title">Auto</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Part</th><th>Class / token</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td>Container</td><td><code>.popout</code></td><td>Absolute anchored surface. Parent trigger wrapper owns final width and placement.</td></tr>
+      <tr><td>Radio variant</td><td><code>.popout--radio</code></td><td>Single-selection group using <code>.sheet-item.is-selected</code>; no new item primitive.</td></tr>
+      <tr><td>Item</td><td><code>.sheet-item</code></td><td>Shared row primitive for overlay and inline contexts.</td></tr>
+      <tr><td>Item anatomy</td><td><code>.sheet-item-icon</code> · <code>.sheet-item-title</code> · <code>.sheet-item-sub</code></td><td>Icon, primary label, optional secondary line.</td></tr>
+      <tr><td>Geometry</td><td><code>--radius-lg</code> · <code>--border</code> · <code>--paper</code></td><td>Popout surface uses canonical paper, border, and large radius tokens.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="sheets">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Action & Menu Sheets</h2>
+  <p class="ds-desc">Overlay containers used for contextual menus, selection, or quick actions. They can be simple (ActionSheet) or more information-dense (MenuSheet).</p>
+
+  <div class="demo-box">
+    <div class="demo-row">
+      <div class="dsx-093">
+        <span class="demo-label">ActionSheet (Simple)</span>
+        <div class="sheet dsx-098">
+          <button class="sheet-item"><span class="sheet-item-title">1 Day</span></button>
+          <button class="sheet-item"><span class="sheet-item-title">3 Days</span></button>
+          <button class="sheet-item"><span class="sheet-item-title">1 Week</span></button>
+        </div>
+      </div>
+      <div class="dsx-099">
+        <span class="demo-label">MenuSheet (Rich)</span>
+        <div class="sheet dsx-098">
+          <button class="sheet-item">
+            <svg class="sheet-item-icon"><use href="#v2-ui-check"/></svg>
+            <div class="sheet-item-content">
+              <span class="sheet-item-title">New maintenance task</span>
+              <span class="sheet-item-sub">Schedule a recurring task</span>
+            </div>
+          </button>
+          <button class="sheet-item is-selected">
+            <svg class="sheet-item-icon"><use href="#v2-ui-box"/></svg>
+            <div class="sheet-item-content">
+              <span class="sheet-item-title">New item</span>
+              <span class="sheet-item-sub">Appliance, fixture, or inventory</span>
+            </div>
+          </button>
+          <div class="sheet-divider"></div>
+          <button class="sheet-item is-urgent">
+            <svg class="sheet-item-icon"><use href="#v2-ui-triangle"/></svg>
+            <div class="sheet-item-content">
+              <span class="sheet-item-title">Urgent repair</span>
+              <span class="sheet-item-sub">Emergency mode</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Element</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.sheet</span></td><td class="dsx-092">Main container. Radius-xl + 1.5px ink border.</td></tr>
+      <tr><td><span class="t-var">.sheet-item</span></td><td class="dsx-092">Interactive row. Supports icons and two lines.</td></tr>
+      <tr><td><span class="t-var">.sheet-item.is-selected</span></td><td class="dsx-092">Inversed style (ink bg) for active selections.</td></tr>
+      <tr><td><span class="t-var">.sheet-item.is-urgent</span></td><td class="dsx-092">Orange text and icon for critical actions.</td></tr>
+      <tr><td><span class="t-var">.sheet-divider</span></td><td class="dsx-092">Hairline divider to group items.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="status">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Status &amp; Badges</h2>
+  <p class="ds-desc">Status indicators are always hollow outline circles — never filled. Orange is the only deviation from monochrome, used for both attention and urgent (severity is expressed via size and context, not a second color).</p>
+
+  <div class="ds-sub-title">Status dots</div>
+  <div class="demo-box">
+    <div class="demo-row dsx-100">
+      <div class="dsx-101"><span class="status-dot status-dot--healthy"></span><span class="t-label">Healthy</span></div>
+      <div class="dsx-101"><span class="status-dot status-dot--attention"></span><span class="t-label">Attention</span></div>
+      <div class="dsx-101"><span class="status-dot status-dot--urgent"></span><span class="t-label">Urgent</span></div>
+    </div>
+  </div>
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Border color</th><th>Fill</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.status-dot--healthy</span></td><td><span class="t-val">--ink-20</span></td><td class="dsx-102">transparent · always hollow</td></tr>
+      <tr><td><span class="t-var">.status-dot--attention</span></td><td><span class="t-val">--signal</span></td><td class="dsx-102">transparent · hollow border only</td></tr>
+      <tr><td><span class="t-var">.status-dot--urgent</span></td><td><span class="t-val">--signal</span></td><td class="dsx-102">solid fill · maximum signal</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ds-sub-title">Pills</div>
+  <div class="demo-box">
+    <div class="demo-row dsx-103">
+      <span class="pill">Every 3 months</span>
+      <span class="pill is-attention">⚠ Due soon</span>
+      <span class="pill is-urgent">! Overdue</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title">Badges (numeric indicators)</div>
+  <div class="demo-box">
+    <div class="demo-row dsx-100">
+      <div class="dsx-104">
+        <div class="dsx-105"></div>
+        <span class="badge">3</span>
+      </div>
+      <div class="dsx-104">
+        <div class="dsx-105"></div>
+        <span class="badge is-urgent">!</span>
+      </div>
+      <div class="dsx-106">
+        <span class="badge-inline">5</span><span class="t-label">Inline badge</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="rail">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Navigation Rail</h2>
+  <p class="ds-desc">Labeled vertical navigation. Rail sits on <code class="dsx-107">--paper-2</code> to visually recede from main content. Primary nav is grouped at the top; Settings and avatar form a bottom utility cluster. Active item uses <code class="dsx-107">--paper</code> plus a dashed ink border.</p>
+
+  <div class="demo-box dsx-108">
+    <div class="dsx-109">
+      <button class="rail-btn is-active" title="Dashboard">
+        <svg viewBox="0 0 24 24"><use href="#v2-nav-home"/></svg>
+        <span class="rail-label">Home</span>
+      </button>
+      <button class="rail-btn" title="Maintenance">
+        <svg viewBox="0 0 24 24"><use href="#v2-nav-wrench"/></svg>
+        <span class="rail-label">Tasks</span>
+      </button>
+      <button class="rail-btn" title="Spaces">
+        <svg viewBox="0 0 24 24"><use href="#v2-nav-grid"/></svg>
+        <span class="rail-label">Spaces</span>
+      </button>
+      <button class="rail-btn dsx-110" title="Alerts">
+        <svg viewBox="0 0 24 24"><use href="#v2-nav-bell"/></svg>
+        <span class="rail-label">Alerts</span>
+        <span class="badge">2</span>
+      </button>
+      <div class="dsx-111"></div>
+      <div class="rail-bottom">
+        <button class="rail-btn" title="Settings">
+          <svg viewBox="0 0 24 24"><use href="#v2-nav-cog"/></svg>
+        </button>
+        <div class="avatar avatar--sm">L</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table dsx-112">
+    <thead><tr><th>State</th><th>Background</th><th>Border</th><th>Icon color</th></tr></thead>
+    <tbody>
+      <tr><td class="dsx-092">Rail container</td><td><span class="t-val">--paper-2</span></td><td><span class="t-val">none</span></td><td><span class="t-val">—</span></td></tr>
+      <tr><td class="dsx-092">Default</td><td><span class="t-val">transparent</span></td><td><span class="t-val">none</span></td><td><span class="t-val">--ink</span></td></tr>
+      <tr><td class="dsx-092">Hover</td><td><span class="t-val">--ink-10</span></td><td><span class="t-val">none</span></td><td><span class="t-val">--ink</span></td></tr>
+      <tr><td class="dsx-092">Active</td><td><span class="t-val">--paper</span></td><td><span class="t-val">1px dashed --ink</span></td><td><span class="t-val">--ink</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="avatars">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Avatars</h2>
+  <p class="ds-desc">Circular identity containers with initials. Default avatar uses paper background, ink border, and ink type. Card contexts may invert the avatar during the parent card press state; the card owns that interaction state.</p>
+
+  <div class="demo-box">
+    <div class="dsx-113">
+      <span class="demo-label">Default</span>
+      <div class="demo-row dsx-114">
+        <div class="dsx-115">
+          <div class="avatar">LS</div>
+          <span class="t-meta">Luis</span>
+        </div>
+        <div class="dsx-115">
+          <div class="avatar">RB</div>
+          <span class="t-meta">Robyn</span>
+        </div>
+        <div class="dsx-115">
+          <div class="avatar">JD</div>
+          <span class="t-meta">slot 3</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="demo-label">Sizes</span>
+      <div class="demo-row dsx-114">
+        <div class="dsx-115">
+          <div class="avatar avatar--sm">LS</div>
+          <span class="t-meta">sm · 34px</span>
+        </div>
+        <div class="dsx-115">
+          <div class="avatar">LS</div>
+          <span class="t-meta">default · 36px</span>
+        </div>
+        <div class="dsx-115">
+          <div class="avatar avatar--lg">LS</div>
+          <span class="t-meta">lg · 44px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="inputs">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Inputs</h2>
+  <p class="ds-desc">Pill-shaped text inputs using DM Mono. Uppercase, letter-spaced. Consistent with button typography. Focus state darkens the border to --ink.</p>
+
+  <div class="demo-box dsx-116">
+    <div>
+      <span class="demo-label">Default</span>
+      <input class="input dsx-117" placeholder="SEARCH TASKS...">
+    </div>
+    <div>
+      <span class="demo-label">With value</span>
+      <input class="input dsx-117" value="HVAC FILTER">
+    </div>
+  </div>
+
+  <table class="tok-table dsx-112">
+    <thead><tr><th>State</th><th>Border</th><th>Background</th></tr></thead>
+    <tbody>
+      <tr><td class="dsx-092">Default</td><td><span class="t-val">--border</span></td><td><span class="t-val">transparent</span></td></tr>
+      <tr><td class="dsx-092">Focus</td><td><span class="t-val">--ink</span></td><td><span class="t-val">transparent</span></td></tr>
+      <tr><td class="dsx-092">Placeholder text</td><td><span class="t-val">–</span></td><td><span class="t-val">color: --ink-40</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="search">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Search</h2>
+  <p class="ds-desc">Dashboard search is a pill input with an icon, clear affordance, and anchored result sheet. Focus and open states use the same ink border treatment.</p>
+
+  <div class="demo-box">
+    <div class="search-bar is-open has-value">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-search"/></svg>
+      <input value="HVAC" aria-label="Search demo">
+      <button class="search-clear" aria-label="Clear search"><svg viewBox="0 0 24 24"><use href="#v2-ui-x"/></svg></button>
+      <div class="search-menu is-open">
+        <div class="search-menu-head">Recent</div>
+        <button class="card-chip card-chip--single">
+          <span class="card-chip__media card-chip__media--icon"><svg viewBox="0 0 24 24"><use href="#v2-nav-wrench"/></svg></span>
+          <span class="card-chip__body">
+            <span class="card-chip__title type-title-sm">Replace HVAC filter</span>
+            <span class="card-chip__sub type-label-sm">Utility · every 90 days</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.search-bar</span></td><td class="dsx-092">38px pill shell; owns icon/input/clear layout.</td></tr>
+      <tr><td><span class="t-var">.search-bar.is-open</span></td><td class="dsx-092">Open result-sheet state; same visual as focus.</td></tr>
+      <tr><td><span class="t-var">.search-clear</span></td><td class="dsx-092">Hidden until value exists.</td></tr>
+      <tr><td><span class="t-var">.search-menu</span></td><td class="dsx-092">Anchored search results container.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="key-buttons">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Key Buttons</h2>
+  <p class="ds-desc">Compact room and system controls. Square cells are for room rails; circle cells are for compact system rails. Status is expressed by border color, not fill.</p>
+
+  <div class="demo-box">
+    <div class="demo-row dsx-096">
+      <button class="btn-key-sq">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><use href="#v2-room-kitchen"/></svg>
+        <span class="btn-key__label">Kitchen</span>
+      </button>
+      <button class="btn-key-sq is-attention">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><use href="#v2-room-laundry"/></svg>
+        <span class="btn-key__label">Laundry</span>
+      </button>
+      <button class="btn-key-cir">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><use href="#v2-sys-hvac"/></svg>
+        <span class="btn-key__label">HVAC</span>
+      </button>
+      <button class="btn-key-cir is-urgent">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><use href="#v2-ui-plus"/></svg>
+        <span class="btn-key__label">Add</span>
+      </button>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.btn-key-sq</span></td><td class="dsx-092">Square room/outdoor cell.</td></tr>
+      <tr><td><span class="t-var">.btn-key-cir</span></td><td class="dsx-092">Circular system/add cell.</td></tr>
+      <tr><td><span class="t-var">.is-attention / .is-urgent</span></td><td class="dsx-092">Signal border only; fill remains passive until press.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="calendar">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Calendar</h2>
+  <p class="ds-desc">Month grid, date markers, legend, and picker shell. Today uses ink background with paper type; selected dates use an ink outline.</p>
+
+  <div class="demo-box">
+    <div class="calendar">
+      <div class="cal-dows">
+        <div class="cal-dow">S</div><div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div>
+      </div>
+      <div class="cal-week">
+        <div class="cal-day"><div class="cal-num">1</div></div>
+        <div class="cal-day"><div class="cal-num today">2</div><div class="cal-dot has-task"></div></div>
+        <div class="cal-day"><div class="cal-num">3</div></div>
+        <div class="cal-day"><div class="cal-num selected">4</div><div class="cal-dot proj-due"></div></div>
+        <div class="cal-day"><div class="cal-num">5</div></div>
+        <div class="cal-day"><div class="cal-num">6</div></div>
+        <div class="cal-day"><div class="cal-num">7</div></div>
+      </div>
+      <div class="cal-legend">
+        <div class="cal-leg-item"><span class="cal-leg-today">2</span><span class="type-label-xs">Today</span></div>
+        <div class="cal-leg-item"><span class="cal-dot has-task"></span><span class="type-label-xs">Task</span></div>
+        <div class="cal-leg-item"><span class="cal-dot proj-due"></span><span class="type-label-xs">Project</span></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="t-var">.cal-num.today</span></td><td class="dsx-092">Ink background + paper type. Must match Today legend marker.</td></tr>
+      <tr><td><span class="t-var">.cal-dot.has-task</span></td><td class="dsx-092">Solid signal dot.</td></tr>
+      <tr><td><span class="t-var">.cal-dot.proj-due</span></td><td class="dsx-092">Hollow signal dot.</td></tr>
+      <tr><td><span class="t-var">.cal-picker</span></td><td class="dsx-092">Date-picker shell with toprail/grid anatomy.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="dashboard-cards">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Dashboard Cards</h2>
+  <p class="ds-desc">Dashboard cards compose canonical card, progress, and button primitives. The next-up urgent card preserves the Decision 7 hero exception: signal border/spine, no signal-tint fill.</p>
+
+  <div class="demo-box">
+    <div class="card nextup-card is-urgent">
+      <div class="nextup-body">
+        <div class="nextup-num">0</div>
+        <div class="nextup-text">
+          <div class="nextup-title">Dryer vent cleaning</div>
+          <span class="type-label-sm">Laundry · overdue</span>
+        </div>
+        <div class="nextup-actions">
+          <button class="btn-complete">Complete</button>
+          <button class="btn-snooze">Snooze</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-box">
+    <div class="card">
+      <div class="type-label-sm">Active project</div>
+      <div class="type-title-md dsx-117">Garage shelving build</div>
+      <div class="progress-bar has-start has-end">
+        <div class="progress-bar__head"><span class="progress-bar__title type-label-sm">Progress</span><span class="progress-bar__value">60%</span></div>
+        <div class="progress-bar__track"><div class="progress-bar__fill progress-bar__fill--60"></div></div>
+        <div class="progress-bar__meta"><span class="progress-bar__meta-left type-label-xs">Started Mar 12</span><span class="progress-bar__meta-right type-label-xs">Est. May 15</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="upcoming-events">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Upcoming Events</h2>
+  <p class="ds-desc">Upcoming rows use the card-chip split anatomy. Avatars stay paper/ink at rest and invert only when the row is pressed.</p>
+
+  <div class="demo-box">
+    <ul class="upcoming-list">
+      <li class="up-item card-chip card-chip--split">
+        <div class="card-chip__main">
+          <div class="up-avatar card-chip__media card-chip__media--avatar">R</div>
+          <div class="card-chip__body">
+            <div class="card-chip__title type-title-sm">Replace HVAC filter</div>
+            <span class="card-chip__sub type-label-sm">Utility</span>
+          </div>
+        </div>
+        <div class="card-chip__aside">
+          <div class="card-chip__aside-title type-data-sm">May 2</div>
+          <span class="card-chip__aside-sub type-label-xs">Every 90 days</span>
+        </div>
+      </li>
+      <li class="up-item card-chip card-chip--split">
+        <div class="card-chip__main">
+          <div class="up-avatar card-chip__media card-chip__media--avatar">L</div>
+          <div class="card-chip__body">
+            <div class="card-chip__title type-title-sm">Water plants</div>
+            <span class="card-chip__sub type-label-sm">Kitchen</span>
+          </div>
+        </div>
+        <div class="card-chip__aside">
+          <div class="card-chip__aside-title type-data-sm">May 5</div>
+          <span class="card-chip__aside-sub type-label-xs">Weekly</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="ds-section" id="pagers">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Pagers &amp; Dividers</h2>
+  <p class="ds-desc">Small carousel dots and structural dividers. New work uses border/divider vocabulary; legacy border aliases are compatibility-only.</p>
+
+  <div class="demo-box">
+    <div class="demo-row dsx-096">
+      <div class="pager-dots"><button class="pager-dot is-on" aria-label="Page 1"></button><button class="pager-dot" aria-label="Page 2"></button><button class="pager-dot" aria-label="Page 3"></button></div>
+      <div class="divider dsx-093"></div>
+      <div class="divider divider--dashed dsx-093"></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="type-utils">
+  <div class="ds-eyebrow">Components</div>
+  <h2 class="ds-title">Typography Utilities</h2>
+  <p class="ds-desc">Typography sits between tokens and components. Use semantic role classes for titles, labels, and data; use lower-level helpers only when you truly need raw presentation utilities.</p>
+
+  <div class="demo-box dsx-118">
+    <div>
+      <span class="demo-label dsx-119">Semantic roles</span>
+      <div class="dsx-120">
+        <div>
+          <span class="demo-label dsx-119">.type-title-sm</span>
+          <span class="type-title-sm">Coffee machine descale</span>
+          <pre class="code-block dsx-121">Space Grotesk · 14px · 700</pre>
+        </div>
+        <div>
+          <span class="demo-label dsx-119">.type-title-md</span>
+          <span class="type-title-md">Upcoming maintenance</span>
+          <pre class="code-block dsx-121">Space Grotesk · 17px · 600 · tracking-tight</pre>
+        </div>
+        <div>
+          <span class="demo-label dsx-119">.type-label-sm</span>
+          <span class="type-label-sm">Kitchen · every 90 days</span>
+          <pre class="code-block dsx-121">DM Mono · 10px · 500 · 0.1em · uppercase</pre>
+        </div>
+        <div>
+          <span class="demo-label dsx-119">.type-label-xs</span>
+          <span class="type-label-xs">Started mar 12</span>
+          <pre class="code-block dsx-121">DM Mono · 9px · 500 · 0.1em · uppercase</pre>
+        </div>
+        <div>
+          <span class="demo-label dsx-119">.type-data-sm</span>
+          <span class="type-data-sm">May 2</span>
+          <pre class="code-block dsx-121">DM Mono · 12px · 700 · tabular numerals</pre>
+        </div>
+      </div>
+      <div class="info-box dsx-112">
+        <span class="info-box-text"><strong>Preferred direction:</strong> components describe structure, semantic type utilities describe text role, and raw tokens remain the underlying values. Avoid screen-specific names like <code class="dsx-097">up-name</code> becoming system API.</span>
+      </div>
+    </div>
+    <div>
+      <span class="demo-label dsx-119">Legacy / low-level utilities</span>
+    </div>
+    <div class="dsx-122">
+      <span class="demo-label dsx-119">.t-label</span>
+      <span class="t-label">HVAC · MASTER BEDROOM · EVERY 3 MONTHS</span>
+      <pre class="code-block dsx-121">DM Mono · 10px · tracking-wide · uppercase · --ink-60</pre>
+    </div>
+    <div class="dsx-122">
+      <span class="demo-label dsx-119">.t-meta</span>
+      <span class="t-meta">LAST UPDATED 3 DAYS AGO · LUIS</span>
+      <pre class="code-block dsx-121">DM Mono · 10px · tracking-wide · uppercase · --ink-40</pre>
+    </div>
+    <div class="dsx-122">
+      <span class="demo-label dsx-119">.t-num</span>
+      <span class="t-num dsx-123">14 · 99 · 2026</span>
+      <pre class="code-block dsx-121">DM Mono · tabular-nums · lining-nums · tnum feature</pre>
+    </div>
+    <div class="dsx-122">
+      <span class="demo-label dsx-119">.t-link</span>
+      <button class="t-link">View all →</button>
+      <pre class="code-block dsx-121">DM Mono · 11px · tracking-wide · uppercase · hover: --ink-10 bg</pre>
+    </div>
+    <div class="dsx-122">
+      <span class="demo-label dsx-119">.u-strike</span>
+      <span class="u-strike dsx-124">Completed task item</span>
+      <pre class="code-block dsx-121">text-decoration: line-through · Use for completed states</pre>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="toasts">
+  <h2 class="ds-title">Notifications</h2>
+  <p class="ds-desc">Toast notifications provide non-blocking feedback when events occur (task snoozed, item added, action completed). Dark pill with smooth entrance from top, stays for 4.2 seconds.</p>
+
+  <div class="dsx-125">
+    <div>
+      <span class="demo-label dsx-126">.toast.is-success</span>
+      <div class="dsx-127">
+        <div class="toast is-on dsx-128">SNOOZED 7 DAY(S)</div>
+      </div>
+      <pre class="code-block dsx-121">position: fixed · top: 24px · left: 50% · --ink bg · --paper text · DM Mono 10px uppercase · 4.2s duration</pre>
+    </div>
+    <div>
+      <span class="demo-label dsx-126">.toast.is-urgent</span>
+      <div class="dsx-127">
+        <div class="toast is-urgent is-on dsx-128">TASK OVERDUE</div>
+      </div>
+      <pre class="code-block dsx-121">--signal background for attention/urgent feedback · Orange: oklch(62% 0.22 40)</pre>
+    </div>
+  </div>
+
+  <div class="dsx-129">
+    <div class="dsx-130">JS Trigger</div>
+    <pre class="code-block dsx-131">toast('SNOOZED 7 DAY(S)');  // Auto-hides after 4.2s
+toast('TASK OVERDUE');      // Use message to differentiate types</pre>
+  </div>
+</section>
+
+<section class="ds-section" id="icons">
+  <div class="ds-eyebrow">Reference</div>
+  <h2 class="ds-title">Icons</h2>
+  <p class="ds-desc">35 custom icons from <a href="file:///Users/mclovin/Projects/HomeBot/Design/icons/icon-library.html" class="dsx-132">Design/icons/icon-library.html</a> — the authoritative source. All icons use one shared spec, referenced via SVG sprite. Click a tile to copy the sprite ID.</p>
+
+  <div class="info-box">
+    <span class="info-box-text"><strong>Icon spec:</strong> 24×24 viewBox · <code class="dsx-107">stroke-width: 1.6</code> · <code class="dsx-107">stroke-linecap: round</code> · <code class="dsx-107">stroke-linejoin: round</code> · <code class="dsx-107">stroke: currentColor</code> · <code class="dsx-107">fill: none</code> · Search icon uses stroke-width 2.0</span>
+  </div>
+
+  <div class="info-box dsx-121">
+    <span class="info-box-text"><strong>Usage:</strong> <code class="dsx-107">&lt;svg viewBox="0 0 24 24"&gt;&lt;use href="#v2-nav-home"/&gt;&lt;/svg&gt;</code> — Apply stroke via CSS on the parent <code class="dsx-107">&lt;svg&gt;</code></span>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Navigation</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-home')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-home"/></svg>
+      <span class="icon-name">nav-home</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-wrench')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-wrench"/></svg>
+      <span class="icon-name">nav-wrench</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-list')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-list"/></svg>
+      <span class="icon-name">nav-list</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-grid')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-grid"/></svg>
+      <span class="icon-name">nav-grid</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-shield')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-shield"/></svg>
+      <span class="icon-name">nav-shield</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-bell')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-bell"/></svg>
+      <span class="icon-name">nav-bell</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-sun')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-sun"/></svg>
+      <span class="icon-name">nav-sun</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-nav-cog')">
+      <svg viewBox="0 0 24 24"><use href="#v2-nav-cog"/></svg>
+      <span class="icon-name">nav-cog</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Rooms</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-bed')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-bed"/></svg>
+      <span class="icon-name">room-bed</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-bath')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-bath"/></svg>
+      <span class="icon-name">room-bath</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-car')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-car"/></svg>
+      <span class="icon-name">room-car</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-pot')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-pot"/></svg>
+      <span class="icon-name">room-pot</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-utensils')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-utensils"/></svg>
+      <span class="icon-name">room-utensils</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-couch')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-couch"/></svg>
+      <span class="icon-name">room-couch</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-tv')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-tv"/></svg>
+      <span class="icon-name">room-tv</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-briefcase')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-briefcase"/></svg>
+      <span class="icon-name">room-briefcase</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-sun')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-sun"/></svg>
+      <span class="icon-name">room-sun</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-room-washer')">
+      <svg viewBox="0 0 24 24"><use href="#v2-room-washer"/></svg>
+      <span class="icon-name">room-washer</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Outdoor</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-out-grass')">
+      <svg viewBox="0 0 24 24"><use href="#v2-out-grass"/></svg>
+      <span class="icon-name">out-grass</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-out-tree')">
+      <svg viewBox="0 0 24 24"><use href="#v2-out-tree"/></svg>
+      <span class="icon-name">out-tree</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-out-shed')">
+      <svg viewBox="0 0 24 24"><use href="#v2-out-shed"/></svg>
+      <span class="icon-name">out-shed</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Systems</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-fan')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-fan"/></svg>
+      <span class="icon-name">sys-fan</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-filter')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-filter"/></svg>
+      <span class="icon-name">sys-filter</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-flame')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-flame"/></svg>
+      <span class="icon-name">sys-flame</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-faucet')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-faucet"/></svg>
+      <span class="icon-name">sys-faucet</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-bolt')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-bolt"/></svg>
+      <span class="icon-name">sys-bolt</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-droplet')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-droplet"/></svg>
+      <span class="icon-name">sys-droplet</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-sys-fridge')">
+      <svg viewBox="0 0 24 24"><use href="#v2-sys-fridge"/></svg>
+      <span class="icon-name">sys-fridge</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Status</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-warn')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-warn"/></svg>
+      <span class="icon-name">ui-warn</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-thermo')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-thermo"/></svg>
+      <span class="icon-name">ui-thermo</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-cloud-rain')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-cloud-rain"/></svg>
+      <span class="icon-name">ui-cloud-rain</span>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133">Actions</div>
+  <div class="icon-grid">
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-search')">
+      <svg viewBox="0 0 24 24" class="dsx-134"><use href="#v2-ui-search"/></svg>
+      <span class="icon-name">ui-search</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-plus')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-plus"/></svg>
+      <span class="icon-name">ui-plus</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-check')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-check"/></svg>
+      <span class="icon-name">ui-check</span>
+    </div>
+    <div class="icon-tile" onclick="copy('icons.svg#v2-ui-moon')">
+      <svg viewBox="0 0 24 24"><use href="#v2-ui-moon"/></svg>
+      <span class="icon-name">ui-moon</span>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="token-ref">
+  <div class="ds-eyebrow">Reference</div>
+  <h2 class="ds-title">Token Reference</h2>
+  <p class="ds-desc">The complete token registry. Every named value in the system. Click a CSS variable to copy it.</p>
+
+  <div class="tok-search-bar">
+    <input class="search-input" id="tok-search" placeholder="Search tokens..." oninput="filterTokens()">
+    <div class="filter-btns">
+      <button class="filter-btn is-active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('surface',this)">Surface</button>
+      <button class="filter-btn" onclick="setFilter('text',this)">Text</button>
+      <button class="filter-btn" onclick="setFilter('border',this)">Border</button>
+      <button class="filter-btn" onclick="setFilter('interactive',this)">Interactive</button>
+      <button class="filter-btn" onclick="setFilter('status',this)">Status</button>
+      <button class="filter-btn" onclick="setFilter('type',this)">Type</button>
+      <button class="filter-btn" onclick="setFilter('space',this)">Space</button>
+      <button class="filter-btn" onclick="setFilter('radius',this)">Radius</button>
+      <button class="filter-btn" onclick="setFilter('motion',this)">Motion</button>
+    </div>
+  </div>
+
+  <table class="tok-table" id="tok-table">
+    <thead>
+      <tr>
+        <th>CSS Variable</th>
+        <th>Design Token</th>
+        <th>SwiftUI</th>
+        <th>Value (LCD light)</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody id="tok-body">
+      <!-- Surface -->
+      <tr data-cat="surface"><td><button class="t-var" onclick="copy('--paper')">--paper</button></td><td class="t-design">surface/base</td><td class="t-swift">Color.hb.surfaceBase</td><td class="t-val">#E8EDE5</td><td><span class="t-cat">surface</span></td></tr>
+      <tr data-cat="surface"><td><button class="t-var" onclick="copy('--paper-2')">--paper-2</button></td><td class="t-design">surface/recessed</td><td class="t-swift">Color.hb.surfaceRecessed</td><td class="t-val">#DDE1DA</td><td><span class="t-cat">surface</span></td></tr>
+      <!-- Text / Ink -->
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink')">--ink</button></td><td class="t-design">text/primary</td><td class="t-swift">Color.hb.textPrimary</td><td class="t-val">#1C1C1A</td><td><span class="t-cat">text</span></td></tr>
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink-80')">--ink-80</button></td><td class="t-design">text/strong</td><td class="t-swift">Color.hb.textStrong</td><td class="t-val">rgba(28,28,26, 0.82)</td><td><span class="t-cat">text</span></td></tr>
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink-60')">--ink-60</button></td><td class="t-design">text/secondary</td><td class="t-swift">Color.hb.textSecondary</td><td class="t-val">rgba(28,28,26, 0.68)</td><td><span class="t-cat">text</span></td></tr>
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink-40')">--ink-40</button></td><td class="t-design">text/muted</td><td class="t-swift">Color.hb.textMuted</td><td class="t-val">rgba(28,28,26, 0.50)</td><td><span class="t-cat">text</span></td></tr>
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink-20')">--ink-20</button></td><td class="t-design">text/faint</td><td class="t-swift">Color.hb.textFaint</td><td class="t-val">rgba(28,28,26, 0.22)</td><td><span class="t-cat">text</span></td></tr>
+      <tr data-cat="text"><td><button class="t-var" onclick="copy('--ink-10')">--ink-10</button></td><td class="t-design">fill/hover</td><td class="t-swift">Color.hb.fillHover</td><td class="t-val">rgba(28,28,26, 0.11)</td><td><span class="t-cat">text</span></td></tr>
+      <!-- Border -->
+      <tr data-cat="border"><td><button class="t-var" onclick="copy('--border')">--border</button></td><td class="t-design">border/default</td><td class="t-swift">Color.hb.borderDefault</td><td class="t-val">rgba(28,28,26, 0.22)</td><td><span class="t-cat">border</span></td></tr>
+      <tr data-cat="border"><td><button class="t-var" onclick="copy('--border-strong')">--border-strong</button></td><td class="t-design">border/strong</td><td class="t-swift">Color.hb.borderStrong</td><td class="t-val">rgba(28,28,26, 0.38)</td><td><span class="t-cat">border</span></td></tr>
+      <tr data-cat="border"><td><button class="t-var" onclick="copy('--border-emphasis')">--border-emphasis</button></td><td class="t-design">border/affordance</td><td class="t-swift">Color.hb.borderAffordance</td><td class="t-val">#1C1C1A (full ink)</td><td><span class="t-cat">border</span></td></tr>
+      <!-- Interactive -->
+      <tr data-cat="interactive"><td><button class="t-var" onclick="copy('--interactive-bg')">--interactive-bg</button></td><td class="t-design">interactive/background</td><td class="t-swift">Color.hb.interactiveBg</td><td class="t-val">#1C1C1A</td><td><span class="t-cat">interactive</span></td></tr>
+      <tr data-cat="interactive"><td><button class="t-var" onclick="copy('--interactive-fg')">--interactive-fg</button></td><td class="t-design">interactive/foreground</td><td class="t-swift">Color.hb.interactiveFg</td><td class="t-val">#E8EDE5</td><td><span class="t-cat">interactive</span></td></tr>
+      <tr data-cat="interactive"><td><button class="t-var" onclick="copy('--interactive-hover')">--interactive-hover</button></td><td class="t-design">interactive/hover</td><td class="t-swift">Color.hb.interactiveHover</td><td class="t-val">rgba(28,28,26, 0.09)</td><td><span class="t-cat">interactive</span></td></tr>
+      <!-- Status -->
+      <tr data-cat="status"><td><button class="t-var" onclick="copy('--signal')">--signal</button></td><td class="t-design">status/signal</td><td class="t-swift">Color.hb.statusSignal</td><td class="t-val">#E06518</td><td><span class="t-cat">status</span></td></tr>
+      <tr data-cat="status"><td><button class="t-var" onclick="copy('--signal-strong')">--signal-strong</button></td><td class="t-design">status/signalStrong</td><td class="t-swift">Color.hb.statusSignalStrong</td><td class="t-val">#B84E0E</td><td><span class="t-cat">status</span></td></tr>
+      <tr data-cat="status"><td><button class="t-var" onclick="copy('--signal-tint')">--signal-tint</button></td><td class="t-design">status/signalTint</td><td class="t-swift">Color.hb.statusSignalTint</td><td class="t-val">rgba(224,101,24, 0.12)</td><td><span class="t-cat">status</span></td></tr>
+      <tr data-cat="status"><td><button class="t-var" onclick="copy('--signal-tint-soft')">--signal-tint-soft</button></td><td class="t-design">status/signalTintSoft</td><td class="t-swift">Color.hb.statusSignalTintSoft</td><td class="t-val">rgba(224,101,24, 0.07)</td><td><span class="t-cat">status</span></td></tr>
+      <tr data-cat="status"><td><button class="t-var" onclick="copy('--healthy')">--healthy</button></td><td class="t-design">status/healthy</td><td class="t-swift">Color.hb.statusHealthy</td><td class="t-val">= --ink-40</td><td><span class="t-cat">status</span></td></tr>
+      <!-- Typography -->
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--font-display')">--font-display</button></td><td class="t-design">font/display</td><td class="t-swift">Font.hb.display</td><td class="t-val">Space Grotesk</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--font-body')">--font-body</button></td><td class="t-design">font/body</td><td class="t-swift">Font.hb.body</td><td class="t-val">DM Sans</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--font-mono')">--font-mono</button></td><td class="t-design">font/mono</td><td class="t-swift">Font.hb.mono</td><td class="t-val">DM Mono</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-2xs')">--text-2xs</button></td><td class="t-design">text-size/2xs</td><td class="t-swift">Font.hb.size2xs</td><td class="t-val">10px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-xs')">--text-xs</button></td><td class="t-design">text-size/xs</td><td class="t-swift">Font.hb.sizeXs</td><td class="t-val">11px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-sm')">--text-sm</button></td><td class="t-design">text-size/sm</td><td class="t-swift">Font.hb.sizeSm</td><td class="t-val">12px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-base')">--text-base</button></td><td class="t-design">text-size/base</td><td class="t-swift">Font.hb.sizeBase</td><td class="t-val">14px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-md')">--text-md</button></td><td class="t-design">text-size/md</td><td class="t-swift">Font.hb.sizeMd</td><td class="t-val">15px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-lg')">--text-lg</button></td><td class="t-design">text-size/lg</td><td class="t-swift">Font.hb.sizeLg</td><td class="t-val">17px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-xl')">--text-xl</button></td><td class="t-design">text-size/xl</td><td class="t-swift">Font.hb.sizeXl</td><td class="t-val">20px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-2xl')">--text-2xl</button></td><td class="t-design">text-size/2xl</td><td class="t-swift">Font.hb.size2xl</td><td class="t-val">24px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-3xl')">--text-3xl</button></td><td class="t-design">text-size/3xl</td><td class="t-swift">Font.hb.size3xl</td><td class="t-val">30px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--text-4xl')">--text-4xl</button></td><td class="t-design">text-size/4xl</td><td class="t-swift">Font.hb.size4xl</td><td class="t-val">38px</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--tracking-tight')">--tracking-tight</button></td><td class="t-design">tracking/tight</td><td class="t-swift">Font.hb.trackingTight</td><td class="t-val">-0.01em</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--tracking-wide')">--tracking-wide</button></td><td class="t-design">tracking/wide</td><td class="t-swift">Font.hb.trackingWide</td><td class="t-val">0.12em</td><td><span class="t-cat">type</span></td></tr>
+      <tr data-cat="type"><td><button class="t-var" onclick="copy('--tracking-wider')">--tracking-wider</button></td><td class="t-design">tracking/wider</td><td class="t-swift">Font.hb.trackingWider</td><td class="t-val">0.18em</td><td><span class="t-cat">type</span></td></tr>
+      <!-- Spacing -->
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-1')">--space-1</button></td><td class="t-design">space/1</td><td class="t-swift">Spacing.hb.s1</td><td class="t-val">4px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-2')">--space-2</button></td><td class="t-design">space/2</td><td class="t-swift">Spacing.hb.s2</td><td class="t-val">8px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-3')">--space-3</button></td><td class="t-design">space/3</td><td class="t-swift">Spacing.hb.s3</td><td class="t-val">12px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-4')">--space-4</button></td><td class="t-design">space/4</td><td class="t-swift">Spacing.hb.s4</td><td class="t-val">16px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-5')">--space-5</button></td><td class="t-design">space/5</td><td class="t-swift">Spacing.hb.s5</td><td class="t-val">20px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-6')">--space-6</button></td><td class="t-design">space/6</td><td class="t-swift">Spacing.hb.s6</td><td class="t-val">24px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-7')">--space-7</button></td><td class="t-design">space/7</td><td class="t-swift">Spacing.hb.s7</td><td class="t-val">28px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-8')">--space-8</button></td><td class="t-design">space/8</td><td class="t-swift">Spacing.hb.s8</td><td class="t-val">32px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-10')">--space-10</button></td><td class="t-design">space/10</td><td class="t-swift">Spacing.hb.s10</td><td class="t-val">40px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-12')">--space-12</button></td><td class="t-design">space/12</td><td class="t-swift">Spacing.hb.s12</td><td class="t-val">48px</td><td><span class="t-cat">space</span></td></tr>
+      <tr data-cat="space"><td><button class="t-var" onclick="copy('--space-16')">--space-16</button></td><td class="t-design">space/16</td><td class="t-swift">Spacing.hb.s16</td><td class="t-val">64px</td><td><span class="t-cat">space</span></td></tr>
+      <!-- Radius -->
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-xs')">--radius-xs</button></td><td class="t-design">radius/xs</td><td class="t-swift">Radius.hb.xs</td><td class="t-val">3px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-sm')">--radius-sm</button></td><td class="t-design">radius/sm</td><td class="t-swift">Radius.hb.sm</td><td class="t-val">5px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-md')">--radius-md</button></td><td class="t-design">radius/md</td><td class="t-swift">Radius.hb.md</td><td class="t-val">8px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-lg')">--radius-lg</button></td><td class="t-design">radius/lg</td><td class="t-swift">Radius.hb.lg</td><td class="t-val">12px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-xl')">--radius-xl</button></td><td class="t-design">radius/xl</td><td class="t-swift">Radius.hb.xl</td><td class="t-val">16px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-2xl')">--radius-2xl</button></td><td class="t-design">radius/2xl</td><td class="t-swift">Radius.hb.xxl</td><td class="t-val">20px</td><td><span class="t-cat">radius</span></td></tr>
+      <tr data-cat="radius"><td><button class="t-var" onclick="copy('--radius-pill')">--radius-pill</button></td><td class="t-design">radius/pill</td><td class="t-swift">Radius.hb.pill</td><td class="t-val">999px</td><td><span class="t-cat">radius</span></td></tr>
+      <!-- Motion -->
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--duration-fast')">--duration-fast</button></td><td class="t-design">motion/durationFast</td><td class="t-swift">Animation.hb.durationFast</td><td class="t-val">120ms</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--duration-base')">--duration-base</button></td><td class="t-design">motion/durationBase</td><td class="t-swift">Animation.hb.durationBase</td><td class="t-val">220ms</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--duration-slow')">--duration-slow</button></td><td class="t-design">motion/durationSlow</td><td class="t-swift">Animation.hb.durationSlow</td><td class="t-val">400ms</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--duration-slower')">--duration-slower</button></td><td class="t-design">motion/durationSlower</td><td class="t-swift">Animation.hb.durationSlower</td><td class="t-val">600ms</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--ease-out')">--ease-out</button></td><td class="t-design">motion/easeOut</td><td class="t-swift">Animation.hb.easeOut</td><td class="t-val">cubic-bezier(0.2,0.8,0.2,1)</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--ease-in')">--ease-in</button></td><td class="t-design">motion/easeIn</td><td class="t-swift">Animation.hb.easeIn</td><td class="t-val">cubic-bezier(0.6,0.04,0.98,0.34)</td><td><span class="t-cat">motion</span></td></tr>
+      <tr data-cat="motion"><td><button class="t-var" onclick="copy('--ease-in-out')">--ease-in-out</button></td><td class="t-design">motion/easeInOut</td><td class="t-swift">Animation.hb.easeInOut</td><td class="t-val">cubic-bezier(0.6,0,0.4,1)</td><td><span class="t-cat">motion</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+    <!-- ═══════════════════════════════════════════════════════ GOVERNANCE -->
+    <section class="ds-section" id="governance">
+      <div class="ds-eyebrow">Governance</div>
+      <h2 class="ds-title">Governance</h2>
+      <p class="ds-desc">The design system is not a suggestion. Every value in the codebase must be traceable to a named token. This page is the only approved source of truth.</p>
+
+      <!-- The Rule -->
+      <div class="gov-rule-box">
+        <div class="gov-rule-badge">The Rule</div>
+        <p class="gov-rule-text">Every color, size, spacing value, font, border radius, and animation in the paprLCD codebase must reference a named token from this document. Hard-coded values (#hex, px literals, font strings) are not permitted. If the token you need does not exist here, stop and go through the proposal process before writing the code.</p>
+      </div>
+
+      <!-- How to use tokens -->
+      <div class="ds-sub-title">Using tokens in code</div>
+      <div class="dsx-135">
+        <div>
+          <div class="t-label dsx-136">CSS / Web</div>
+          <pre class="code-block">/* ✓ Correct */
+background: var(--paper);
+color: var(--ink-60);
+border: 1px solid var(--border);
+font-family: var(--font-mono);
+border-radius: var(--radius-md);
+transition: background var(--duration-fast) var(--ease-out);
+
+/* ✗ Not allowed */
+background: #E8EDE5;
+color: rgba(28,28,26,0.68);
+border-radius: 8px;</pre>
+        </div>
+        <div>
+          <div class="t-label dsx-136">SwiftUI</div>
+          <pre class="code-block">// ✓ Correct
+.background(Color.hb.surfaceBase)
+.foregroundColor(Color.hb.textSecondary)
+.border(Color.hb.borderDefault)
+.font(Font.hb.mono)
+.cornerRadius(Radius.hb.md)
+.animation(Animation.hb.easeOut)
+
+// ✗ Not allowed
+.background(Color(hex: "#E8EDE5"))
+.foregroundColor(.gray.opacity(0.6))
+.cornerRadius(8)</pre>
+        </div>
+      </div>
+
+      <!-- Approval matrix -->
+      <div class="ds-sub-title">Approval matrix</div>
+      <div class="approval-grid">
+        <div class="approval-col">
+          <div class="approval-col-title free">No approval needed</div>
+          <ul class="approval-list">
+            <li>Using any existing named token in a new context</li>
+            <li>Composing existing components into new layouts</li>
+            <li>Writing or updating documentation</li>
+            <li>Adjusting padding/gap using spacing tokens</li>
+            <li>Choosing between existing button or card variants</li>
+            <li>Using existing icon paths in new places</li>
+          </ul>
+        </div>
+        <div class="approval-col">
+          <div class="approval-col-title gated">Requires approval</div>
+          <ul class="approval-list gated">
+            <li>Any new color — even a single new hex value or opacity</li>
+            <li>Any spacing value not in the --space-* scale</li>
+            <li>Any new component or component variant</li>
+            <li>Any animation that doesn't use existing easing + duration tokens</li>
+            <li>Adding a new font weight or size outside the type scale</li>
+            <li>Any new icon (must be added to the icon registry here)</li>
+            <li>Changing a token's value (even minor tweaks)</li>
+            <li>Using orange for anything interactive (buttons, links, nav)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Proposal process -->
+      <div class="ds-sub-title">Component &amp; token proposal process</div>
+      <p class="dsx-137">Before adding anything new to the system, work through these five steps. The goal is to discover that existing tokens already cover the need before introducing new ones.</p>
+      <div class="proposal-steps">
+        <div class="proposal-step">
+          <div class="proposal-num">1</div>
+          <div>
+            <div class="proposal-title">Describe the need</div>
+            <div class="proposal-desc">Write one sentence: what interaction or visual pattern requires a value that doesn't exist in this document? Be specific — "I need a softer border" is not a description; "The room cell hover state needs a 1px dashed border that reads lighter than --border" is.</div>
+          </div>
+        </div>
+        <div class="proposal-step">
+          <div class="proposal-num">2</div>
+          <div>
+            <div class="proposal-title">Check existing token coverage</div>
+            <div class="proposal-desc">Search the Token Reference table. Can the need be solved by an existing token used differently, or by combining two existing tokens? If yes — use them. Only continue if the gap is real.</div>
+          </div>
+        </div>
+        <div class="proposal-step">
+          <div class="proposal-num">3</div>
+          <div>
+            <div class="proposal-title">Draft the spec</div>
+            <div class="proposal-desc">Name the token (follow existing naming conventions), define its value in both LCD light and LCD dark, list which existing tokens it builds on, describe all states (if a component), and write the usage rule ("use only when…").</div>
+          </div>
+        </div>
+        <div class="proposal-step">
+          <div class="proposal-num">4</div>
+          <div>
+            <div class="proposal-title">Get design-owner approval</div>
+            <div class="proposal-desc">Share the spec in the project backlog. The design owner reviews whether the new token is necessary, whether it fits the existing system hierarchy, and whether it will be maintained. No code is written until approval is given.</div>
+          </div>
+        </div>
+        <div class="proposal-step">
+          <div class="proposal-num">5</div>
+          <div>
+            <div class="proposal-title">Add to this document</div>
+            <div class="proposal-desc">Update tokens-lcd.css with the new token, add it to the Token Reference table here, document its CSS class (if a component), and update the version line at the top of this page. The system is only as strong as its documentation.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Version -->
+      <div class="ds-sub-title">Version &amp; status</div>
+      <div class="dsx-064">
+        <div class="dsx-138">
+          <div class="dsx-139">
+            <div class="t-meta">Version</div>
+          </div>
+          <div class="dsx-140">
+            <span class="dsx-141">v1.0-lcd</span>
+          </div>
+          <div class="dsx-139">
+            <div class="t-meta">Status</div>
+          </div>
+          <div class="dsx-140">
+            <span class="dsx-142">Phase 1 Locked</span>
+          </div>
+          <div class="dsx-139">
+            <div class="t-meta">Last updated</div>
+          </div>
+          <div class="dsx-140">
+            <span class="dsx-143">2026-05-03</span>
+          </div>
+          <div class="dsx-144">
+            <div class="t-meta">Source files</div>
+          </div>
+          <div class="dsx-145">
+            <span class="dsx-146">design-system/tokens-lcd.css · tokens.css · components.css · RULES.md</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     WAVE 2 LIFTS — all families missing from original DS site
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ── Button variants ─────────────────────────────────────────────────── -->
+<section class="ds-section" id="btn-variants">
+  <h2 class="ds-section-title">Button Variants</h2>
+  <p class="ds-section-desc">Size and role extensions of the base <code>.btn</code> family.</p>
+
+  <h3 class="ds-subsection-title">btn-md</h3>
+  <p class="ds-section-desc">28px pill. Between <code>.btn-sm</code> (22px) and <code>.btn</code> (full). Shares mono/uppercase DNA. Pair with primary-sm or secondary-sm modifiers.</p>
+  <div class="ds-row" style="gap:12px;align-items:center;">
+    <button class="btn btn-md btn-primary-sm">Primary md</button>
+    <button class="btn btn-md btn-secondary-sm">Secondary md</button>
+    <button class="btn btn-md btn-ghost-sm">Ghost md</button>
+  </div>
+
+  <h3 class="ds-subsection-title" style="margin-top:24px;">btn-ghost-sm</h3>
+  <p class="ds-section-desc">Transparent/no-border at rest. Inverts to ink bg on <code>:active</code> and <code>.is-open</code>. Used for "view all" and snooze label triggers.</p>
+  <div class="ds-row" style="gap:12px;align-items:center;">
+    <button class="btn btn-sm btn-ghost-sm">Default</button>
+    <button class="btn btn-sm btn-ghost-sm is-open">Is-open</button>
+  </div>
+
+  <h3 class="ds-subsection-title" style="margin-top:24px;">btn-block</h3>
+  <p class="ds-section-desc">Full-width, 54px tall. Used in modal/sheet footers inside <code>.form-footer</code>.</p>
+  <div class="ds-row" style="max-width:320px;">
+    <button class="btn btn-primary btn-block">Confirm</button>
+  </div>
+
+  <h3 class="ds-subsection-title" style="margin-top:24px;">Legacy icon buttons (deprecated)</h3>
+  <p class="ds-section-desc">The <code>.btn-icon-sm</code> / <code>.btn-icon-md</code> / <code>.btn-icon-secondary-*</code> family is superseded by the unified <a href="#icon-btn"><code>.icon-btn</code></a> family below. Old classes remain in <code>components.css</code> only as compat for v008/v008-A and will be removed when those prototypes retire.</p>
+</section>
+
+<!-- ── Icon Button (canonical icon-only action family) ─────────────────── -->
+<section class="ds-section" id="icon-btn">
+  <h2 class="ds-section-title">Icon Button</h2>
+  <p class="ds-section-desc">Single canonical taxonomy for icon-only action buttons. Three orthogonal modifiers: <strong>size</strong> (<code>--sm</code> / <code>--md</code> / <code>--lg</code>), <strong>weight</strong> (default = bordered, <code>--subtle</code>, <code>--secondary</code>, <code>--filled</code>), <strong>disclosure</strong> (<code>--chev</code>).</p>
+
+  <div class="ds-sub-title dsx-133">Sizes (default weight = bordered)</div>
+  <p class="ds-section-desc"><code>--sm</code> = 36×22 nav-arrow rect · <code>--md</code> = 28×28 square · <code>--lg</code> = 38px tall (variable width, used for overlay triggers).</p>
+  <div class="ds-row" style="gap:12px;align-items:center;">
+    <button class="icon-btn icon-btn--sm" aria-label="Previous"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <span style="font:500 10px/1 var(--font-mono);letter-spacing:.12em;color:var(--ink-60);">--sm 36×22</span>
+    <button class="icon-btn icon-btn--md" aria-label="Close"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <span style="font:500 10px/1 var(--font-mono);letter-spacing:.12em;color:var(--ink-60);">--md 28×28</span>
+    <button class="icon-btn icon-btn--lg" aria-label="Settings"><svg class="icon-btn__icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h0a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h0a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+    <span style="font:500 10px/1 var(--font-mono);letter-spacing:.12em;color:var(--ink-60);">--lg 38</span>
+  </div>
+
+  <div class="ds-sub-title dsx-133" style="margin-top:24px;">Weights</div>
+  <div class="ds-row" style="gap:12px;align-items:center;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md" aria-label="Default"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>default</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md icon-btn--subtle" aria-label="Subtle"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>--subtle</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md icon-btn--secondary" aria-label="Secondary"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>--secondary</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md icon-btn--filled" aria-label="Filled"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>--filled</code>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133" style="margin-top:24px;">States (shown on default-weight md)</div>
+  <div class="ds-row" style="gap:12px;align-items:center;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>default</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md is-selected"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <code>.is-selected</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md is-attention"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M3 19h18L12 3 3 19z"/></svg></button>
+      <code>.is-attention</code>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <button class="icon-btn icon-btn--md is-urgent"><svg class="icon-btn__icon" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M3 19h18L12 3 3 19z"/></svg></button>
+      <code>.is-urgent</code>
+    </div>
+  </div>
+
+  <div class="ds-sub-title dsx-133" style="margin-top:24px;">Disclosure modifier — <code>--chev</code></div>
+  <p class="ds-section-desc">Adds <code>.icon-btn__chev</code> child element next to the icon, signaling that the button opens an overlay (theme picker, profile menu, year picker). Combine with <code>--subtle</code> for the canonical overlay-trigger shape (theme/profile/avatar in topbar).</p>
+  <div class="ds-row" style="gap:16px;align-items:center;">
+    <div class="icon-btn icon-btn--lg icon-btn--subtle icon-btn--chev">
+      <svg class="icon-btn__icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-btn__chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <span style="font:500 10px/1 var(--font-mono);letter-spacing:.12em;color:var(--ink-60);">--lg --subtle --chev (theme trigger pattern)</span>
+    <div class="icon-btn icon-btn--lg icon-btn--subtle icon-btn--chev is-open">
+      <svg class="icon-btn__icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-btn__chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <span style="font:500 10px/1 var(--font-mono);letter-spacing:.12em;color:var(--ink-60);">.is-open (overlay engaged)</span>
+  </div>
+
+  <table class="tok-table">
+    <thead><tr><th>Class</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>.icon-btn</code></td><td>Base — bordered ink, transparent bg, pill radius</td></tr>
+      <tr><td><code>.icon-btn--sm</code></td><td>36×22 (nav arrow rect)</td></tr>
+      <tr><td><code>.icon-btn--md</code></td><td>28×28 (square close, stepper)</td></tr>
+      <tr><td><code>.icon-btn--lg</code></td><td>38px tall, variable width (overlay trigger)</td></tr>
+      <tr><td><code>.icon-btn--subtle</code></td><td>No border, no bg. Press = opacity 0.4</td></tr>
+      <tr><td><code>.icon-btn--secondary</code></td><td>paper-2 bg + border-strong (steppers)</td></tr>
+      <tr><td><code>.icon-btn--filled</code></td><td>ink fill (primary-style nav arrows)</td></tr>
+      <tr><td><code>.icon-btn--chev</code></td><td>Adds <code>.icon-btn__chev</code> disclosure cue</td></tr>
+      <tr><td><code>.is-open</code></td><td>Sustains pressed visual while overlay is open</td></tr>
+      <tr><td><code>.is-attention</code> / <code>.is-urgent</code></td><td>Severity per Decision 7</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ── SVG Icon System ─────────────────────────────────────────────────── -->
+<section class="ds-section" id="svg-icon-system">
+  <h2 class="ds-section-title">SVG Icon System</h2>
+  <p class="ds-section-desc">Stroke-based inline SVG icons. Base class sets stroke style; modifiers adjust weight or switch to fill. Size is set by the container — icons are <code>flex-shrink: 0</code>.</p>
+  <div class="ds-row" style="gap:20px;align-items:center;flex-wrap:wrap;">
+    <svg viewBox="0 0 24 24" width="24" height="24" class="svg-icon"><path d="M3 12h18M12 3l9 9-9 9"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon (1.6)</span>
+    <svg viewBox="0 0 24 24" width="24" height="24" class="svg-icon svg-icon--strong"><path d="M3 12h18M12 3l9 9-9 9"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon--strong (2.4)</span>
+    <svg viewBox="0 0 24 24" width="24" height="24" class="svg-icon svg-icon--bold"><path d="M3 12h18M12 3l9 9-9 9"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon--bold (3)</span>
+    <svg viewBox="0 0 24 24" width="24" height="24" class="svg-icon svg-icon--fill"><circle cx="12" cy="12" r="9"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon--fill</span>
+    <svg viewBox="0 0 24 24" class="svg-icon svg-icon--complete"><path d="M20 6L9 17l-5-5"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon--complete (14×14)</span>
+    <svg viewBox="0 0 24 24" class="svg-icon svg-icon--pause"><path d="M10 15V9m4 6V9"/></svg>
+    <span style="font-size:11px;font-family:var(--font-mono);">.svg-icon--pause (12×12, sw 2.2)</span>
+  </div>
+</section>
+
+<!-- ── Topbar ──────────────────────────────────────────────────────────── -->
+<section class="ds-section" id="topbar">
+  <h2 class="ds-section-title">Topbar</h2>
+  <p class="ds-section-desc">App-shell top bar. Left cluster owns <code>flex: 1</code>. Right side is <code>.topbar-action-wrap</code> (position: relative anchor for overlays). <code>.topbar-sub</code> sits below the title in mono bold.</p>
+  <div style="background:var(--paper);border:var(--card-border);border-radius:var(--radius-lg);overflow:hidden;max-width:600px;">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title">HomeBot</div>
+        <div class="topbar-sub t-label">Tuesday · May 13</div>
+      </div>
+      <div class="topbar-action-wrap">
+        <button class="btn btn-sm btn-primary-sm">+ Add</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Overlay Triggers ────────────────────────────────────────────────── -->
+<section class="ds-section" id="overlay-triggers">
+  <h2 class="ds-section-title">Overlay Triggers</h2>
+  <p class="ds-section-desc">Icon-button controls that own a linked overlay. The <code>.is-open</code> modifier sustains a pressed/engaged visual for the duration the overlay is open — the user knows which control owns it.</p>
+
+  <h3 class="ds-subsection-title">Theme / profile trigger (icon-btn --lg --subtle --chev)</h3>
+  <p class="ds-section-desc">The canonical overlay-trigger shape: <code>.icon-btn icon-btn--lg icon-btn--subtle icon-btn--chev</code>. Opaque at rest, 40% opacity when active or <code>.is-open</code>. See <a href="#icon-btn">Icon Button</a> for the full family.</p>
+  <div class="ds-row" style="gap:16px;align-items:center;">
+    <div class="icon-btn icon-btn--lg icon-btn--subtle icon-btn--chev">
+      <svg class="icon-btn__icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-btn__chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <span style="font-size:11px;font-family:var(--font-mono);">Default</span>
+    <div class="icon-btn icon-btn--lg icon-btn--subtle icon-btn--chev is-open">
+      <svg class="icon-btn__icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-btn__chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <span style="font-size:11px;font-family:var(--font-mono);">.is-open (0.4 opacity)</span>
+  </div>
+
+  <h3 class="ds-subsection-title" style="margin-top:24px;">add-trigger + add-menu</h3>
+  <p class="ds-section-desc">Primary ADD CTA. <code>.add-trigger</code> is the 38px ink-border button. <code>.add-menu</code> is the anchored 300px sheet. <code>.add-menu-sep</code> is a 1px border divider between groups.</p>
+  <div style="position:relative;display:inline-flex;flex-direction:column;gap:8px;">
+    <div class="add-trigger" style="display:inline-flex;">
+      <span class="add-plus">+</span>
+      <span class="add-label t-label" style="font-size:11px;">Add</span>
+    </div>
+    <div class="add-menu" style="position:relative;top:auto;right:auto;display:block;animation:none;">
+      <div class="sheet-item">
+        <span class="add-menu-icon"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></span>
+        <div class="sheet-item-content"><div class="sheet-item-title">Room</div></div>
+      </div>
+      <div class="add-menu-sep"></div>
+      <div class="sheet-item">
+        <span class="add-menu-icon"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+        <div class="sheet-item-content"><div class="sheet-item-title">Project</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Forms ───────────────────────────────────────────────────────────── -->
+<section class="ds-section" id="forms">
+  <h2 class="ds-section-title">Forms</h2>
+  <p class="ds-section-desc">Form primitives used in add/edit sheets. <code>.form-group</code> stacks label + field. <code>.form-footer</code> is the sheet CTA row. <code>.field-stack</code> is a tight label + value pair for detail/settings contexts.</p>
+  <div style="max-width:400px;border:var(--card-border);border-radius:var(--radius-lg);overflow:hidden;">
+    <div style="padding:24px 24px 0;">
+      <div class="form-group">
+        <label class="form-label">Room name</label>
+        <input class="form-input" placeholder="e.g. Primary bedroom" />
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Type</label>
+        <select class="form-select">
+          <option>Bedroom</option>
+          <option>Bathroom</option>
+          <option>Kitchen</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-primary">Save</button>
+    </div>
+  </div>
+  <div style="margin-top:24px;">
+    <div class="field-stack">
+      <span class="form-label">Last serviced</span>
+      <span class="t-num">Mar 14 2025</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Detail Panel ────────────────────────────────────────────────────── -->
+<section class="ds-section" id="detail-panel">
+  <h2 class="ds-section-title">Detail Panel</h2>
+  <p class="ds-section-desc">Read-only structured view for rooms, projects, and tasks. <code>.detail-stack</code> is the outer column. <code>.detail-card</code> extends <code>.card</code>. <code>.detail-list</code> holds key-value <code>.detail-row</code> pairs. <code>.detail-muted</code> is the secondary value color. <code>.detail-inline</code> is a horizontal cluster.</p>
+  <div style="max-width:360px;">
+    <div class="detail-stack">
+      <div class="detail-head">
+        <div class="avatar">LR</div>
+        <div>
+          <div class="type-title-md">Living Room</div>
+          <div class="t-meta">3 active tasks</div>
+        </div>
+      </div>
+      <div class="card detail-card">
+        <div class="detail-card-title type-label-sm">Room details</div>
+        <div class="detail-list">
+          <div class="detail-row">
+            <span>Floor</span><span class="detail-muted">Hardwood</span>
+          </div>
+          <div class="detail-row">
+            <span>Area</span><span class="detail-muted">420 sq ft</span>
+          </div>
+          <div class="detail-row">
+            <span>Last updated</span><span class="detail-muted">May 11</span>
+          </div>
+        </div>
+        <div class="detail-inline" style="margin-top:12px;">
+          <span class="badge">2</span>
+          <span class="t-meta">overdue tasks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Settings Panel ──────────────────────────────────────────────────── -->
+<section class="ds-section" id="settings-panel">
+  <h2 class="ds-section-title">Settings Panel</h2>
+  <p class="ds-section-desc"><code>.settings-panel</code> is a scrollable column. <code>.settings-card</code> groups related settings. <code>.settings-row-card</code> is a single-row label + control pair.</p>
+  <div style="max-width:400px;border:var(--card-border);border-radius:var(--radius-lg);overflow:hidden;">
+    <div class="settings-panel">
+      <div class="card settings-card">
+        <div class="type-label-sm">Profile</div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Display name</label>
+          <input class="form-input" value="Luis" />
+        </div>
+      </div>
+      <div>
+        <div class="card settings-row-card">
+          <span class="type-label-sm">Notifications</span>
+          <span class="t-meta">Daily · 9am</span>
+        </div>
+        <div class="card settings-row-card" style="margin-top:8px;">
+          <span class="type-label-sm">Dark mode</span>
+          <span class="t-meta">Off</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Inventory Rail ──────────────────────────────────────────────────── -->
+<section class="ds-section" id="inventory-rail">
+  <h2 class="ds-section-title">Inventory Rail</h2>
+  <p class="ds-section-desc"><code>.inventory-card</code> is the outer column. <code>.inventory-section</code> holds title + rail. <code>.section-divider</code> is the dashed-line-with-label separator. Layout (widths, heights) is prototype-owned per Decision 3.</p>
+  <div class="inventory-card" style="gap:12px;padding:8px 12px;border:var(--card-border);border-radius:var(--radius-lg);max-width:300px;">
+    <div class="inventory-section">
+      <div class="section-title-label t-label" style="font-size:10px;margin-bottom:6px;">Rooms</div>
+      <div style="display:flex;gap:6px;">
+        <div class="btn-key-sq" style="width:60px;height:60px;">
+          <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          <span class="btn-key__label">Living</span>
+        </div>
+        <div class="btn-key-sq is-add-btn" style="width:60px;height:60px;">
+          <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="section-divider">Systems</div>
+    <div class="inventory-section">
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <div class="sys-item" style="width:76px;height:76px;position:relative;">
+          <div class="btn-key-cir" style="width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div class="sys-inner">
+              <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+              <span class="btn-key__label">HVAC</span>
+            </div>
+          </div>
+        </div>
+        <div class="sys-item" style="width:76px;height:76px;position:relative;">
+          <div class="btn-key-cir is-add-btn" style="width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="ds-subsection-title" style="margin-top:24px;">is-add-btn modifier</h3>
+  <p class="ds-section-desc">Appearance only — ink-20 border + ink-40 color. Size/flex owned by parent rail.</p>
+  <div class="ds-row" style="gap:12px;align-items:center;">
+    <div class="btn-key-sq is-add-btn" style="width:60px;height:60px;">
+      <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <div class="btn-key-cir is-add-btn" style="width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+      <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ── Toast sub-elements ──────────────────────────────────────────────── -->
+<section class="ds-section" id="toast-sub">
+  <h2 class="ds-section-title">Toast Sub-elements</h2>
+  <p class="ds-section-desc"><code>.toast__label</code> is the text content. <code>.toast__att</code> is the circular signal badge used in urgent toasts — signal bg, paper icon fill.</p>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;">
+    <div class="toast" style="position:relative;transform:none;bottom:auto;left:auto;opacity:1;display:flex;align-items:center;gap:8px;">
+      <span class="toast__label">3 tasks snoozed until tomorrow</span>
+    </div>
+    <div class="toast is-urgent" style="position:relative;transform:none;bottom:auto;left:auto;opacity:1;display:flex;align-items:center;gap:8px;">
+      <span class="toast__att">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z" fill="white"/></svg>
+      </span>
+      <span class="toast__label">Roof inspection overdue</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Utility Badges ──────────────────────────────────────────────────── -->
+<section class="ds-section" id="utility-badges">
+  <h2 class="ds-section-title">Utility Badges</h2>
+  <p class="ds-section-desc">Corner badges on inventory cells. Solid signal fill = task overdue. <code>.is-project</code> = hollow: signal border + signal text, no fill.</p>
+  <div class="ds-row" style="gap:32px;align-items:center;flex-wrap:wrap;">
+    <div style="position:relative;width:60px;height:60px;">
+      <div class="btn-key-sq" style="width:60px;height:60px;">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <span class="u-badge">3</span>
+    </div>
+    <span style="font-size:11px;font-family:var(--font-mono);">.u-badge</span>
+    <div style="position:relative;width:60px;height:60px;">
+      <div class="btn-key-sq" style="width:60px;height:60px;">
+        <svg class="btn-key__icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <span class="u-badge is-project">1</span>
+    </div>
+    <span style="font-size:11px;font-family:var(--font-mono);">.is-project (hollow)</span>
+  </div>
+</section>
+
+<!-- ── Version Chip ────────────────────────────────────────────────────── -->
+<section class="ds-section" id="ver-chip">
+  <h2 class="ds-section-title">Version Chip</h2>
+  <p class="ds-section-desc">Prototype-only element. Fixed bottom-right in the prototype shell. Not for production. <code>.ver-num</code> is the signal-colored badge inside. <code>.ver-label</code> is the secondary label.</p>
+  <div class="ds-row">
+    <div class="ver-chip" style="position:relative;bottom:auto;right:auto;">
+      <span class="ver-num">009</span>
+      <span class="ver-label">paprLCD</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     WAVE 3 LIFTS — gap-closure pass (icon-btn, actionsheets, press states,
+     status-label, snooze-wrap, search-empty, row, toast.is-on)
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ── Card-context press states (canonical pattern) ──────────────────── -->
+<section class="ds-section" id="press-states">
+  <h2 class="ds-section-title">Card-context press states</h2>
+  <p class="ds-section-desc"><strong>Rule:</strong> when an interactive item lives inside a card / sheet / list with rounded corners, its <code>:hover</code> / <code>:active</code> / <code>.is-selected</code> fill must inherit a matching <code>border-radius</code> so the dark fill curves with the parent. Square fills inside rounded containers fight the geometry.</p>
+  <p class="ds-section-desc">Codified across <code>.sheet-item</code>, <code>.dropdown-option</code>, <code>.up-item</code>. Apply the same rule to any new card-context interactive child.</p>
+
+  <div class="ds-sub-title dsx-133">Sheet item — selected, hover, urgent</div>
+  <div class="sheet" style="padding:8px;width:340px;">
+    <button class="sheet-item">
+      <svg class="sheet-item-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/></svg>
+      <div class="sheet-item-content">
+        <div class="sheet-item-title">New maintenance task</div>
+        <div class="sheet-item-sub">Schedule a recurring task</div>
+      </div>
+    </button>
+    <button class="sheet-item is-selected">
+      <svg class="sheet-item-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <div class="sheet-item-content">
+        <div class="sheet-item-title">New item</div>
+        <div class="sheet-item-sub">Appliance, fixture, or inventory</div>
+      </div>
+    </button>
+    <button class="sheet-item is-urgent">
+      <svg class="sheet-item-icon" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M3 19h18L12 3 3 19z"/></svg>
+      <div class="sheet-item-content">
+        <div class="sheet-item-title">Urgent repair</div>
+        <div class="sheet-item-sub">Emergency mode</div>
+      </div>
+    </button>
+  </div>
+
+  <div class="ds-sub-title dsx-133" style="margin-top:24px;">Up-item — pressed (active state inverts to ink with rounded fill)</div>
+  <div class="card" style="padding:6px;width:380px;">
+    <div class="upcoming-list">
+      <div class="up-item">
+        <div class="up-avatar">L</div>
+        <div class="row-info">
+          <div class="row-title">Coffee machine descale</div>
+          <div class="row-meta">Kitchen</div>
+        </div>
+      </div>
+      <div class="up-item" style="background:var(--interactive-bg);color:var(--interactive-fg);">
+        <div class="up-avatar" style="border-color:var(--paper);background:transparent;color:var(--paper);">L</div>
+        <div class="row-info">
+          <div class="row-title">Coffee machine descale</div>
+          <div class="row-meta" style="color:var(--paper);opacity:0.6;">Kitchen — pressed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Dropdown ---------------------------------------------------------- -->
+<section class="ds-section" id="dropdown">
+  <h2 class="ds-section-title">Dropdown</h2>
+  <p class="ds-section-desc">Small trigger-anchored option list. The parent trigger wrapper owns layout and positioning context; <code>.dropdown</code> owns the floating paper surface, open state, and option states.</p>
+
+  <div class="demo-box">
+    <table class="tok-table">
+      <thead>
+        <tr><th>Variant</th><th>Simple item</th><th>With subtext</th><th>Selected</th><th>Active state</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.dropdown</code></td>
+          <td class="ds-dropdown-sample">
+            <div class="dropdown is-open dsx-098">
+              <button class="dropdown-option"><span class="dropdown-option-title">2025</span></button>
+              <button class="dropdown-option"><span class="dropdown-option-title">2026</span></button>
+            </div>
+          </td>
+          <td class="ds-dropdown-sample">
+            <div class="dropdown is-open dsx-098">
+              <button class="dropdown-option">
+                <span class="dropdown-option-main">
+                  <span class="dropdown-option-title">1 Day</span>
+                  <span class="dropdown-option-sub">Push next reminder</span>
+                </span>
+              </button>
+            </div>
+          </td>
+          <td class="ds-dropdown-sample">
+            <div class="dropdown is-open dsx-098">
+              <button class="dropdown-option is-selected">
+                <span class="dropdown-option-main">
+                  <span class="dropdown-option-title">3 Days</span>
+                  <span class="dropdown-option-sub">Push next reminder</span>
+                </span>
+              </button>
+            </div>
+          </td>
+          <td class="ds-dropdown-sample">
+            <div class="dropdown is-open dsx-098">
+              <button class="dropdown-option is-selected"><span class="dropdown-option-title">Pressed</span></button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>.dropdown--up</code></td>
+          <td class="ds-dropdown-sample" colspan="4">
+            <div class="dropdown dropdown--up is-open dsx-098">
+              <button class="dropdown-option"><span class="dropdown-option-title">Tomorrow</span></button>
+              <button class="dropdown-option is-selected"><span class="dropdown-option-title">Next week</span></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <table class="tok-table">
+    <thead>
+      <tr><th>Part</th><th>Class / token</th><th>Rule</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Container</td><td><code>.dropdown</code></td><td>Absolute anchored surface. Default opens below trigger with <code>top: calc(100% + 6px)</code>.</td></tr>
+      <tr><td>Up variant</td><td><code>.dropdown--up</code></td><td>Opens above trigger with <code>bottom: calc(100% + 6px)</code>.</td></tr>
+      <tr><td>Item</td><td><code>.dropdown-option</code></td><td>Text option row. Supports simple label or stacked title/subtext.</td></tr>
+      <tr><td>Subtext</td><td><code>.dropdown-option-sub</code></td><td>Optional secondary line for explanatory copy.</td></tr>
+      <tr><td>Geometry</td><td><code>--radius-md</code> · <code>--border</code> · <code>--paper</code></td><td>Dropdown appearance uses canonical paper, border, and medium radius tokens.</td></tr>
+    </tbody>
+  </table>
+  <p class="ds-section-desc">Positioning note: the trigger wrapper must be positioned, usually <code>.dropdown-wrap</code> with <code>position: relative</code>. Width and placement remain parent-owned per Decision 3.</p>
+</section>
+
+<!-- ── Status label ────────────────────────────────────────────────────── -->
+<section class="ds-section" id="status-label">
+  <h2 class="ds-section-title">Status Label</h2>
+  <p class="ds-section-desc">Inline mono uppercase label used in detail headers and metadata clusters. Three states: default ink, <code>.is-muted</code> (no current state), <code>.is-signal</code> (severity).</p>
+  <div class="ds-row" style="gap:24px;align-items:center;">
+    <span class="status-label">In Service</span>
+    <span class="status-label is-muted">Inactive</span>
+    <span class="status-label is-signal">Attention</span>
+  </div>
+</section>
+
+<!-- ── Row family ──────────────────────────────────────────────────────── -->
+<section class="ds-section" id="row">
+  <h2 class="ds-section-title">Row</h2>
+  <p class="ds-section-desc">Generic interactive row with bordered card-like container. Anatomy: <code>.row</code> > <code>.row-left</code> (icon/avatar + <code>.row-info</code> with <code>.row-title</code> and <code>.row-meta</code>) + <code>.row-right</code> (trailing controls). Used in upcoming-list, settings, detail panels.</p>
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:420px;">
+    <a class="row" href="#">
+      <div class="row-left">
+        <div class="avatar">L</div>
+        <div class="row-info">
+          <div class="row-title">Coffee machine descale</div>
+          <div class="row-meta">Kitchen — every 90 days</div>
+        </div>
+      </div>
+      <div class="row-right">
+        <span class="status-label is-muted">May 2</span>
+      </div>
+    </a>
+    <a class="row" href="#" style="background:var(--ink-10);">
+      <div class="row-left">
+        <div class="avatar">G</div>
+        <div class="row-info">
+          <div class="row-title">Pressed state</div>
+          <div class="row-meta">.row:active</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── Search empty state ──────────────────────────────────────────────── -->
+<section class="ds-section" id="search-empty">
+  <h2 class="ds-section-title">Search Empty State</h2>
+  <p class="ds-section-desc">Shown inside <code>.search-menu</code> when no results match. <code>.search-menu-head</code> is the header padding wrapper. <code>.search-empty</code> is the empty state container. <code>.search-empty-copy</code> is the muted explanatory line.</p>
+  <div class="search-menu sheet is-open" style="position:relative;top:auto;left:auto;transform:none;width:340px;display:block;">
+    <div class="search-menu-head">
+      <span class="status-label is-muted">Search results</span>
+    </div>
+    <div class="search-empty">
+      <div class="t-meta">No matches</div>
+      <div class="search-empty-copy">Try a room name or system type.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Toast visible state ─────────────────────────────────────────────── -->
+<section class="ds-section" id="toast-state">
+  <h2 class="ds-section-title">Toast — visible state</h2>
+  <p class="ds-section-desc"><code>.toast</code> is hidden by default (opacity 0, translateY). <code>.toast.is-on</code> is the JS-toggled visible state — opacity 1, translateY(0).</p>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="toast" style="position:relative;transform:none;bottom:auto;left:auto;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;">
+      <span class="toast__label">Hidden — opacity 0</span>
+    </div>
+    <div class="toast is-on" style="position:relative;transform:none;bottom:auto;left:auto;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;">
+      <span class="toast__label">Visible — .toast.is-on</span>
+    </div>
+  </div>
+</section>
+
+  </main>
+</div><!-- .ds-shell -->
+
+<div id="toast" class="ds-toast">Copied</div>
+
+<script>
+// ── Theme toggle ──────────────────────────────────────────────────────────────
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('btn-lcd').classList.toggle('is-active', t === 'lcd');
+  document.getElementById('btn-dark').classList.toggle('is-active', t === 'lcd-dark');
+}
+
+// ── Copy to clipboard ─────────────────────────────────────────────────────────
+let toastTimer;
+function copy(text) {
+  navigator.clipboard.writeText(text).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied: ' + text;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+// ── Scroll spy ────────────────────────────────────────────────────────────────
+const links = document.querySelectorAll('.ds-nav-link');
+const sections = Array.from(links)
+  .map(l => document.querySelector(l.getAttribute('href')))
+  .filter(Boolean);
+
+function onScroll() {
+  let current = sections[0];
+  for (const sec of sections) {
+    if (window.scrollY + 120 >= sec.offsetTop) current = sec;
+  }
+  links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + current.id));
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ── Token search + filter ─────────────────────────────────────────────────────
+let activeFilter = 'all';
+function filterTokens() {
+  const q = document.getElementById('tok-search').value.toLowerCase();
+  const rows = document.querySelectorAll('#tok-body tr');
+  rows.forEach(row => {
+    const cat = row.dataset.cat || '';
+    const text = row.textContent.toLowerCase();
+    const catMatch = activeFilter === 'all' || cat === activeFilter;
+    const textMatch = !q || text.includes(q);
+    row.hidden = !(catMatch && textMatch);
+  });
+}
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  filterTokens();
+}
+
+// ── Motion previews ───────────────────────────────────────────────────────────
+function runMotion(name, ms) {
+  const dot = document.getElementById('dot-' + name);
+  if (!dot) return;
+  dot.classList.remove('is-forward', 'is-returning');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      dot.classList.add('is-forward');
+      setTimeout(() => {
+        dot.classList.remove('is-forward');
+        dot.classList.add('is-returning');
+      }, ms + 80);
+    });
+  });
+}
+</script>
+
+</body>
+</html>

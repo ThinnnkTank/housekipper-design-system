@@ -51,4 +51,4 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a-cont | DsKeyButton primitive | Spec exists, implementation pending |
 | 1b-2 | Components / Patterns / Screens | Not started |
 
-[BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md)
+[BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)

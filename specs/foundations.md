@@ -135,9 +135,20 @@ SF Symbols-first. Native iOS, free Dynamic Type, free symbol effects, system-con
 
 - **SF Symbols only.** No custom SVGs, no third-party icon libraries.
 - The SF Symbols Mac app is the reference catalog.
-- **Custom icons** (from paprLCD library at `/Users/mclovin/Projects/HomeBot/Design/icons/icon-library.html`) only as last resort when SF Symbols has no equivalent (grass, tree, shed, couch, faucet). Export as PDF vector → asset catalog.
+- **Custom icons** only as a last resort when SF Symbols has no equivalent (grass, tree, shed, couch, faucet). Export as PDF vector → asset catalog. Custom-icon backlog tracked in `BACKLOG.md`.
 - **Icon weight matches body font weight.** Bound when typography decisions firm up.
 - **Microinteractions via `.symbolEffect`** (`.bounce`, `.pulse`, `.wiggle`, `.rotate`, `.variableColor`, `.replace`).
+
+---
+
+## Conventions
+
+File and naming rules that aren't tokens or visual but affect how the system is read.
+
+- **Primitive prefix.** SwiftUI Primitive views are prefixed `Ds` (`DsButton`, `DsDivider`). Avoids collision with SwiftUI's own types. Components and above are name-distinct, no prefix.
+- **Audit-exempt files: `_`-prefix.** Any Swift file whose name starts with `_` (e.g. `_Swatches.swift`) is exempt from `audit.sh` layer-violation checks. Reserved for design-system instrumentation (live previews, demos) that intentionally reach across layers. Never use `_`-prefix on production code.
+- **Preview blocks.** Code inside `#Preview { ... }` is also audit-exempt — same intent (previews demonstrate primitives, not build with them).
+- **Test files** (`*Tests/`) are audit-exempt.
 
 ---
 
