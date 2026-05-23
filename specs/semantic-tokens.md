@@ -200,7 +200,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Font.hkButtonLg`     | 14 | DM Mono Medium | `DsButton` large |
 | `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small |
 | `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
-| `Font.hkBadgeUrgent`  | 12 | DM Sans Bold   | `DsBadge` urgent glyph (`!`) — intentional step out of mono-for-utility; DM Mono ships no Bold and the alert needs visual weight |
+| `Font.hkBadge`        | 13 | DM Sans Bold   | `DsBadge` content (both `.count(N)` and `.urgent`'s `!`) — single role across modes. Sans Bold because DM Mono ships no Bold and the badge needs visual weight on a small surface against any tile fill. Intentional step out of mono-for-utility. |
 
 ### `HkType` — typography helpers
 
@@ -247,10 +247,12 @@ Pass-through SemanticToken aliases over `InventoryToken` so Primitives consume t
 | `Inventory.tileMinWidth`      | `InventoryToken.tileMinWidth` (100) |
 | `Inventory.railColumnGap`     | `InventoryToken.railColumnGap` (6) |
 | `Inventory.railRowGap`        | `InventoryToken.railRowGap` (6) |
-| `Inventory.badgeSize`         | `InventoryToken.badgeSize` (18) |
-| `Inventory.badgeSizeSmall`    | `InventoryToken.badgeSizeSmall` (15) |
-| `Inventory.badgeOverhang`     | `InventoryToken.badgeOverhang` (8) |
-| `Inventory.badgeBorderWidth`  | `InventoryToken.badgeBorderWidth` (1.5) |
+| `Inventory.badgeSize`         | `InventoryToken.badgeSize` (20) |
+| `Inventory.badgeSizeSmall`    | `InventoryToken.badgeSizeSmall` (17) |
+| `Inventory.badgePaddingH`     | `InventoryToken.badgePaddingH` (6) |
+| `Inventory.badgeOverhangRect` | `InventoryToken.badgeOverhangRect` (8) |
+| `Inventory.badgeOverhangPill` | `InventoryToken.badgeOverhangPill` (2) |
+| `Inventory.badgeBorderWidth`  | `InventoryToken.badgeBorderWidth` (2) |
 
 **Source:** `SemanticTokens/Inventory.swift`.
 

@@ -151,10 +151,12 @@ Component-internal geometry for the `SpaceCard` Component and its rails (Rooms /
 | `InventoryToken.tileMinWidth`      | 100 | Tile min-width before horizontal scroll |
 | `InventoryToken.railColumnGap`     | 6   | Between tiles horizontally |
 | `InventoryToken.railRowGap`        | 6   | Between Z-pattern rows |
-| `InventoryToken.badgeSize`         | 18  | Universal counter badge default diameter |
-| `InventoryToken.badgeSizeSmall`    | 15  | Cramped contexts (rare) |
-| `InventoryToken.badgeOverhang`     | 8   | Negative offset from tile top-right (badge bleed) |
-| `InventoryToken.badgeBorderWidth`  | 1.5 | Paper ring for contrast against signal fill |
+| `InventoryToken.badgeSize`         | 20  | Badge min diameter; capsule extends horizontally for multi-char content |
+| `InventoryToken.badgeSizeSmall`    | 17  | Cramped contexts (rare) |
+| `InventoryToken.badgePaddingH`     | 6   | Inner horizontal padding inside the capsule (breathing room for digits) |
+| `InventoryToken.badgeOverhangRect` | 8   | Offset from rect tile top-right corner |
+| `InventoryToken.badgeOverhangPill` | 2   | Tighter offset for pill tiles — badge visually touches the curved stroke |
+| `InventoryToken.badgeBorderWidth`  | 2   | Paper ring; matches `BorderToken.strong` (iOS-native badge ring weight) |
 
 **Status:** locked.
 **Source:** `BaseTokens/InventoryTokens.swift`.
