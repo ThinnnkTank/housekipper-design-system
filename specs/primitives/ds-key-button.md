@@ -1,7 +1,7 @@
 # DsKeyButton — Primitive
 
 **Layer:** Primitive
-**Status:** 🟡 Implemented (2026-05-23) — pending iPad vetting, locks after Luis sign-off
+**Status:** ✅ Locked (2026-05-23)
 **Implementation:** `houseKipper/houseKipper/DesignSystem/Primitives/DsKeyButton.swift`
 
 ## Overview
