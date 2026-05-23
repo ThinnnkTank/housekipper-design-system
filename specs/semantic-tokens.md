@@ -147,7 +147,7 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 | `Space.tapTarget`        | `s44` | iOS min tap height |
 | `Space.buttonPaddingLg`  | `s16` | Large button horizontal padding |
 | `Space.buttonPaddingSm`  | `s12` | Small + micro button horizontal padding |
-| `Space.buttonHeightLg`   | `s44` | Large button visible height (= tap target) |
+| `Space.buttonHeightLg`   | `s40` | Large button visible height |
 | `Space.buttonHeightSm`   | `s32` | Small button visible height |
 | `Space.buttonHeightMicro`| `s24` | Micro button (icon control) |
 
