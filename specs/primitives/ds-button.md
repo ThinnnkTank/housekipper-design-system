@@ -48,7 +48,7 @@ enum ButtonShape     { case pill, rounded }
 |---|---|---|---|---|---|
 | large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | 16 | `Font.hkButtonLg` — 13pt DM Mono Medium | `trackingLabel` (+1.0) |
 | small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 | `Font.hkButtonSm` — 12pt DM Mono Medium | `trackingSnug` (+0.4) |
-| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 | `Font.hkButtonMicro` — 11pt **DM Sans Bold** | `trackingMicro` (+1.1) |
+| micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 | `Font.hkButtonMicro` — 11pt DM Mono Medium | `trackingMicro` (+1.1) |
 
 Tap area is always ≥44pt via outer `.frame(minHeight: Space.tapTarget)`. Visible button can be smaller.
 
