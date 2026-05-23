@@ -79,7 +79,7 @@ Per the **invert** strategy:
 | Icon   | `BackgroundToken.primary` (paper) |
 | Label  | `BackgroundToken.primary` (paper) |
 
-Asymmetric animation: instant on press, `Motion.standard` (220ms) on release — same pattern as `DsButton`.
+Asymmetric animation: instant on press, `Motion.standard` (300ms) on release — same pattern as `DsButton`. Hit area is the full tile shape via `.contentShape(...)` — required because `.healthy` uses a clear fill, which otherwise leaves dead corners (SwiftUI hit-tests rendered pixels only).
 
 ## SemanticTokens used
 

@@ -125,7 +125,7 @@ Stroke widths.
 | Token | Value |
 |---|---|
 | `MotionToken.dFast`   | 0.120 |
-| `MotionToken.dBase`   | 0.220 |
+| `MotionToken.dBase`   | 0.300 |
 | `MotionToken.dSlow`   | 0.400 |
 | `MotionToken.dSlower` | 0.600 |
 

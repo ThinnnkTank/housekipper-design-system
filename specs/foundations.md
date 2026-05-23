@@ -56,6 +56,7 @@ Tight, disciplined, 4-base scale. Vnext-canonical with iOS-relevant additions fo
 
 - Primitives import only `Space` (SemanticToken). Never `SpacingToken.sXX` directly.
 - If a Primitive needs a value with no semantic name, add the name to `semantic-tokens.md` and `Space.swift` FIRST.
+- **Snap to the ladder. No in-between values.** When a tweak is needed, move to the *nearest existing stop* — never propose a new one mid-scale. 17 → 20. 14 → 10. 18 → 20. New stops are a BaseToken change and require explicit sign-off. The same snapping discipline applies across every token system (radius, opacity, font size, border width, motion duration) — pick the existing stop that's closest, don't invent an interpolation. Adding a token is "decisions that must be surfaced" (see CLAUDE.md).
 - iOS-native control dimensions (toggle 51×31, tab bar 49pt) — honor the platform.
 - Optical centering: an off-grid offset to make a button look right is fine. Comment why.
 
@@ -101,7 +102,7 @@ Calm. Snappy when small, considered when meaningful. Never bouncy.
 | Token | Duration | Use |
 |---|---|---|
 | `Motion.quick`      | 120ms | Micro — toggle flips, press release |
-| `Motion.standard`   | 220ms | Default UI — sheets, dropdowns, color changes |
+| `Motion.standard`   | 300ms | Default UI — sheets, dropdowns, press-release, color changes |
 | `Motion.gentle`     | 400ms | Considered — status reveals |
 | `Motion.expressive` | 600ms | Earned moments — success, attention loops |
 

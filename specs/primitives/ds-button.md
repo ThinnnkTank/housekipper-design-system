@@ -85,7 +85,7 @@ Three resolved palettes per variant: rest · disabled · pressed. Driver: `Actio
 - **ghost press** → looks like **primary-disabled** treatment (ink-40 fill, paper text)
 - **urgent press** → looks like **urgent-disabled** treatment (signalTint fill, signalStrong text)
 
-**Asymmetric press feedback:** press is **instant** (no animation), release is animated with `Motion.standard` (220ms ease-out). User expects immediate acknowledgement on touch-down, and the slower release gives the eye time to register that a tap happened.
+**Asymmetric press feedback:** press is **instant** (no animation), release is animated with `Motion.standard` (300ms ease-out). User expects immediate acknowledgement on touch-down, and the slower release gives the eye time to register that a tap happened.
 
 Implementation:
 ```swift
