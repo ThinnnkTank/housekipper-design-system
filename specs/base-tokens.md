@@ -40,6 +40,7 @@ Canonical paprLCD vnext palette. Light-mode values shown. Dark mode lives in `As
 |---|---|---|
 | `signal`         | `#E06518` | `#FF7D30` |
 | `signalStrong`   | `#B84E0E` | `#FF7D30` |
+| `signalMuted`    | `signal @ 40%` | `#FF8F54 @ 40%` |
 | `signalTint`     | `signal @ 12%` | `#FF8F54 @ 16%` |
 | `signalTintSoft` | `signal @ 7%`  | `#FF8F54 @ 10%` |
 
