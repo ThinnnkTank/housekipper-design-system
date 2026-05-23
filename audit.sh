@@ -101,7 +101,29 @@ echo "→ checking raw stroke widths outside BorderSemantics.swift"
 for layer in "$PRIMITIVES" "$COMPONENTS" "$PATTERNS" "$SCREENS"; do
   scan_dir "$layer" 'lineWidth: [0-9]|strokeBorder.*[0-9]\.[0-9]|\.border\([^,)]+, *width: *[0-9]' \
     "raw stroke width" \
-    "use Border.default/strong/affordance (SemanticToken)"
+    "use Border.Width.normal/strong (SemanticToken)"
+done
+
+# Dashed strokes only allowed in DsDivider.swift
+echo "→ checking dashed strokes outside DsDivider.swift"
+for layer in "$PRIMITIVES" "$COMPONENTS" "$PATTERNS" "$SCREENS"; do
+  while IFS= read -r hit; do
+    [[ -z "$hit" ]] && continue
+    case "$hit" in
+      *"#Preview"*|*"Tests/"*|*"/_"*|*"DsDivider.swift"*) continue ;;
+    esac
+    file="${hit%%:*}"
+    rest="${hit#*:}"
+    line="${rest%%:*}"
+    report "$file" "$line" "dashed stroke outside DsDivider" \
+      "dashed lines are reserved for dividers — use DsDivider(style: .dashed)"
+  done < <(
+    if [[ $USE_RG -eq 1 ]]; then
+      rg --no-heading -n -g '*.swift' -e 'StrokeStyle\([^)]*dash:|dash:[[:space:]]*\[' "$layer" 2>/dev/null || true
+    else
+      grep -rn --include='*.swift' -E 'StrokeStyle\([^)]*dash:|dash:[[:space:]]*\[' "$layer" 2>/dev/null || true
+    fi
+  )
 done
 
 # Color initializers outside BaseTokens

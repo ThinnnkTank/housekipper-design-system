@@ -84,7 +84,8 @@ Six combinations from 3×2. Callers pick independently — no pre-named pairings
 
 ### Rules
 
-- Solid by default. Dashed reserved for special "warmth" dividers (e.g. active nav rail).
+- Solid by default for borders. Containers, buttons, status pills — all solid.
+- **Dashed lines are reserved exclusively for dividers.** Always `Border.Color.subtle` + `Border.Width.normal`. Drawn only through `DsDivider(style: .dashed)`. Never re-implement a dashed stroke elsewhere — the audit will reject `StrokeStyle(... dash: ...)` outside `Primitives/DsDivider.swift`.
 - Never communicate state by border color alone — pair with structure (spine, fill).
 - Signal borders (`Border.Color.strong`) are reserved for severity contexts (`StatusToken`). Not for ordinary interactive affordances.
 - Use `Border.Color.*` and `Border.Width.*` (semantic), never raw `lineWidth:` or `Color(hex:)`. Audit enforces.

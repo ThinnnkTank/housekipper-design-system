@@ -113,6 +113,8 @@ Stroke widths.
 | `BorderToken.regular`  | 1.5 |
 | `BorderToken.strong`   | 2.0 |
 | `BorderToken.icon`     | 1.8 (SF Symbol stroke alignment) |
+| `BorderToken.dashLength` | 3 (divider dash) |
+| `BorderToken.dashGap`    | 4 (divider gap) |
 
 ---
 

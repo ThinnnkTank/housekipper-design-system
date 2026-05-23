@@ -125,6 +125,10 @@ Six combinations from 3×2. No pre-named pairings (`Border.default`, `Border.aff
 
 `DsButton` uses `Border.Width.normal` (1pt) for all variant borders; the *color* comes from `ActionToken.border(_:)`/`borderDisabled(_:)`/`borderPressed(_:)` per variant + state.
 
+### `Border.dashPattern`
+
+Dash array `[3, 4]` (dash 3pt, gap 4pt). **Reserved exclusively for `DsDivider`** per the foundations rule. Audit enforces: any `StrokeStyle(... dash: ...)` outside `Primitives/DsDivider.swift` is a violation.
+
 ---
 
 ## Spacing
