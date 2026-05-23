@@ -146,6 +146,7 @@ SF Symbols-first. Native iOS, free Dynamic Type, free symbol effects, system-con
 File and naming rules that aren't tokens or visual but affect how the system is read.
 
 - **Primitive prefix.** SwiftUI Primitive views are prefixed `Ds` (`DsButton`, `DsDivider`). Avoids collision with SwiftUI's own types. Components and above are name-distinct, no prefix.
+- **Type-helper prefix.** Typography helpers that aren't Fonts are prefixed `Hk` (`HkType.trackingLabel`, `HkType.lineBodyMultiplier`). SwiftUI's `.font()` modifier can't carry letter-spacing or line-height — those need their own modifiers (`.tracking()`, `.lineSpacing()`). `HkType` is the namespace holding those values so they pair cleanly with a `Font.hk*` role.
 - **Audit-exempt files: `_`-prefix.** Any Swift file whose name starts with `_` (e.g. `_Swatches.swift`) is exempt from `audit.sh` layer-violation checks. Reserved for design-system instrumentation (live previews, demos) that intentionally reach across layers. Never use `_`-prefix on production code.
 - **Preview blocks.** Code inside `#Preview { ... }` is also audit-exempt — same intent (previews demonstrate primitives, not build with them).
 - **Test files** (`*Tests/`) are audit-exempt.

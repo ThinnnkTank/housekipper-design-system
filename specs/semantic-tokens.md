@@ -201,13 +201,38 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small |
 | `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
 
-Pair with `HkType.tracking*` and `HkType.line*Multiplier` when needed:
+### `HkType` — typography helpers
+
+`HkType` is a separate namespace holding values that **can't ride on `Font.hk*`** because SwiftUI's `.font()` modifier doesn't carry them. They're applied via their own modifiers (`.tracking()`, `.lineSpacing()`) alongside the font.
 
 ```swift
 Text("MAINTENANCE")
-    .font(.hkButton)
-    .tracking(HkType.trackingLabel)
+    .font(.hkButton)               // face + weight + size (one modifier)
+    .tracking(HkType.trackingLabel) // letter spacing (separate modifier)
 ```
+
+**Tracking** (point values, applied via `.tracking`):
+
+| Token | Value | Use |
+|---|---|---|
+| `HkType.trackingNone`   | 0     | Default |
+| `HkType.trackingSnug`   | +0.2  | Small button labels (13pt mono) |
+| `HkType.trackingMicro`  | +0.9  | Micro button labels (12pt mono) |
+| `HkType.trackingLabel`  | +0.8  | Large button labels (14pt mono) + mono utility |
+| `HkType.trackingWide`   | +1.4  | Eyebrows, sparse headers |
+| `HkType.trackingWider`  | +1.8  | Wider eyebrows |
+| `HkType.trackingTight`  | -0.6  | Large display only |
+
+**Line-height multipliers** (multiply the font size, apply via `.lineSpacing()` if needed):
+
+| Token | × |
+|---|---|
+| `HkType.lineHeroMultiplier`    | 1.06 |
+| `HkType.lineTitleMultiplier`   | 1.08 |
+| `HkType.lineBodyMultiplier`    | 1.65 |
+| `HkType.lineUtilityMultiplier` | 1.20 |
+
+The `Hk` prefix is the houseKipper namespace for type helpers — see [foundations.md → Conventions](foundations.md) for the full prefix rules.
 
 ---
 
