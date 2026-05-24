@@ -6,6 +6,11 @@
   - **TopBar's `onAdd` callback** currently just dispatches — the popover presentation belongs to the Screen hosting TopBar. When the Screen lands, it wires `.popover(isPresented:)` onto its layout root.
   - Defer until the dashboard Screen is being assembled.
 - **ActionCard Component.** Pairs with `DsSearchField` — the "+ add an item" affordance card that often sits next to a search filter. Luis 2026-05-23: deferred until first screen that needs it surfaces.
+- **MaintenanceRow state interactions — snoozed + completed (Screen-wiring work).** When the user acts on the urgent `NextUpCard`, the corresponding `MaintenanceRow` reflects the change:
+  - **Snoozed** → row gets a *paused* treatment: signal (orange) accent + pause-glyph indicator. The task lifts back into MaintenanceList (no longer in NextUpCard) but reads as deferred, not idle.
+  - **Completed** → row title gets a *strikethrough* + foreground muted to ink40. Stays visible briefly (or until next refresh) so the user registers the completion.
+
+  These are cross-Component interactions — they need a shared task model + NextUpCard ↔ MaintenanceList coordination. Defer until the Dashboard Screen wiring round. Implementation likely: add a `state: TaskState` enum on `MaintenanceList.Item` with `.upcoming` / `.snoozed` / `.completed`; MaintenanceRow grows a `state` param and renders the strikethrough / orange-pause overlay accordingly. Reference logged in `maintenance-list.md → Future states`.
 - **Inspector v1/v2 — token consumers map + MCP side-channel.** v0 shipped 2026-05-24 (see [specs/_inspector.md](specs/_inspector.md)). v1 + v2 extend it.
 
   ### v1 — Token consumers map

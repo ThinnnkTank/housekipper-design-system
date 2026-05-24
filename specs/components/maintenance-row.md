@@ -19,7 +19,7 @@ MaintenanceRow is a Component — composes `DsAvatar` and owns no token values; 
 ```
 MaintenanceRow (full-width, Radius.sm rounded press surface)
 └── HStack(spacing: Space.bodyPadding)
-    ├── DsAvatar(initial: assignee)       leading — 32pt letter-in-circle
+    ├── DsAvatar(initial: assignee, style: .outline)   leading — 32pt ring + ink letter
     ├── VStack(alignment: .leading) {
     │     Text(title)                     Type.Title.md (17pt DM Sans Medium)
     │     Text(location)                  Type.Label.sm + TextToken.secondary
@@ -99,5 +99,6 @@ It does NOT compose a `DsButton.micro` (e.g. checkmark). The row's primary affor
 - **Press strategy: invert** (per Dashboard spec line 72): same vocabulary as `DsKeyButton` press + `NavRail` active. Reinforces the system-wide "tactile feedback = invert" pattern.
 - **No status dot in v0**: the legacy reference doesn't show one on these rows; urgency is communicated via sort order + the date string. Add when a real screen proves it's needed.
 - **No inline DsButton (e.g. checkmark)**: the row's full surface is the tap target. Inline buttons would create competing targets inside the press-invert area; quick-complete belongs as a swipe action (iOS-native) when it lands.
-- **`.colorInvert(when:)` helper for the avatar** (2026-05-24): the avatar carries its own ink fill, so the row's text-color flip would otherwise leave it invisible against the pressed ink background. SwiftUI's `.colorInvert()` modifier flips the already-rendered avatar's colors in-place; gating it via a tiny `@ViewBuilder` extension keeps the conditional clean.
+- **`.colorInvert(when:)` helper for the avatar** (2026-05-24): the avatar carries its own ink ring + letter (outline mode). Without an inversion step, the ring and letter disappear against the pressed ink-fill row. SwiftUI's `.colorInvert()` flips the already-rendered avatar's colors in-place; gating it via a tiny `@ViewBuilder` extension keeps the conditional clean.
+- **Outline avatar** (Luis 2026-05-24, ref image): MaintenanceRow uses `DsAvatar(style: .outline)` rather than the default filled style. The row's body (title + location + date) carries the visual weight; the assignee should accompany but not compete. Decision is logged on the DsAvatar spec — `.outline` was added as a new variant on the existing Primitive rather than introducing a separate Primitive.
 - **Min height `Space.tapTarget` (44pt)**: row's natural height (avatar 32pt + 20pt padding × 2 = 72pt) clears 44pt easily, but the floor is explicit so future content variants stay accessible.
