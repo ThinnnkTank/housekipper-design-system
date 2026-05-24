@@ -54,6 +54,7 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a | DsAvatar primitive | 🟡 Implemented (pending iPad vet) |
 | 1a | DsStatusDot primitive | 🟡 Implemented (pending iPad vet) |
 | 1a | DsProgressBar primitive | 🟡 Implemented (pending iPad vet) |
+| 1a | DsSearchField primitive | 🟡 Implemented (pending iPad vet) |
 | 1b-2 | Components / Patterns / Screens | Not started |
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [devops.md](devops.md) (tooling, swatch app, audit, build) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)

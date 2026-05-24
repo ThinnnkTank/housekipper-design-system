@@ -37,6 +37,7 @@ Two faces. **DM Sans** for body + display; **DM Mono** for utility (labels, data
 - **Tabular numerals on data.** `Font.hkData` is mono. For other data-aligned text, add `.monospacedDigit()`.
 - **Tracking is part of the role.** Mono labels get `HkType.trackingLabel/Wide`, display gets `trackingTight`, eyebrows get `trackingWider`.
 - Uppercase reserved for utility (buttons, eyebrows, badges). Body + headings stay sentence case.
+- **Inputs are utility.** Search fields, text inputs, numeric fields use DM Mono (same family as buttons, data, and labels). DM Sans is reserved for body prose and display. Reuse an existing `hk*` role if the size matches before introducing a new one.
 
 ### Font registration
 
