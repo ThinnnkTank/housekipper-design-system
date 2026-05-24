@@ -33,8 +33,8 @@ NavRail (64pt wide × safe-area-height tall, paper2 fill, 1pt ink20 full outline
 
 - **Tap target / visible chip:** 48×48pt (above the iOS 44pt minimum). The extra height gives icon+label content (~30pt) more breathing room than 44pt allowed (7pt → 9pt vertical padding) and fits longer labels horizontally with full trackingLabel.
 - **Content stack:** `VStack(spacing: Space.hairline)` of icon + optional label inside the chip
-  - **Icon:** `Font.hkSectionTitle` (17pt) — large enough to read confidently
-  - **Label:** `Font.hkNavLabel` (9pt DM Mono Medium), `HkType.trackingLabel` (+0.8), `.textCase(.uppercase)`. Same family/weight as `DsKeyButton` tile labels — one size step down (9pt vs 10pt) so the smaller character width allows the full `trackingLabel` (+0.8) used by tile labels.
+  - **Icon:** `Type.Title.md` (17pt) — large enough to read confidently
+  - **Label:** `Type.Label.xs` (9pt DM Mono Medium), `HkType.trackingLabel` (+0.8), `.textCase(.uppercase)`. Same family/weight as `DsKeyButton` tile labels — one size step down (9pt vs 10pt) so the smaller character width allows the full `trackingLabel` (+0.8) used by tile labels.
   - **Settings is icon-only.** "SETTINGS" (8 chars) at 9pt + trackingLabel renders ≈49pt — overflows a 48pt chip. The gear icon (`gearshape`) is universally recognized; iOS sidebars commonly treat Settings as icon-only. Other four items keep their labels.
 - **Shape:** `RoundedRectangle(cornerRadius: Radius.md)` (12pt corners — soft, not pill, not sharp)
 - **Inter-item gap:** `Space.tight` (8pt)
@@ -98,7 +98,7 @@ It does NOT extract a `DsNavItem` Primitive — nav-item geometry is component-i
 
 ## Cross-references
 
-- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.tight`, `Radius.md`, `BackgroundToken.primary` / `.secondary`, `TextToken.primary`, `Border.Color.subtle`, `Border.Width.normal`, `Font.hkSectionTitle`, `Inventory.badgeOverhangRect`
+- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.tight`, `Radius.md`, `BackgroundToken.primary` / `.secondary`, `TextToken.primary`, `Border.Color.subtle`, `Border.Width.normal`, `Type.Title.md`, `Inventory.badgeOverhangRect`
 - Used by: every Screen except onboarding / sheets / modals
 - Active-state vocabulary peer: `DsKeyButton` press state (same invert palette, persistent here)
 

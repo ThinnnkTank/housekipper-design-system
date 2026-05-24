@@ -73,7 +73,7 @@ No new tokens introduced.
 // Inline severity legend
 HStack(spacing: Space.tight) {
     DsStatusDot(severity: .healthy)
-    Text("ALL GOOD").font(.hkButton)
+    Text("ALL GOOD").typeStyle(Type.Label.sm)
 }
 
 // Calendar day cell (CalendarMonth, TBD)

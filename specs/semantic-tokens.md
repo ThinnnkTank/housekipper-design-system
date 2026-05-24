@@ -187,33 +187,38 @@ withAnimation(Motion.standard) { isOn.toggle() }
 
 ---
 
-## Typography
+## Typography — `Type.{category}.{size}`
 
-| Token | Size | Face | Use |
-|---|---|---|---|
-| `Font.hkDisplay`      | 38 | DM Sans Medium | Hero / display |
-| `Font.hkPageHeading`  | 30 | DM Sans Medium | Page heading |
-| `Font.hkCardHeadline` | 22 | DM Sans Medium | Card headline |
-| `Font.hkSectionTitle` | 17 | DM Sans Medium | Section title |
-| `Font.hkBody`         | 14 | DM Sans Regular | Body |
-| `Font.hkData`         | 12 | DM Mono Regular | Data, timestamps, tabular |
-| `Font.hkButton`       | 10 | DM Mono Medium | Legacy/utility — NOT for DsButton |
-| `Font.hkCaption`      | 9  | DM Mono Regular | Caption, eyebrow |
-| `Font.hkButtonLg`     | 14 | DM Mono Medium | `DsButton` large · `DsSearchField` · future text inputs at 14pt |
-| `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small · future text inputs at 13pt (reserved) |
-| `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
-| `Font.hkBadge`        | 13 | DM Sans Bold   | `DsBadge` content (both `.count(N)` and `.urgent`'s `!`) — single role across modes. Sans Bold because DM Mono ships no Bold and the badge needs visual weight on a small surface against any tile fill. Intentional step out of mono-for-utility. |
-| `Font.hkNavLabel`     | 9  | DM Mono Medium | `NavRail` labels (and future tab-bar labels). Same family/weight as `DsKeyButton` tile labels (`hkButton`, 10pt), one size step down so the label fits a 48pt nav chip with full `trackingLabel` (+0.8) — matching the key-tile rhythm exactly on a smaller surface. |
+12 complete styles. Each style bundles face + size + weight + tracking + case. Applied via `.typeStyle(_:)` — single modifier per call site, no manual tracking/case.
 
-### `HkType` — typography helpers
+| Style | Face / weight | Size | Tracking | Case | Use |
+|---|---|---|---|---|---|
+| `Type.Display.lg` | DM Sans Medium | 38 | 0 | — | Brand wordmark, onboarding hero |
+| `Type.Title.xl`   | DM Mono Medium | 30 | -0.6 (tight) | — | **H1** — active-house heading, room/project/settings titles |
+| `Type.Title.lg`   | DM Sans Medium | 22 | 0 | — | **H2** — card headlines |
+| `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles |
+| `Type.Body.md`    | DM Sans Regular | 14 | 0 | — | Paragraph + list-row copy |
+| `Type.Label.lg`   | DM Mono Medium | 14 | +0.8 | UPPER | `DsButton.large` labels |
+| `Type.Label.md`   | DM Mono Medium | 13 | +0.2 | UPPER | `DsButton.small`, `DsKeyButton` tile labels |
+| `Type.Label.sm`   | DM Mono Medium | 12 | +0.9 | UPPER | `DsButton.micro`, `DsWeatherChip`, weather/meta utility |
+| `Type.Label.xs`   | DM Mono Medium | 9  | +0.8 | UPPER | `NavRail` chip labels, `DsLabeledDivider` labels, eyebrows |
+| `Type.Data.md`    | DM Sans Bold | 13 | 0 | — | `DsBadge` content. Only Bold weight in the system. |
+| `Type.Data.sm`    | DM Mono Regular | 12 | 0 | — | Timestamps, maintenance metadata, descriptive captions |
+| `Type.Data.xs`    | DM Mono Regular | 9 | 0 | — | Smallest data text, micro-labels |
 
-`HkType` is a separate namespace holding values that **can't ride on `Font.hk*`** because SwiftUI's `.font()` modifier doesn't carry them. They're applied via their own modifiers (`.tracking()`, `.lineSpacing()`) alongside the font.
+### Reuse rule
 
-```swift
-Text("MAINTENANCE")
-    .font(.hkButton)               // face + weight + size (one modifier)
-    .tracking(HkType.trackingLabel) // letter spacing (separate modifier)
-```
+Every typographic surface MUST map to one of the 12 styles. Reuse first; surface a new style only when the existing scale truly doesn't fit AND the proposal demonstrates ≥1 anticipated reuse beyond the first consumer.
+
+Full rule in [`foundations.md → Typography`](foundations.md#typography). The scale itself lives in `houseKipper/houseKipper/DesignSystem/SemanticTokens/Type.swift`.
+
+### Exceptions
+
+When a surface needs the FONT portion of a style without its tracking/case bake (e.g. `DsSearchField` uses `Type.Label.lg.font` for typed input that should NOT auto-uppercase), use the `.font` property of the style directly and apply tracking separately. Document the exception inline with a code comment.
+
+### `HkType` — typography helpers (legacy / advanced)
+
+`HkType.tracking*` and `IconWeight.*` remain available for cases where a primitive applies its own tracking on top of a font (rare) or where SF Symbols need a specific weight independent of the role they sit alongside. **Most call sites should NOT reach for these directly** — `.typeStyle(...)` bakes the tracking already.
 
 **Tracking** (point values, applied via `.tracking`):
 

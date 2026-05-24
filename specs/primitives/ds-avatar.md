@@ -20,7 +20,7 @@ Letter-in-circle identity marker. Used wherever a person needs to be represented
 ```
 DsAvatar
 └── Text(initial)                              capitalized
-    ├── .font(.hkBody)                         14pt DM Sans Regular
+    ├── .typeStyle(Type.Body.md)                         14pt DM Sans Regular
     ├── .foregroundStyle(BackgroundToken.primary)   paper
     └── .frame(width/height: 32pt)
         ↳ .background(Circle().fill(TextToken.primary))   ink
@@ -53,7 +53,7 @@ DsAvatar has no interactive states (no press, no disabled). It's an identity mar
 
 ## SemanticTokens used
 
-`TextToken.primary` (ink fill) · `BackgroundToken.primary` (paper letter) · `Font.hkBody`
+`TextToken.primary` (ink fill) · `BackgroundToken.primary` (paper letter) · `Type.Body.md`
 
 No new tokens. 32pt diameter snaps to `SpacingToken.s32` (existing stop, no new value introduced).
 

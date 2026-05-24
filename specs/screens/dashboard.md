@@ -40,7 +40,7 @@ DashboardScreen
 
 - **Two-column lockup** at iPad landscape; collapses to single-scroll on iPad portrait or iPhone.
 - **Section dividers** between ROOMS / OUTDOOR / SYSTEMS use `DsDivider(.dashed)` per the dashed-only-for-dividers rule.
-- **Eyebrow labels** (ROOMS, OUTDOOR, SYSTEMS, NEXT UP, ACTIVE PROJECT, UPCOMING MAINTENANCE) use `Font.hkCaption` + `HkType.trackingWider` + `TextToken.muted`.
+- **Eyebrow labels** (ROOMS, OUTDOOR, SYSTEMS, NEXT UP, ACTIVE PROJECT, UPCOMING MAINTENANCE) use `Type.Data.xs` + `HkType.trackingWider` + `TextToken.muted`.
 - **Section spacing** between major blocks: `Space.sectionGap` (32pt).
 - **NextUpCard** uses the urgent-hero treatment per Decision 7 — signal border, no signalTint fill.
 

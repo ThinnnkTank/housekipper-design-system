@@ -26,7 +26,7 @@ DsBadge is **render-only** — it draws the badge. Positioning (top-right overha
 ```
 DsBadge
 └── Text(content)                                "!!", "3", "12", "99+"
-    ├── .font(.hkBadge)                          13pt DM Sans Bold (shared by both modes)
+    ├── .typeStyle(Type.Data.md)                          13pt DM Sans Bold (shared by both modes)
     ├── .foregroundStyle(paper)
     ├── .padding(.horizontal, Inventory.badgePaddingH)  6pt — breathing room; lets capsule extend for multi-char
     ├── .frame(minWidth/minHeight: 20 or 17)     min diameter — single char stays circle
@@ -83,14 +83,14 @@ DsBadge has no interactive states (no press, no disabled). It's a status indicat
 
 | Mode | Fill | Ring | Foreground | Glyph |
 |---|---|---|---|---|
-| `.count(N)` | `signal` | `paper` (2pt) | `paper` | `Font.hkBadge` (13pt DM Sans Bold) |
-| `.urgent`   | `signal` | `paper` (2pt) | `paper` | `Font.hkBadge` (13pt DM Sans Bold) |
+| `.count(N)` | `signal` | `paper` (2pt) | `paper` | `Type.Data.md` (13pt DM Sans Bold) |
+| `.urgent`   | `signal` | `paper` (2pt) | `paper` | `Type.Data.md` (13pt DM Sans Bold) |
 
 Both modes share the same capsule (same fill, same ring, same font). Only the glyph string differs. Geometry is content-driven — single character renders as a circle, multi-character extends into a pill.
 
 ## SemanticTokens used
 
-`StatusToken.tint(.urgent)` (signal fill — same color for both modes) · `BackgroundToken.primary` (paper ring) · `TextToken.onSignal` (paper foreground) · `Inventory.badgeSize` / `badgeSizeSmall` / `badgeBorderWidth` · `Inventory.badgeOverhangRect` / `badgeOverhangPill` (consumer-side) · `Inventory.badgePaddingH` · `Font.hkBadge`
+`StatusToken.tint(.urgent)` (signal fill — same color for both modes) · `BackgroundToken.primary` (paper ring) · `TextToken.onSignal` (paper foreground) · `Inventory.badgeSize` / `badgeSizeSmall` / `badgeBorderWidth` · `Inventory.badgeOverhangRect` / `badgeOverhangPill` (consumer-side) · `Inventory.badgePaddingH` · `Type.Data.md`
 
 ## Example
 

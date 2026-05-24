@@ -35,7 +35,7 @@ DsProgressBar
 
 **Why these values?**
 
-- **8pt height** — strong enough to register as an LED strip, still thin enough to read as metadata under `Font.hkCardHeadline`.
+- **8pt height** — strong enough to register as an LED strip, still thin enough to read as metadata under `Type.Title.lg`.
 - **3pt × 8pt segment aspect** — taller than wide, reads as a vertical LED cell.
 - **1pt gap** — separates cells distinctly without breaking the bar into too-busy ladder rungs. With 3pt segments, the 4pt period gives ~25 cells per 100pt of bar width.
 - **Square interior cells, rounded endcaps** — the whole HStack is clipped to a `Capsule()`, which shaves only the outermost left/right corners of the bar. Leftmost lit cell and rightmost unlit cell get half-pill outer edges; everything between stays square. Reads as an LED strip housed in a rounded chassis.
@@ -68,10 +68,10 @@ No new tokens introduced.
 // NextUpCard body
 VStack(alignment: .leading, spacing: Space.tight) {
     Text("Kitchen reno")
-        .font(.hkCardHeadline)
+        .typeStyle(Type.Title.lg)
     DsProgressBar(progress: 0.5)
     Text("Waiting on permit")
-        .font(.hkData)
+        .typeStyle(Type.Data.sm)
         .foregroundStyle(TextToken.muted)
 }
 ```

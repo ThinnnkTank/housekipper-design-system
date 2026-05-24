@@ -25,11 +25,11 @@ DsKeyButton
     └── DsKeyButtonStyleImpl (computes palette per severity + pressed)
         └── VStack(spacing: Space.tight)
             ├── Icon (SF Symbol)
-            │   ├── .font(.hkBody)                   14pt anchor for symbol size
+            │   ├── .typeStyle(Type.Body.md)                   14pt anchor for symbol size
             │   ├── .fontWeight(IconWeight.action)   bold
             │   └── foreground: signal (att/urgent) or ink (healthy) or paper (pressed)
             └── Text(label)
-                ├── .font(.hkButton)                 10pt DM Mono Medium
+                ├── .typeStyle(Type.Label.sm)                 10pt DM Mono Medium
                 ├── .tracking(HkType.trackingLabel)  +0.8pt
                 ├── .textCase(.uppercase)            ALL CAPS render — preserves original string for VoiceOver
                 └── foreground: ink (rest) or paper (pressed)
@@ -83,7 +83,7 @@ Asymmetric animation: instant on press, `Motion.standard` (300ms) on release —
 
 ## SemanticTokens used
 
-`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Font.hkBody` (icon anchor) · `Font.hkButton` (label) · `HkType.trackingLabel` · `IconWeight.action` · `Motion.standard`
+`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon anchor) · `Type.Label.sm` (label) · `HkType.trackingLabel` · `IconWeight.action` · `Motion.standard`
 
 ## Example
 

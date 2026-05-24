@@ -19,26 +19,26 @@ Standard search input — text field with a left `magnifyingglass` icon and an i
 DsSearchField
 └── HStack(spacing: Space.tight)
     ├── Image(systemName: "magnifyingglass")
-    │   ├── .font(.hkButtonLg)                          14pt DM Mono Medium anchor (utility face)
+    │   ├── .typeStyle(Type.Label.lg)                          14pt DM Mono Medium anchor (utility face)
     │   ├── .fontWeight(IconWeight.action)              bold for visual presence
     │   └── .foregroundStyle(TextToken.secondary)       ink60 — visible but not loud
     ├── TextField(placeholder, text: $text)
-    │   ├── .font(.hkButtonLg)                          14pt DM Mono Medium — utility text family
+    │   ├── .typeStyle(Type.Label.lg)                          14pt DM Mono Medium — utility text family
     │   ├── .foregroundStyle(TextToken.primary)         text
     │   └── (placeholder rendered in ink40 by SwiftUI default)
     └── if !text.isEmpty {
             Button { text = "" } label:
                 Image(systemName: "xmark.circle.fill")
-                    .font(.hkButtonLg)
+                    .typeStyle(Type.Label.lg)
                     .foregroundStyle(TextToken.muted)   ink40 — subtle, not alarming
         }
     Padding: .horizontal Space.bodyPadding (16pt)
     Frame height: Space.buttonHeightLg (40pt)
     Background: ZStack
-                  • RoundedRectangle(Radius.md) fill BackgroundToken.secondary (paper2) — always
-                  • RoundedRectangle(Radius.md) fill ink05 wash — only when @FocusState is true
+                  • Capsule() fill BackgroundToken.secondary (paper2) — always
+                  • Capsule() fill ink05 wash — only when @FocusState is true
                   → composed darker tactile bg while focused, animated via Motion.standard
-    Border:     RoundedRectangle(Radius.md) strokeBorder Border.Color.normal Border.Width.normal (1pt ink)
+    Border:     Capsule() strokeBorder Border.Color.normal Border.Width.normal (1pt ink)
 ```
 
 ## Public API
@@ -108,7 +108,7 @@ If the container isn't a `ScrollView`, omit the scroll modifier. The tap-gesture
 
 ## SemanticTokens used
 
-`BackgroundToken.secondary` (paper2 fill) · `Border.Color.normal` · `Border.Width.normal` · `Radius.md` · `Space.bodyPadding` · `Space.tight` · `Space.buttonHeightLg` · `TextToken.primary` / `.secondary` / `.muted` · `Font.hkButtonLg` (reused — DM Mono Medium 14pt, the same role DsButton large uses; same face/size, different consumer) · `IconWeight.action`
+`BackgroundToken.secondary` (paper2 fill) · `Border.Color.normal` · `Border.Width.normal` · `Space.bodyPadding` · `Space.tight` · `Space.buttonHeightLg` · `TextToken.primary` / `.secondary` / `.muted` · `Type.Label.lg` (reused — DM Mono Medium 14pt, the same role DsButton large uses; same face/size, different consumer) · `IconWeight.action`
 
 No new tokens introduced.
 
@@ -135,7 +135,8 @@ DsSearchField(text: $query, placeholder: "Search rooms")
 - **paper2 fill + 1pt ink border** (2026-05-23): differentiates the input area from paper background (fill) while signaling "this is interactive" (border). Quieter than `DsButton`, which uses border for primary affordance.
 - **Focused state darkens the background** (Luis 2026-05-24): tactile feedback while typing. Compose `ink05` wash over the paper2 baseline via ZStack — no new BaseToken (per "search first" discipline; the existing wash tokens were available). Animated with `Motion.standard`. Note: when a second input Primitive ships, lift this rule to `foundations.md` so all inputs share the focus-darkens behavior consistently.
 - **40pt height** (2026-05-23): matches `Space.buttonHeightLg` — search and the primary button feel like the same affordance family.
-- **`Radius.md` (12pt) corners** (2026-05-23): iOS-native search field feel without being fully capsule. Future `DsInput` variants will likely share this radius.
+- **`Radius.md` (12pt) corners** (2026-05-23): iOS-native search field feel without being fully capsule. Future `DsInput` variants will likely share this radius. **Superseded** by the capsule shape per iter below — `DsInput` (when it ships) will be the home of `Radius.md` for input fields.
+- **Capsule shape, not RoundedRectangle** (Luis 2026-05-24, iter 3): search inputs specifically get capsule (fully rounded) endcaps — visually distinct from generic text inputs. The reference dashboard's search field uses capsule ends; rounded-rect reads as a generic input. When `DsInput` ships for plain text / numeric / multiline, it keeps `Radius.md` per the iter-1 decision above.
 - **ActionCard deferred** (Luis 2026-05-23): the "+ add an item" card that often pairs with search lives in BACKLOG.
-- **Font: DM Mono Medium 14pt** (Luis 2026-05-24): iter 1 used `Font.hkBody` (DM Sans Regular) — wrong family. Search/input is utility text, mono fits the vnext pattern (data, labels, buttons all use mono). Reusing `Font.hkButtonLg` (DM Mono Medium 14pt) — same face/size as DsButton large; just applied to an input context. No new token role introduced.
+- **Font: DM Mono Medium 14pt** (Luis 2026-05-24): iter 1 used `Type.Body.md` (DM Sans Regular) — wrong family. Search/input is utility text, mono fits the vnext pattern (data, labels, buttons all use mono). Reusing `Type.Label.lg` (DM Mono Medium 14pt) — same face/size as DsButton large; just applied to an input context. No new token role introduced.
 - **Keyboard dismissal NOT in the Primitive** (Luis 2026-05-24): iter 1 shipped a bare `TextField` with no submit label and no dismissal recipe — keyboard wouldn't dismiss on outside tap, which broke basic iOS expectations. Iter 2: Primitive adds `.submitLabel(.search)`; callers wire `.scrollDismissesKeyboard(.interactively)` + tap-to-dismiss via the `dismissKeyboard()` UIResponder bridge. The Primitive can't own tap-outside because it doesn't know the container; the spec documents the standard recipe so every screen using DsSearchField follows the same pattern.

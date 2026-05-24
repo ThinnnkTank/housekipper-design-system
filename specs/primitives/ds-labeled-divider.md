@@ -11,7 +11,7 @@ A section-header divider — dashed line / centered label / dashed line. The lab
 **Composes `DsDivider`**, doesn't re-implement the dashed stroke. The dashed-only-for-dividers rule (`foundations.md → Border`) is preserved: this primitive is still a divider, just one with a label embedded in its midpoint.
 
 **When to use:** section header between or before content blocks where you want both the visual separation (line) and the section title (label) in one element.
-**When NOT to use:** plain dashed separators with no label (use `DsDivider(style: .dashed)`). Eyebrow labels that don't need a line (use `Font.hkCaption` + tracking inline).
+**When NOT to use:** plain dashed separators with no label (use `DsDivider(style: .dashed)`). Eyebrow labels that don't need a line (use `Type.Data.xs` + tracking inline).
 
 ## Anatomy
 
@@ -20,7 +20,7 @@ DsLabeledDivider
 └── HStack(spacing: Space.bodyPadding)
     ├── DsDivider(style: style, color: Border.Color.muted).frame(maxWidth: .infinity)   left segment, flex-grow, ink40 line
     ├── Text(label)
-    │   ├── .font(.hkCaption)                                9pt DM Mono Regular
+    │   ├── .typeStyle(Type.Data.xs)                                9pt DM Mono Regular
     │   ├── .tracking(HkType.trackingWider)                  +1.8pt
     │   ├── .textCase(.uppercase)
     │   └── .foregroundStyle(TextToken.secondary)            ink60
@@ -46,7 +46,7 @@ No interactive states. Render-only.
 
 ## SemanticTokens used
 
-`Font.hkCaption` · `HkType.trackingWider` · `TextToken.secondary` · `Border.Color.muted` · `Space.bodyPadding`
+`Type.Data.xs` · `HkType.trackingWider` · `TextToken.secondary` · `Border.Color.muted` · `Space.bodyPadding`
 
 Plus the tokens `DsDivider` itself consumes (`Border.Width.normal`, `Border.dashPattern`) — but only transitively through the composed primitive. The line color is passed explicitly (`.muted` instead of DsDivider's default `.subtle`) — line and label sit one ink step darker than ordinary dividers because section headers need a touch more presence.
 

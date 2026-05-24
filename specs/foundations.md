@@ -32,16 +32,56 @@ Two faces. **DM Sans** for body + display; **DM Mono** for utility (labels, data
 
 ### Rules
 
-- **Semantic Font roles only.** Use `Font.hk*` — never `Font.system(size:)` or raw `Font.custom()` in Primitives.
+- **Semantic styles only.** Apply via `.typeStyle(Type.{Category}.{size})` — never `Font.system(size:)` or raw `Font.custom()` in Primitives, Components, Patterns, or Screens.
 - All semantic roles use `relativeTo:` so Dynamic Type scales the system.
-- **Tabular numerals on data.** `Font.hkData` is mono. For other data-aligned text, add `.monospacedDigit()`.
+- **Tabular numerals on data.** `Type.Data.sm` is mono. For other data-aligned text, add `.monospacedDigit()`.
 - **Tracking is part of the role.** Mono labels get `HkType.trackingLabel/Wide`, display gets `trackingTight`, eyebrows get `trackingWider`.
 - Uppercase reserved for utility (buttons, eyebrows, badges). Body + headings stay sentence case.
 - **Inputs are utility.** Search fields, text inputs, numeric fields use DM Mono (same family as buttons, data, and labels). DM Sans is reserved for body prose and display. Reuse an existing `hk*` role if the size matches before introducing a new one.
 
+### The scale: `Type.{category}.{size}`
+
+Five intent-categories, sized modifiers. Each style is **complete** — face, size, weight, tracking, AND case all baked in. Applied via the `.typeStyle(_:)` view modifier so drift at the call site is impossible: you either reuse a style or surface a new one.
+
+| Style | Face / weight | Size | Tracking | Case | Use |
+|---|---|---|---|---|---|
+| `Type.Display.lg` | DM Sans Medium | 38pt | 0 | — | Brand wordmark, onboarding hero. Once-per-screen presence. |
+| `Type.Title.xl` | **DM Mono Medium** | 30pt | -0.6 (tight) | — | **H1** — active-house heading, room/project/settings titles. LCD locked-up look. |
+| `Type.Title.lg` | DM Sans Medium | 22pt | 0 | — | **H2** — card headlines (NextUpCard, ActiveProjectCard, modals). |
+| `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles within a card. |
+| `Type.Body.md` | DM Sans Regular | 14pt | 0 | — | Paragraph + list-row copy. |
+| `Type.Label.lg` | DM Mono Medium | 14pt | +0.8 (label) | UPPER | Large button labels, primary affordances. |
+| `Type.Label.md` | DM Mono Medium | 13pt | +0.2 (snug) | UPPER | Small button labels, DsKeyButton tile labels. |
+| `Type.Label.sm` | DM Mono Medium | 12pt | +0.9 (micro) | UPPER | Micro button labels, weather/meta utility lines. |
+| `Type.Label.xs` | DM Mono Medium | 9pt | +0.8 (label) | UPPER | NavRail chip labels, DsLabeledDivider labels, eyebrows. |
+| `Type.Data.md` | **DM Sans Bold** | 13pt | 0 | — | DsBadge content (counts + `!!`). The system's only Bold weight. |
+| `Type.Data.sm` | DM Mono Regular | 12pt | 0 | — | Tabular meta — timestamps, maintenance metadata, descriptive captions. |
+| `Type.Data.xs` | DM Mono Regular | 9pt | 0 | — | Smallest data text, micro-labels. |
+
+**Categories:**
+
+- **`Display`** — hero/wordmark presence. One size; reserved for the largest visual element on a screen.
+- **`Title`** — heading hierarchy (H1/H2/H3). H1 is mono (LCD identity); H2/H3 are sans (content-readable).
+- **`Body`** — paragraph + list copy. Sans regular.
+- **`Label`** — uppercase utility text: button labels, eyebrows, nav labels, divider labels. Always Medium weight, always uppercase, always with tracking.
+- **`Data`** — tabular / metadata text, mixed-case. No tracking or case bakes — used for timestamps, descriptive captions, and any data display.
+
+### Reusability rule (enforced via spec discipline)
+
+Every typographic surface MUST map to one of the 12 styles above. Apply via `.typeStyle(_:)` — single modifier, no manual tracking/case.
+
+**Before introducing a new style:**
+1. Try to reuse an existing style from the scale above. The lookup IS the discipline.
+2. If nothing fits, surface the decision per CLAUDE.md → *Decisions that must be surfaced*. The proposal must demonstrate (a) a use case the existing scale can't reasonably cover, and (b) at least one anticipated reuse beyond the first consumer.
+3. Premature one-off styles are rejected — they re-introduce the "random decisions" problem the layer system exists to prevent.
+
+### Exceptions (documented inline)
+
+When a surface uses the FONT portion of a style without its tracking/case (e.g. `DsSearchField` uses `Type.Label.lg.font` for typed input without forcing uppercase), the exception is documented at the call site with a code comment. New exceptions follow the same surfacing rule.
+
 ### Font registration
 
-DM Sans + DM Mono `.ttf` files in `houseKipper/houseKipper/Fonts/`. Registered via `Info.plist` `UIAppFonts`. If `Font.hkBody` falls back to system, registration is missing.
+DM Sans + DM Mono `.ttf` files in `houseKipper/houseKipper/Fonts/`. Registered via `Info.plist` `UIAppFonts`. If `Type.Body.md` falls back to system, registration is missing.
 
 ---
 
@@ -161,7 +201,7 @@ SF Symbols-first. Native iOS, free Dynamic Type, free symbol effects, system-con
 File and naming rules that aren't tokens or visual but affect how the system is read.
 
 - **Primitive prefix.** SwiftUI Primitive views are prefixed `Ds` (`DsButton`, `DsDivider`). Avoids collision with SwiftUI's own types. Components and above are name-distinct, no prefix.
-- **Type-helper prefix.** Typography helpers that aren't Fonts are prefixed `Hk` (`HkType.trackingLabel`, `HkType.lineBodyMultiplier`). SwiftUI's `.font()` modifier can't carry letter-spacing or line-height — those need their own modifiers (`.tracking()`, `.lineSpacing()`). `HkType` is the namespace holding those values so they pair cleanly with a `Font.hk*` role.
+- **Type-helper prefix (legacy).** `HkType.tracking*` and `HkType.line*Multiplier` remain available for the rare case where a primitive applies its own tracking on top of a font (e.g. a single SF Symbol that needs a custom anchor + weight). Most call sites should NOT reach for these — `.typeStyle(Type.{Category}.{size})` bakes the tracking already and is the right idiom.
 - **Audit-exempt files: `_`-prefix.** Any Swift file whose name starts with `_` (e.g. `_Swatches.swift`) is exempt from `audit.sh` layer-violation checks. Reserved for design-system instrumentation (live previews, demos) that intentionally reach across layers. Never use `_`-prefix on production code.
 - **Preview blocks.** Code inside `#Preview { ... }` is also audit-exempt — same intent (previews demonstrate primitives, not build with them).
 - **Test files** (`*Tests/`) are audit-exempt.
