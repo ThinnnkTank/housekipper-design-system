@@ -15,7 +15,7 @@ Source of truth for every visual and structural decision. **Specs are the contra
 | Pattern | composes Components | quick capture flow, chore checklist, room overview |
 | Screen | composes Patterns + Components | Today screen, Room detail screen, Settings screen |
 
-**Rule:** each layer reaches one level down only. `./design-sys/audit.sh` enforces.
+**Rule:** each layer reaches one level down for *composition* — Primitives compose SemanticTokens, Components compose Primitives, etc. Components/Patterns/Screens may ALSO consume SemanticTokens directly for layout chrome (bg, text, geometry, motion). The strict boundary is BaseTokens: only the SemanticToken layer may touch raw values. `./design-sys/audit.sh` enforces.
 
 ## Spec map
 
@@ -55,6 +55,7 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a | DsStatusDot primitive | ✅ Locked |
 | 1a | DsProgressBar primitive | ✅ Locked |
 | 1a | DsSearchField primitive | ✅ Locked |
-| 1b-2 | Components / Patterns / Screens | Not started |
+| 1b | NavRail component | ✅ Locked |
+| 1c-2 | Patterns / Screens | Not started |
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [devops.md](devops.md) (tooling, swatch app, audit, build) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)

@@ -5,9 +5,16 @@
 #   BaseTokens     → nothing
 #   SemanticTokens → BaseTokens, Assets.xcassets
 #   Primitives     → SemanticTokens
-#   Components     → Primitives
-#   Patterns       → Components
-#   Screens        → Patterns, Components
+#   Components     → Primitives + SemanticTokens (for chrome — bg, text, geometry)
+#   Patterns       → Components + SemanticTokens (same chrome carve-out)
+#   Screens        → Patterns + Components + SemanticTokens
+#
+# Components/Patterns/Screens may consume SemanticTokens for layout chrome
+# (BackgroundToken, TextToken, Inventory, Border, Radius, Font, Motion, Space).
+# They MAY NOT reach BaseTokens (ColorToken, SpacingToken, RadiusToken,
+# TypographyToken, InventoryToken) — that's the strict layer boundary.
+# Rationale: "no raw values in app code" is the real discipline; forbidding
+# SemanticToken access from container chrome forces speculative Primitives.
 #
 # Also flags raw values that should be tokens.
 # Exits 1 on any violation, 0 clean.
@@ -50,7 +57,7 @@ scan_dir() {
     [[ -z "$hit" ]] && continue
     # Skip preview blocks (#Preview), tests, and instrumentation files (prefixed with _)
     case "$hit" in
-      *"#Preview"*|*"Tests/"*|*"/_"*) continue ;;
+      *"#Preview"*|*"Tests/"*|*"/_"*|*"audit:exempt"*) continue ;;
     esac
     local file="${hit%%:*}"
     local rest="${hit#*:}"
@@ -158,23 +165,22 @@ scan_dir "$PRIMITIVES" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|I
   "Primitive reaching BaseToken directly" \
   "use SemanticToken (Space, BackgroundToken, TextToken, ActionToken, Radius, Font, Inventory)"
 
-# Components may not reach any *Token (must go through Primitive)
-echo "→ checking Components don't touch *Token"
-scan_dir "$COMPONENTS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
-  "Component reaching tokens directly" \
-  "compose Primitives; let Primitives consume tokens"
+# Components/Patterns/Screens may NOT reach BaseTokens (raw value layer).
+# SemanticToken access IS allowed for chrome (bg, text, geometry, layout).
+echo "→ checking Components don't reach BaseTokens"
+scan_dir "$COMPONENTS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken)\.' \
+  "Component reaching BaseToken directly" \
+  "use the SemanticToken layer (BackgroundToken, Space, Radius, Inventory, etc.)"
 
-# Patterns same as Components
-echo "→ checking Patterns don't touch *Token"
-scan_dir "$PATTERNS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
-  "Pattern reaching tokens directly" \
-  "compose Components; let Primitives consume tokens"
+echo "→ checking Patterns don't reach BaseTokens"
+scan_dir "$PATTERNS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken)\.' \
+  "Pattern reaching BaseToken directly" \
+  "use the SemanticToken layer (BackgroundToken, Space, Radius, Inventory, etc.)"
 
-# Screens same
-echo "→ checking Screens don't touch *Token"
-scan_dir "$SCREENS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken|BackgroundToken|TextToken|ActionToken|Inventory)\.' \
-  "Screen reaching tokens directly" \
-  "compose Patterns/Components"
+echo "→ checking Screens don't reach BaseTokens"
+scan_dir "$SCREENS" '\b(ColorToken|SpacingToken|RadiusToken|TypographyToken|InventoryToken)\.' \
+  "Screen reaching BaseToken directly" \
+  "use the SemanticToken layer or compose Patterns/Components"
 
 echo
 if [[ $violations -eq 0 ]]; then

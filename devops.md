@@ -72,6 +72,8 @@ Exit 1 on any violation. Output is `file:line  violation  rule  suggestion`. Pre
 
 **Exempt:** `_`-prefixed files (e.g. `_Swatches.swift`), `#Preview` blocks, `*Tests/` directories. All three exist intentionally — don't try to make them clean.
 
+**Per-line escape:** add `// audit:exempt` to any line and the audit skips it. Use sparingly — the right place is multi-line preview infrastructure where the `#Preview { ... }` opening line is several lines above and the per-line `#Preview` substring match doesn't reach. Document on the same line WHY the exemption is needed.
+
 ---
 
 ## Build verification

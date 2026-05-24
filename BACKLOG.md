@@ -9,4 +9,5 @@
 - **Body weight final lock.** Currently `regular` implied — revisit after first Primitive ships and we see real text in context.
 - **Space Grotesk reconsideration.** Dropped this round. Revisit if display sizes (22/30/38) feel flat with DM Sans alone.
 - **Pre-commit hook for audit.sh.** Wire `./design-sys/audit.sh` into `.git/hooks/pre-commit`. Phase 1.
+- **Scope-aware `#Preview` exemption in audit.sh.** Currently the audit's preview-block exemption is per-line — it only matches the literal substring `#Preview` on the violation line. Multi-line preview blocks need either the per-line `// audit:exempt` escape or refactoring. Better: pre-process with awk to identify `#Preview { ... }` line ranges per file and skip violations inside them. Eliminates the escape comment usage. Defer until enough Components have multi-line previews to justify.
 - **Graphify integration.** Phase 1.
