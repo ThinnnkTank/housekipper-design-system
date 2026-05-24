@@ -34,8 +34,8 @@ NavRail (64pt wide × safe-area-height tall, paper2 fill, 1pt ink20 full outline
 - **Tap target / visible chip:** 48×48pt (above the iOS 44pt minimum). The extra height gives icon+label content (~30pt) more breathing room than 44pt allowed (7pt → 9pt vertical padding) and fits longer labels horizontally with full trackingLabel.
 - **Content stack:** `VStack(spacing: Space.hairline)` of icon + optional label inside the chip
   - **Icon:** `Type.Title.md` (17pt) — large enough to read confidently
-  - **Label:** `Type.Label.xs` (9pt DM Mono Medium), `HkType.trackingLabel` (+0.8), `.textCase(.uppercase)`. Same family/weight as `DsKeyButton` tile labels — one size step down (9pt vs 10pt) so the smaller character width allows the full `trackingLabel` (+0.8) used by tile labels.
-  - **Settings is icon-only.** "SETTINGS" (8 chars) at 9pt + trackingLabel renders ≈49pt — overflows a 48pt chip. The gear icon (`gearshape`) is universally recognized; iOS sidebars commonly treat Settings as icon-only. Other four items keep their labels.
+  - **Label:** `Type.Label.xs` (10pt DM Mono Medium + trackingLabel + UPPER, all baked, must use `TextToken.primary` foreground). Same family/weight as `DsKeyButton` tile labels (`Type.Label.sm`, 13pt) — three size steps down. Tracking and uppercase are baked into the style; consumers just apply `.typeStyle(Type.Label.xs)` + ink foreground.
+  - **Settings is icon-only.** "SETTINGS" (8 chars) at 10pt + trackingLabel still overflows the 48pt chip. The gear icon (`gearshape`) is universally recognized; iOS sidebars commonly treat Settings as icon-only. Other four items keep their labels.
 - **Shape:** `RoundedRectangle(cornerRadius: Radius.md)` (12pt corners — soft, not pill, not sharp)
 - **Inter-item gap:** `Space.tight` (8pt)
 - **Outer rail padding:** 8pt horizontal each side — 48pt chip centers inside 64pt-wide rail (8 + 48 + 8 = 64)

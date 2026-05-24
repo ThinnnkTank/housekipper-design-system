@@ -195,13 +195,13 @@ withAnimation(Motion.standard) { isOn.toggle() }
 |---|---|---|---|---|---|
 | `Type.Display.lg` | DM Sans Medium | 38 | 0 | — | Brand wordmark, onboarding hero |
 | `Type.Title.xl`   | DM Mono Medium | 30 | -0.6 (tight) | — | **H1** — active-house heading, room/project/settings titles |
-| `Type.Title.lg`   | DM Sans Medium | 22 | 0 | — | **H2** — card headlines |
+| `Type.Title.lg`   | DM Sans Bold | 22 | -0.8 (tighter) | — | **H2** — card headlines (NextUpCard, ActiveProjectCard, modal titles) |
 | `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles |
 | `Type.Body.md`    | DM Sans Regular | 14 | 0 | — | Paragraph + list-row copy |
 | `Type.Label.lg`   | DM Mono Medium | 14 | +0.8 | UPPER | `DsButton.large` labels |
 | `Type.Label.md`   | DM Mono Medium | 13 | +0.2 | UPPER | `DsButton.small`, `DsKeyButton` tile labels |
-| `Type.Label.sm`   | DM Mono Medium | 12 | +0.9 | UPPER | `DsButton.micro`, `DsWeatherChip`, weather/meta utility |
-| `Type.Label.xs`   | DM Mono Medium | 9  | +0.8 | UPPER | `NavRail` chip labels, `DsLabeledDivider` labels, eyebrows |
+| `Type.Label.sm`   | DM Mono Medium | 13 | +0.9 | UPPER | `DsButton.micro`, `DsWeatherChip`, weather/meta utility (bumped 12→13 for visual weight) |
+| `Type.Label.xs`   | DM Mono Medium | 10 | +0.8 | UPPER | `NavRail` chip labels, `DsLabeledDivider` labels, eyebrows. **Consumers MUST use `TextToken.primary` foreground** — at 10pt the role needs full ink contrast to remain legible. |
 | `Type.Data.md`    | DM Sans Bold | 13 | 0 | — | `DsBadge` content. Only Bold weight in the system. |
 | `Type.Data.sm`    | DM Mono Regular | 12 | 0 | — | Timestamps, maintenance metadata, descriptive captions |
 | `Type.Data.xs`    | DM Mono Regular | 9 | 0 | — | Smallest data text, micro-labels |

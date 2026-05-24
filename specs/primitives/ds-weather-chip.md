@@ -18,7 +18,7 @@ Compact weather summary chip — a single line of mono-uppercased text describin
 ```
 DsWeatherChip
 └── Text(summary)
-    ├── .typeStyle(Type.Label.sm)             mono medium 12pt + trackingMicro + UPPER (all baked)
+    ├── .typeStyle(Type.Label.sm)             mono medium 13pt + trackingMicro + UPPER (all baked)
     └── .foregroundStyle(TextToken.secondary) ink60 — mid-weight
 ```
 

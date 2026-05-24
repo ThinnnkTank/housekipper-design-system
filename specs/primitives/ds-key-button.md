@@ -29,9 +29,8 @@ DsKeyButton
             │   ├── .fontWeight(IconWeight.action)   bold
             │   └── foreground: signal (att/urgent) or ink (healthy) or paper (pressed)
             └── Text(label)
-                ├── .typeStyle(Type.Label.sm)                 10pt DM Mono Medium
-                ├── .tracking(HkType.trackingLabel)  +0.8pt
-                ├── .textCase(.uppercase)            ALL CAPS render — preserves original string for VoiceOver
+                ├── .typeStyle(Type.Label.sm)        13pt DM Mono Medium + trackingMicro (+0.9) + UPPER baked
+                │                                    (preserves original string for VoiceOver)
                 └── foreground: ink (rest) or paper (pressed)
         Wrapped (uniform layout: flex within Inventory.tileMinWidth × tileHeight, 100×60pt):
         - .rect: RoundedRectangle(Radius.sm = 8pt) — rooms + outdoor
@@ -83,7 +82,7 @@ Asymmetric animation: instant on press, `Motion.standard` (300ms) on release —
 
 ## SemanticTokens used
 
-`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon anchor) · `Type.Label.sm` (label) · `HkType.trackingLabel` · `IconWeight.action` · `Motion.standard`
+`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon size anchor) · `Type.Label.sm` (label — tracking + UPPER baked) · `IconWeight.action` · `Motion.standard`
 
 ## Example
 

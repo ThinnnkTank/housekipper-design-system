@@ -10,11 +10,11 @@ The dashboard's hero "what's most pressing" card. Three states:
 
 | State | Trigger | Visual signature |
 |---|---|---|
-| `urgent` | Task is due today or overdue | Signal border (2pt) + right-edge **signal spine** + signal `!` indicator + "DUE TODAY" eyebrow in signal color. **No `signalTint` fill** (Decision 7 — hero exception). |
+| `urgent` | Task is due today or overdue | Signal border (2pt) + left-edge **signal spine** + signal `!` indicator + "DUE TODAY" eyebrow in signal color. **No `signalTint` fill** (Decision 7 — hero exception). |
 | `upcoming` | Task is due in 1–14 days | Standard card chrome (muted border, 1pt). "DUE IN N DAYS" eyebrow in ink60. No spine, no urgent indicator. Same buttons. |
 | `allClear` | Nothing actionable for 15+ days | Quiet centered layout. Inline `✓ All clear, [next task] in [N] days` message + secondary "+ NEW MAINTENANCE TASK" button. |
 
-The right-edge spine is novel to this card — a thick signal-colored tab that follows the rounded corner. Implemented as an overlay rectangle clipped by the same RoundedRectangle that defines the card's shape; the corner-rounding comes free.
+The left-edge spine is novel to this card — a thick signal-colored tab that follows the rounded corner. Implemented as an overlay rectangle clipped by the same RoundedRectangle that defines the card's shape; the corner-rounding comes free.
 
 **When to use:** the dashboard's "NEXT UP" position. One per Screen at most.
 **When NOT to use:** as a generic task row (use `MaintenanceRow`). As a list item (use `MaintenanceList`).
@@ -26,7 +26,7 @@ NextUpCard
 └── ZStack
     ├── RoundedRectangle(Radius.md).fill(paper2)                    base
     ├── if .urgent:
-    │     HStack { Spacer(); Rectangle(signal).frame(width: spine) } trailing spine
+    │     Rectangle(signal).frame(width: spine, alignment: .leading)  leading spine
     └── VStack(.leading)
         ├── "NEXT UP" eyebrow (Type.Label.xs · muted)              constant across states
         └── state-specific body:
@@ -49,7 +49,7 @@ NextUpCard
 
 | State | Border color | Border width | Spine | Eyebrow color | Indicator |
 |---|---|---|---|---|---|
-| `urgent` | `Border.Color.strong` (signal) | 2pt | 8pt signal rect on trailing edge | signal | `exclamationmark.circle` 48pt signal |
+| `urgent` | `Border.Color.strong` (signal) | 2pt | 8pt signal rect on leading edge | signal | `exclamationmark.circle` 48pt signal |
 | `upcoming` | `Border.Color.muted` (ink40) | 1pt | — | `TextToken.secondary` (ink60) | none |
 | `allClear` | `Border.Color.muted` (ink40) | 1pt | — | n/a | inline checkmark in body text |
 
@@ -123,7 +123,10 @@ Per Luis 2026-05-24: when MARK COMPLETE is tapped, the urgent task should slide-
 ## Decisions log (this spec)
 
 - **Three states with associated data** (Luis 2026-05-24): `urgent`, `upcoming`, `allClear`. Each carries the data it needs in the enum case — no optional fields, no inconsistent states.
-- **Right-edge spine on urgent only** (Luis 2026-05-24, from reference image): 8pt signal rect overlaid + clipped by the card's RoundedRectangle so the corner-rounding follows naturally. Single SwiftUI overlay + clipShape — no custom Shape.
+- **Left-edge spine on urgent only** (Luis 2026-05-24, from reference image): 8pt signal rect overlaid on the leading edge + clipped by the card's RoundedRectangle so the corner-rounding follows naturally. Single SwiftUI overlay + clipShape — no custom Shape. (Iter 1 placed it on the trailing edge; corrected when Luis pointed at the reference.)
+- **Equal-width buttons in the action column** (Luis 2026-05-24, iter 2): MARK COMPLETE and SNOOZE share the wider button's width (MARK COMPLETE drives the size). Implemented via `.frame(maxWidth: .infinity)` on each button inside a VStack with `.fixedSize(horizontal: true, vertical: false)` — the VStack settles at the natural max-child width, then each button stretches to fill.
+- **Tighter eyebrow → body rhythm** (Luis 2026-05-24, iter 2): gap between "NEXT UP" eyebrow and the body row reduced from `Space.bodyPadding` (16pt) to `Space.tight` (8pt). Cards now read compact yet spacious — the eyebrow stays close to its content.
+- **Buttons sized `.small` (not `.large`)** (Luis 2026-05-24, iter 3): `.large` (40pt + 14pt mono) made the hero card read big and thin — too much vertical mass with too much whitespace inside each button. Stepped down one size: `.small` = 32pt visible height + `Type.Label.md` (13pt mono medium). Applies to all three action buttons (MARK COMPLETE, SNOOZE, NEW MAINTENANCE TASK). Brings the card heights closer to the original reference's compact rhythm without inventing a non-ladder button size.
 - **Decision 7: no signalTint fill on urgent NextUpCard** (locked previously, restated here): hero card's signal border + spine are the alarm; tint fill softens that. Applies ONLY to NextUpCard, NEVER to DsKeyButton.urgent (which keeps its signalTint).
 - **`exclamationmark.circle` SF Symbol for urgent indicator** (Luis 2026-05-24): no new Primitive — single glyph rendered at large size with signal color. Promoted to `IconCatalog.Status.urgent` for reuse if other urgent contexts adopt it.
 - **All-clear is quiet** (Luis 2026-05-24): "this tranquil (feeling im done)" should not compete with urgency states. Centered layout, secondary button, no signal colors. The 15-day threshold is caller-decided.
