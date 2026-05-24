@@ -141,6 +141,7 @@ SF Symbols-first. Native iOS, free Dynamic Type, free symbol effects, system-con
 - **Custom icons** only as a last resort when SF Symbols has no equivalent (grass, tree, shed, couch, faucet). Export as PDF vector → asset catalog. Custom-icon backlog tracked in `BACKLOG.md`.
 - **Icon weight matches body font weight.** Bound when typography decisions firm up.
 - **Microinteractions via `.symbolEffect`** (`.bounce`, `.pulse`, `.wiggle`, `.rotate`, `.variableColor`, `.replace`).
+- **App-level icon mapping lives in `IconCatalog`.** The Design System owns the rule "use SF Symbols only" — it does NOT own the mapping from named concepts to symbol names (kitchen → `fork.knife`, hvac → `fan`, etc.). Those are app content, not visual atoms. The mapping lives at `houseKipper/houseKipper/Resources/IconCatalog.swift`. **Production code (any Primitive/Component/Pattern/Screen consumer) goes through `IconCatalog.*`** — never literal SF Symbol strings — so changing the symbol for a concept updates every usage. DS Primitives still accept a generic `String` parameter; the catalog is the call-site discipline. `_Swatches.swift` is exempt — its demo nature wants explicit symbol names visible inline.
 
 ---
 
