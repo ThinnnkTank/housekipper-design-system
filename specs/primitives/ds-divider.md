@@ -16,8 +16,10 @@ Single-line divider for separating content. Two styles: `solid` (default) and `d
 ```
 DsDivider
 └── Path(.horizontal | .vertical)
-    .stroke(Border.Color.subtle, lineWidth: Border.Width.normal, [dash: Border.dashPattern])
+    .stroke(color, lineWidth: Border.Width.normal, [dash: Border.dashPattern])
 ```
+
+The stroke color is parameterized. Default is `Border.Color.subtle` (ink20). Callers can pass any `Border.Color.*` for stronger presence — `DsLabeledDivider` uses `.muted` (ink40) for its line segments.
 
 ## Public API
 
@@ -25,6 +27,7 @@ DsDivider
 struct DsDivider: View {
     var style: Style = .solid
     var orientation: Orientation = .horizontal
+    var color: SwiftUI.Color = Border.Color.subtle
 }
 
 enum Style       { case solid, dashed }
@@ -33,18 +36,22 @@ enum Orientation { case horizontal, vertical }
 
 ## SemanticTokens used
 
-- `Border.Color.subtle` (ink20) — color
+- `Border.Color.subtle` (ink20) — default color
+- `Border.Color.muted` / `.normal` / `.strong` — alternates available via the `color` parameter
 - `Border.Width.normal` (1pt) — width
 - `Border.dashPattern` (`[3, 4]`) — dash array, used **only** when `style == .dashed`
 
 ## Example
 
 ```swift
-// Solid horizontal — default
+// Solid horizontal — default (ink20 line)
 DsDivider()
 
-// Dashed (for "warmth" dividers between major sections)
+// Dashed at default subtle color
 DsDivider(style: .dashed)
+
+// Darker line for section-header use cases (composed by DsLabeledDivider)
+DsDivider(style: .dashed, color: Border.Color.muted)
 
 // Vertical separator
 DsDivider(orientation: .vertical)
@@ -58,4 +65,8 @@ DsDivider(orientation: .vertical)
 ## Cross-references
 
 - Uses: `Border.Color`, `Border.Width`, `Border.dashPattern`
-- Used by: TBD (Components/Patterns)
+- Used by: `DsLabeledDivider` (composes two `DsDivider(.dashed, color: .muted)` segments around a centered label) · `SpaceCard` swatch panel (solid horizontal rule under the rail controls)
+
+## Decisions log (this spec)
+
+- **`color` parameter added (Luis 2026-05-24).** Initially the stroke color was hardcoded to `Border.Color.subtle`. When `DsLabeledDivider` shipped, its line segments needed `Border.Color.muted` (ink40) for more presence as section-header chrome. Parameterizing kept DsDivider as the sole owner of dashed strokes (the foundations rule) while letting consumers pick how loud the line reads. Default stays `.subtle` — no breaking change to existing callers.

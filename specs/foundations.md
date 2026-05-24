@@ -81,9 +81,20 @@ From vnext usage. Specific radii used inline at Primitive layer when needed; sta
 Borders carry the depth paprLCD chose not to express in shadows. Defined on **two orthogonal axes**:
 
 - **Width:** `normal` (1pt) · `strong` (2pt)
-- **Color:** `subtle` (ink20, soft separator) · `normal` (ink, default affordance) · `strong` (signal, severity)
+- **Color:** `subtle` (ink20) · `muted` (ink40, mid-weight) · `normal` (ink, default affordance) · `strong` (signal, severity)
 
-Six combinations from 3×2. Callers pick independently — no pre-named pairings.
+Eight combinations from 4×2. Callers pick independently — no pre-named pairings.
+
+### Vocabulary (Luis convention)
+
+When Luis says…
+
+| Term | Means |
+|---|---|
+| "divider" / "divider line" | `DsDivider(style: .dashed)` — the dashed variant. Default mental model is dashed because that's the dominant DS use (section separators, labeled dividers). |
+| "solid rule" / "hairline" | `DsDivider(style: .solid)` — the solid variant. Used for utility separators (e.g. between controls and a preview in the swatch). |
+| "divider with label" / "labeled divider" | `DsLabeledDivider` — line / centered label / line. Composes two dashed `DsDivider` segments + a label. |
+| "section header" | same as a labeled divider — the labeled divider IS how section headers render across the system. |
 
 ### Rules
 

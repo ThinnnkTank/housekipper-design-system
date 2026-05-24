@@ -203,7 +203,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Font.hkButtonSm`     | 13 | DM Mono Medium | `DsButton` small · future text inputs at 13pt (reserved) |
 | `Font.hkButtonMicro`  | 12 | DM Mono Medium | `DsButton` micro — mono pattern preserved; icon presence comes from `IconWeight.action` |
 | `Font.hkBadge`        | 13 | DM Sans Bold   | `DsBadge` content (both `.count(N)` and `.urgent`'s `!`) — single role across modes. Sans Bold because DM Mono ships no Bold and the badge needs visual weight on a small surface against any tile fill. Intentional step out of mono-for-utility. |
-| `Font.hkNavLabel`     | 9  | DM Mono Medium | `NavRail` labels (and future tab-bar labels). Same family/weight as `DsKeyButton` tile labels (`hkButton`, 10pt), one size step down so the label fits a 44pt nav chip with full `trackingLabel` (+0.8) — matching the key-tile rhythm exactly on a smaller surface. |
+| `Font.hkNavLabel`     | 9  | DM Mono Medium | `NavRail` labels (and future tab-bar labels). Same family/weight as `DsKeyButton` tile labels (`hkButton`, 10pt), one size step down so the label fits a 48pt nav chip with full `trackingLabel` (+0.8) — matching the key-tile rhythm exactly on a smaller surface. |
 
 ### `HkType` — typography helpers
 
