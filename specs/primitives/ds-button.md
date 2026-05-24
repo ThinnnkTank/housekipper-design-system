@@ -106,7 +106,7 @@ Image(systemName: icon).fontWeight(IconWeight.action)
 
 ## SemanticTokens used
 
-`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.Width.normal` · `Font.{hkButtonLg, hkButtonSm, hkButtonMicro}` · `HkType.trackingLabel` · `Motion.quick`
+`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.Width.normal` · `Type.Label.{lg, md, sm}` (applied via `.typeStyle(_:)`; tracking + uppercase baked in) · `Motion.quick`
 
 ## Example
 
