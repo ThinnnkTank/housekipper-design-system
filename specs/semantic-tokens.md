@@ -111,6 +111,7 @@ Two orthogonal axes — width × color. Callers pick independently.
 | Token | Maps to | Use |
 |---|---|---|
 | `.subtle` | `ink20` | Soft separators, secondary affordances |
+| `.muted`  | `ink40` | Mid-weight separators — `DsLabeledDivider` lines, anywhere `.subtle` reads too faint but `.normal` (full ink) is too strong |
 | `.normal` | `ink`   | Default affordance ("this is interactive") |
 | `.strong` | `signal` | Severity / urgent context |
 

@@ -40,6 +40,7 @@ NavRail (64pt wide × safe-area-height tall, paper2 fill, 1pt ink20 full outline
 - **Inter-item gap:** `Space.tight` (8pt)
 - **Outer rail padding:** 8pt horizontal each side — 48pt chip centers inside 64pt-wide rail (8 + 48 + 8 = 64)
 - **Cluster-to-cluster:** `Spacer()` between main and utility — vertical space stretches to fill safe-area height
+- **Asymmetric vertical padding:** `Space.tight` (8pt) at the top, `Space.bodyPadding` (16pt) at the bottom. The avatar sits in the utility cluster and would otherwise read as flush against the rail's bottom edge; the extra bottom padding gives it an elevated feel, respecting the margin like the rest of the items respect the rail's interior.
 
 ### States per item
 

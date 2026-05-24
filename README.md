@@ -55,7 +55,9 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a | DsStatusDot primitive | ✅ Locked |
 | 1a | DsProgressBar primitive | ✅ Locked |
 | 1a | DsSearchField primitive | ✅ Locked |
+| 1a | DsLabeledDivider primitive | ✅ Locked |
 | 1b | NavRail component | ✅ Locked |
+| 1b | SpaceCard component | ✅ Locked |
 | 1c-2 | Patterns / Screens | Not started |
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [devops.md](devops.md) (tooling, swatch app, audit, build) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)
