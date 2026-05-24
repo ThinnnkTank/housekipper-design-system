@@ -1,7 +1,7 @@
 # DsSearchField — Primitive
 
 **Layer:** Primitive
-**Status:** 🟡 Implemented (2026-05-23) — pending iPad vetting, locks after Luis sign-off
+**Status:** ✅ Locked (2026-05-24)
 **Implementation:** `houseKipper/houseKipper/DesignSystem/Primitives/DsSearchField.swift`
 
 ## Overview
@@ -34,7 +34,10 @@ DsSearchField
         }
     Padding: .horizontal Space.bodyPadding (16pt)
     Frame height: Space.buttonHeightLg (40pt)
-    Background: Capsule shape via RoundedRectangle(Radius.md) fill BackgroundToken.secondary (paper2)
+    Background: ZStack
+                  • RoundedRectangle(Radius.md) fill BackgroundToken.secondary (paper2) — always
+                  • RoundedRectangle(Radius.md) fill ink05 wash — only when @FocusState is true
+                  → composed darker tactile bg while focused, animated via Motion.standard
     Border:     RoundedRectangle(Radius.md) strokeBorder Border.Color.normal Border.Width.normal (1pt ink)
 ```
 
@@ -57,7 +60,7 @@ Caller wires `.onSubmit { }`, `.onChange(of: text) { }`, etc. via standard Swift
 |---|---|---|
 | Rest (empty) | `text.isEmpty` | Icon + placeholder visible. No clear button. |
 | With text | `!text.isEmpty` | Icon + text + clear button visible. |
-| Focused | iOS keyboard up | **No visual change.** Keyboard presence is the focus indicator — recoloring the border to signal focus would compete with the severity system (signal is reserved). |
+| Focused | `@FocusState` is true (cursor in field, keyboard up) | **Background darkens.** A subtle `ink05` (5.5% ink) wash composes over the paper2 baseline. Animated via `Motion.standard`. Border color unchanged — signal is still reserved for severity. The bg shift is the tactile feedback while the user is typing. |
 
 No `.disabled` state in v1 — defer until a real use case appears.
 
@@ -130,6 +133,7 @@ DsSearchField(text: $query, placeholder: "Search rooms")
 - **No visual focus state** (2026-05-23): keyboard appearance signals focus; coloring the border would either be inert (ink → ink) or compete with severity (ink → signal). Quiet is better.
 - **Inline clear button** (2026-05-23): standard iOS search affordance. `xmark.circle.fill` at `TextToken.muted` keeps it subtle.
 - **paper2 fill + 1pt ink border** (2026-05-23): differentiates the input area from paper background (fill) while signaling "this is interactive" (border). Quieter than `DsButton`, which uses border for primary affordance.
+- **Focused state darkens the background** (Luis 2026-05-24): tactile feedback while typing. Compose `ink05` wash over the paper2 baseline via ZStack — no new BaseToken (per "search first" discipline; the existing wash tokens were available). Animated with `Motion.standard`. Note: when a second input Primitive ships, lift this rule to `foundations.md` so all inputs share the focus-darkens behavior consistently.
 - **40pt height** (2026-05-23): matches `Space.buttonHeightLg` — search and the primary button feel like the same affordance family.
 - **`Radius.md` (12pt) corners** (2026-05-23): iOS-native search field feel without being fully capsule. Future `DsInput` variants will likely share this radius.
 - **ActionCard deferred** (Luis 2026-05-23): the "+ add an item" card that often pairs with search lives in BACKLOG.
