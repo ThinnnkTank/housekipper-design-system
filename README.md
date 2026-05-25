@@ -47,6 +47,6 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 
 This file intentionally does not maintain a phase/component status grid. The CHANGELOG is the truth. The spec files (`specs/**/*.md`) carry their own `**Status:**` stamp at the top — that's where to check whether a specific Primitive or Component is `✅ Locked` vs `🟡 Implemented (pending vet)`.
 
-**Dev tooling** lives under `houseKipper/houseKipper/DesignSystem/_*.swift` (audit-exempt by `_` prefix, `#if DEBUG`-gated). Most relevant: `_Swatches.swift` (live token + primitive preview, hosts the Inspector toggle + Type Lab), `_DashboardMock.swift` (current dashboard vetting canvas, promotes to `DashboardScreen.swift` after iPad sign-off), `_Root.swift` (router between Swatches and Dashboard).
+**Dev tooling** lives under `houseKipper/houseKipper/DesignSystem/_*.swift` (audit-exempt by `_` prefix, `#if DEBUG`-gated). Most relevant: `_Swatches.swift` (live token + primitive preview, hosts the Inspector toggle + Type Lab), `_Root.swift` (router between Swatches and the production `DashboardScreen`). `_DashboardMock.swift` was graduated to `Screens/DashboardScreen.swift` 2026-05-25 once all 8 composed Components locked.
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [devops.md](devops.md) (tooling, swatch app, audit, build) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)

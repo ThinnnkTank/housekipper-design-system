@@ -145,6 +145,7 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 | `Space.cardPadding`      | `s20` | Inside cards |
 | `Space.safeGutter`       | `s24` | Screen edge from safe area |
 | `Space.sectionGap`       | `s32` | Between sections |
+| `Space.pageInset`        | `s36` | Additive page-chrome top breathing (Screen-layer use; sits on top of SwiftUI safe-area inset). First consumer: DashboardScreen 2026-05-25. |
 | `Space.blockSeparator`   | `s48` | Major content blocks |
 | `Space.tapTarget`        | `s44` | iOS min tap height |
 | `Space.buttonPaddingLg`  | `s16` | Large button horizontal padding |
@@ -160,7 +161,7 @@ Add row → add alias to `Space.swift` → then use in Primitive. **Never** reac
 
 ### Unmapped raw stops
 
-`SpacingToken.s36` lives on the BaseToken ladder (added Luis 2026-05-25, dashboard top inset) but has no `Space.*` semantic alias yet — only `_DashboardMock` consumes it via a screen-local constant, and that file is audit-exempt by `_` prefix. When a second consumer surfaces, promote to a named `Space.*` alias.
+`SpacingToken.s36` was promoted to `Space.pageInset` 2026-05-25 when `DashboardScreen.swift` shipped (the mock was audit-exempt by `_` prefix; the real Screen needs a SemanticToken alias). `Space.pageInset` = additive page-chrome top breathing — sits on top of SwiftUI's auto safe-area inset. First consumer: DashboardScreen's `.padding(.top, Space.pageInset)`.
 
 ---
 

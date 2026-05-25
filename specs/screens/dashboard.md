@@ -1,17 +1,17 @@
 # Dashboard — Screen
 
 **Layer:** Screen
-**Status:** 🟡 Implementation in mock (`_DashboardMock.swift`) — locks when iPad sign-off lands; then promotes to `houseKipper/houseKipper/Screens/DashboardScreen.swift`
-**Implementation:** TBD `houseKipper/houseKipper/Screens/DashboardScreen.swift` (currently mocked at `houseKipper/houseKipper/DesignSystem/_DashboardMock.swift`)
+**Status:** ✅ Locked (2026-05-25) — promoted from `_DashboardMock` after the 8-surface 🟡 → ✅ batch closure
+**Implementation:** `houseKipper/houseKipper/Screens/DashboardScreen.swift`
 **Source mockup:** user-provided dashboard reference (2026-05-23) — save into `design-sys/refs/dashboard-v1.png` when ready
 
-> **Current state of truth:** this spec was written as a planning doc before Components shipped. For the *as-implemented* dashboard (3-column grid spec, locked outer-padding contract, all Component versions), see `CHANGELOG.md` entries dated 2026-05-25 + `_DashboardMock.swift` inline lock-in notes. The "Build order" + "Open decisions" sections below are partially historical; the Round-1 Primitives and Round-2 Components are all built. Round 3 (real `DashboardScreen.swift`) is the next promotion.
+> **Current state of truth:** this spec was written as a planning doc before Components shipped. For the *as-implemented* dashboard (3-column grid, locked outer-padding contract, layout architecture), see `CHANGELOG.md` entries dated 2026-05-25 + inline lock-in notes in `Screens/DashboardScreen.swift`. The "Build order" + "Open decisions" sections below are historical now — Rounds 1–3 are all complete.
 
-### Locked dimensions (from `_DashboardMock`)
+### Locked dimensions
 
 | Geometry | Value | Source |
 |---|---|---|
-| Outer top padding | `SpacingToken.s36` (36pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in ("NOTHING ELSE PUSHES THE TOP") |
+| Outer top padding | `Space.pageInset` (= 36pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in ("NOTHING ELSE PUSHES THE TOP") · promoted from `SpacingToken.s36` direct ref → `Space.pageInset` semantic alias when DashboardScreen graduated from `_DashboardMock` |
 | Outer sides + bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer dashboard spec |
 | NavRail width | 48pt fixed (= chip width — was 64pt; reduced Luis 2026-05-25 after rail chrome was dropped) | NavRail spec |
 | Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
@@ -148,12 +148,12 @@ Each: spec → impl → swatches preview → Luis signs off → lock.
 
 Each: spec → impl → live preview in a Components section of `_Swatches.swift` (or a dedicated `_Components.swift`) → Luis signs off → lock.
 
-### Round 3 — Screen
+### Round 3 — Screen ✅
 
-- [ ] `DashboardScreen.swift` — assemble everything
-- [ ] Wire into `houseKipperApp.swift` (debug routing swaps to dashboard, replacing `_Swatches`)
-- [ ] Iterate on iPad against the mockup
-- [ ] Lock dashboard ✅
+- [x] `DashboardScreen.swift` — assembled, lives at `houseKipper/houseKipper/Screens/DashboardScreen.swift`
+- [x] Wired into `_Root.swift` (debug router toggles swatches ↔ dashboard)
+- [x] Iterated on iPad Pro 11" landscape against the reference (multiple vet rounds 2026-05-25)
+- [x] Locked 2026-05-25 ✅ — all 8 composing Components + 2 new Primitives (SignalButton, DsAvatar.outline) locked the same day; Screen promoted from `_DashboardMock.swift` (deleted) with `Space.pageInset` SemanticToken alias added to replace the mock's direct `SpacingToken.s36` reference
 
 ## Verification
 
