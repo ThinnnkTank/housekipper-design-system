@@ -9,7 +9,7 @@
 
 Dashboard "what you're working on" card. Sits below `NextUpCard` in the left column. Eyebrow + carousel position dots + nav arrows on top; thumbnail + title + next-step + progress bar + started/est dates inside.
 
-ActiveProjectCard is a Component — composes `DsProgressBar` and `DsButton`. Owns no token values; chrome routes through SemanticTokens. Same outer chrome family as `NextUpCard.upcoming` (border with `Border.Color.muted`, transparent fill, `Radius.md`) — the cards visually relate but carry different content roles.
+ActiveProjectCard is a Component — composes `DsProgressBar` and `DsButton`. Owns no token values; chrome routes through SemanticTokens. Same outer chrome family as `NextUpCard.upcoming` (border with `Border.Color.subtle`, transparent fill, `Radius.md`) — the cards visually relate but carry different content roles.
 
 **When to use:** dashboard's "active project" surface. Any "in-flight project carousel" use later.
 **When NOT to use:** task hero (use `NextUpCard.urgent`). Project list rows (different Component, TBD).
@@ -17,7 +17,7 @@ ActiveProjectCard is a Component — composes `DsProgressBar` and `DsButton`. Ow
 ## Anatomy
 
 ```
-ActiveProjectCard (Border.Color.muted outline, transparent fill, Radius.md)
+ActiveProjectCard (Border.Color.subtle outline, transparent fill, Radius.md)
 └── VStack(spacing: Space.snug)
     ├── Header
     │   └── HStack(spacing: Space.bodyPadding)
@@ -83,7 +83,7 @@ The thumbnail is a placeholder block — when real project images land, swap the
 
 - **All nav buttons stay `DsButton.primary.micro`.** Matches the CalendarMonth nav cluster — both surfaces in the dashboard use the same scale for the same interaction pattern.
 - **Carousel dots are inline `Circle`, not DsStatusDot.** Different semantic (position, not severity). 6pt to match the calendar's dot rhythm visually, but conceptually distinct.
-- **Card chrome matches NextUpCard.upcoming**: `Border.Color.muted`, transparent fill, `Radius.md`, `Border.Width.normal`. The cards visually relate; intentional.
+- **Card chrome matches NextUpCard.upcoming**: `Border.Color.subtle`, transparent fill, `Radius.md`, `Border.Width.normal`. The cards visually relate; intentional.
 - **PHOTO pill in the thumbnail uses `Type.Label.xs` inverted** (paper on ink Capsule). When a real image lands, the pill stays as a metadata marker.
 
 ## SemanticTokens used

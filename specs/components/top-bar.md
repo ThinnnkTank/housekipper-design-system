@@ -9,7 +9,7 @@
 The top-of-screen chrome that frames every dashboard-class Screen. Two-zone layout:
 
 - **Left:** page heading (large sans) with optional leading icon, plus `DsWeatherChip` below
-- **Right cluster:** theme menu trigger · `DsSearchField` · "+ ADD" `DsButton.primary` (in that order, trailing-flush)
+- **Right cluster:** theme menu trigger · `DsSearchField` · "+ ADD" `SignalButton` (in that order, trailing-flush). The ADD button was promoted from `DsButton.primary` → `SignalButton` 2026-05-25 — it's the dashboard's singular Dieter-Rams signal action.
 
 Caller-driven via bindings + callbacks; TopBar owns no app state.
 
@@ -24,14 +24,14 @@ TopBar (borderless — no fill, no outline, no internal padding)
     ├── VStack(alignment: .leading, spacing: Space.hairline)         [LEFT ZONE — flex]
     │   ├── HStack(spacing: Space.tight)
     │   │   ├── Image(headingIcon)?    SF Symbol, hkPageHeading-anchored, signal-tinted
-    │   │   └── Text(heading)          .typeStyle(Type.Title.xl) — 26pt DM Mono Medium + trackingTight (H1)
+    │   │   └── Text(heading)          .typeStyle(Type.Title.lg) — 22pt DM Sans Bold + tighter (Luis 2026-05-25: was Title.xl 26pt — too "Fisher Price" at 26pt; tried `large instead of XL`, landed there)
     │   └── DsWeatherChip(summary: weatherSummary)
     ├── Spacer()
     └── HStack(spacing: Space.bodyPadding, alignment: .center)       [RIGHT CLUSTER — fixed]
         ├── Menu { theme picker } label: { themeIcon + chevron.down } — 44pt tap target, bare (no chrome)
         ├── DsSearchField(text: $searchText, placeholder: "Search")
         │       .frame(maxWidth: 300)             cap so the right cluster doesn't push past safe area on wide screens
-        └── DsButton("+ ADD", icon: plus, variant: .primary, size: .large) { onAdd() }
+        └── SignalButton("ADD", icon: plus) { onAdd() }
 ```
 
 ### Theme menu
@@ -52,7 +52,7 @@ The trigger label is a bare HStack: current-theme SF Symbol + small chevron-down
 
 ### Right-cluster vertical alignment
 
-All three elements (theme trigger, search field, ADD button) center-align on the heading's baseline area. Search field is 40pt tall (`Space.buttonHeightLg`); ADD button is 40pt (`DsButton.large`); theme trigger is sized to 44pt (`Space.tapTarget`) so its hit area matches without making the visible glyph oversized.
+All three elements (theme trigger, search field, ADD button) center-align on the heading's baseline area. Search field is 40pt tall (`Space.buttonHeightLg`); ADD button is 40pt (`SignalButton` = DsButton.large height with +12pt L/R extra padding); theme trigger is sized to 44pt (`Space.tapTarget`) so its hit area matches without making the visible glyph oversized.
 
 ### Heading icon
 
@@ -82,7 +82,7 @@ struct TopBar: View {
 TopBar composes:
 - `DsWeatherChip` (Primitive) — weather summary line
 - `DsSearchField` (Primitive, ✅ locked) — search input
-- `DsButton` (Primitive, ✅ locked) — "+ ADD" affordance, primary variant
+- `SignalButton` (Primitive, 🟡 pending vet) — "+ ADD" affordance (the dashboard's single signal action)
 - Native SwiftUI `Menu` + `Picker` — theme switcher (action sheet on iPhone, popover on iPad — stock iOS)
 
 It does NOT extract a `DsIconMenuTrigger` Primitive for the theme button. The bare-icon-plus-chevron is a one-off composition; promote to a Primitive only if a second surface adopts the same pattern.
@@ -96,7 +96,7 @@ It does NOT extract a `DsIconMenuTrigger` Primitive for the theme button. The ba
 
 ## Cross-references
 
-- Uses: `DsWeatherChip`, `DsSearchField`, `DsButton`, `IconCatalog.Theme`, `IconCatalog.Action.add`, `Type.Title.xl`, `Space`, `BackgroundToken`, `TextToken`, `Border`, `Radius`, `StatusToken`
+- Uses: `DsWeatherChip`, `DsSearchField`, `SignalButton`, `IconCatalog.Theme`, `IconCatalog.Action.add`, `Type.Title.xl`, `Space`, `BackgroundToken`, `TextToken`, `Border`, `Radius`, `StatusToken`
 - Used by: Dashboard Screen (TBD)
 - Composition peer: `NavRail` (the left-edge counterpart)
 
@@ -108,4 +108,6 @@ It does NOT extract a `DsIconMenuTrigger` Primitive for the theme button. The ba
 - **Theme menu trigger is bare (no chrome)** (Luis 2026-05-24, from reference image): no fill, no border around the icon+chevron. Reads as utility, not as a heavy button. 44pt invisible tap target via `.contentShape`.
 - **Heading icon optional, signal-tinted when present** (Luis 2026-05-24, from reference image): the orange-sun-next-to-address treatment from the reference. Caller decides if the screen has one; color uses signal (`StatusToken.tint(.urgent)`) to match the reference's orange.
 - **Search field capped at 300pt** (Luis 2026-05-24, iter 3): on wide screens the search field would otherwise grow with the right cluster's available space, pushing the theme trigger toward the safe-area edge. Constrained via `.frame(maxWidth:)` at the TopBar call site (kept as a `private static let` rather than a Space token — component-internal layout value).
+- **Heading uses `Type.Title.lg` (22pt sans Bold + tighter), not `Type.Title.xl` (26pt)** (Luis 2026-05-25 iPad 11 vet — "that xl style is going to be tighter also why dont we try large instead of XL (looking to fisher pricey)"). Title.xl stays in the system with tighter tracking added for any future surface that genuinely needs 26pt; for the dashboard heading, 22pt reads as a real H1 without overpowering the rest of the chrome.
+- **ADD promoted to `SignalButton`** (Luis 2026-05-25): the ADD action is the screen's single highest-emphasis affordance — orange, extra padding, Dieter-Rams signal-button intent. New Primitive over `DsButton.signal` variant was Luis's explicit call (see `signal-button.md` decisions log).
 - **Borderless — no surface of its own** (Luis 2026-05-24, iter 2): initial draft wrapped TopBar in paper2 fill + outline + Radius.md corners + cardPadding, matching the chrome of NavRail/SpaceCard. Luis flagged via the reference image: in the real dashboard, TopBar's content sits directly on the page background; the surrounding cards have chrome, the heading does not. Removed all surface treatment — Component is now pure content layout. The swatch panel's outer `panel(...)` wrapper provides containerization for isolated vetting only.

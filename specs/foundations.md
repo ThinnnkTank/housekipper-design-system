@@ -46,7 +46,7 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 | Style | Face / weight | Size | Tracking | Case | Use |
 |---|---|---|---|---|---|
 | `Type.Display.lg` | DM Sans Medium | 38pt | 0 | — | Brand wordmark, onboarding hero. Once-per-screen presence. |
-| `Type.Title.xl` | **DM Mono Medium** | 26pt | -0.6 (tight) | — | **H1** — TopBar heading, room/project/settings titles. LCD locked-up look. Dropped 30→26 Luis 2026-05-25 (new `size26` BaseToken). |
+| `Type.Title.xl` | **DM Sans Bold** | 26pt | 0 | — | **H1** — TopBar heading, room/project/settings titles. History: mono Medium 30pt → mono Medium 26pt → **sans Bold 26pt** (Luis 2026-05-25 — mono read too utility/data-ish for the H1). Mono is now reserved for utility/data text only; H1 + H2 share family. |
 | `Type.Title.lg` | DM Sans Bold | 22pt | -0.8 (tighter) | — | **H2** — card headlines. Bold + tighter tracking gives the title a confident locked-up feel. |
 | `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles, MaintenanceRow title. |
 | `Type.Body.md` | DM Sans Regular | 14pt | 0 | — | Paragraph + list-row copy. |
@@ -62,7 +62,7 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 **Categories:**
 
 - **`Display`** — hero/wordmark presence. One size; reserved for the largest visual element on a screen.
-- **`Title`** — heading hierarchy (H1/H2/H3). H1 is mono (LCD identity); H2/H3 are sans (content-readable).
+- **`Title`** — heading hierarchy (H1/H2/H3). Whole ramp is sans (content-readable). H1 + H2 = Bold; H3 = Medium. Mono is no longer used here — reserved for `Label` (utility) and `Data` (tabular).
 - **`Body`** — paragraph + list copy. Sans regular.
 - **`Label`** — uppercase utility text: button labels, eyebrows, nav labels, divider labels. Always Medium weight, always uppercase, always with tracking.
 - **`Data`** — tabular / metadata text, mixed-case. No tracking or case bakes — used for timestamps, descriptive captions, and any data display.

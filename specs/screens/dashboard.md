@@ -19,6 +19,10 @@
 | Inter-column gap | `Space.snug` (12pt) | Prior-engineer dashboard spec |
 | Inter-row gap (col 2) | `Space.tight` (8pt) | Luis 2026-05-25 yellow vet |
 | Inter-row gap (col 3) | `Space.tight` (8pt) | Same |
+| HStack height source | **Col 2's natural via `.fixedSize(vertical: true)`** | Luis 2026-05-25 floor-alignment fix — ActiveProject's bottom = the floor for NavRail + col 3 |
+| Col 3 overflow handling | `MaintenanceList` wrapped in `ScrollView(.vertical, showsIndicators: false)` | Same fix — scrolls internally when MaintList exceeds remaining vertical inside col 3 |
+| TopBar heading style | `Type.Title.lg` (22pt sans Bold + tighter) | Luis 2026-05-25 "try large instead of XL, looking to fisher pricey" |
+| ADD button | `SignalButton` (orange + 12pt extra L/R padding) | Luis 2026-05-25 — the dashboard's one Dieter-Rams signal action |
 
 ## Overview
 

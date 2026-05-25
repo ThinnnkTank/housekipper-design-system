@@ -29,7 +29,7 @@ DsKeyButton
             │   ├── .fontWeight(IconWeight.action)   bold
             │   └── foreground: signal (att/urgent) or ink (healthy) or paper (pressed)
             └── Text(label)
-                ├── .typeStyle(Type.Label.sm)        13pt DM Mono Medium + trackingMicro (+0.9) + UPPER baked
+                ├── .typeStyle(Type.Label.xs)        10pt DM Mono Medium + trackingMicro + UPPER baked (was Label.sm 12pt — Luis 2026-05-25 second density pass)
                 │                                    (preserves original string for VoiceOver)
                 └── foreground: ink (rest) or paper (pressed)
         Wrapped (uniform layout: flex within Inventory.tileMinWidth × tileHeight, 100×60pt):
@@ -82,7 +82,7 @@ Asymmetric animation: instant on press, `Motion.standard` (300ms) on release —
 
 ## SemanticTokens used
 
-`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon size anchor) · `Type.Label.sm` (label — **12pt** mono medium + tracking + UPPER baked, dropped 13→12 Luis 2026-05-25 for dashboard tile density) · `IconWeight.action` · `Motion.standard`
+`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon size anchor) · `Type.Label.xs` (label — **10pt** mono medium + tracking + UPPER baked, dropped 13 → 12 → 10 across two density passes Luis 2026-05-25) · `IconWeight.action` · `Motion.standard`
 
 ## Example
 
