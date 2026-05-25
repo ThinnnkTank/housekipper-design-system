@@ -11,8 +11,7 @@
 
 | Geometry | Value | Source |
 |---|---|---|
-| Top padding above TopBar | `Space.pageInset` (= 40pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 — symmetric heading padding ("make it 40 even both sides"). Was 36pt earlier same day; bumped 36 → 40. |
-| Padding below TopBar | `Space.pageInset` (= 40pt) — applied as TopBar's own `.padding(.bottom)`; outer VStack spacing forced to 0 to prevent double-stacking | Same vet — matches the 40pt above the heading |
+| Outer top padding | `Space.pageInset` (= 36pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in ("NOTHING ELSE PUSHES THE TOP") · promoted from `SpacingToken.s36` direct ref → `Space.pageInset` semantic alias when DashboardScreen graduated from `_DashboardMock` |
 | Outer sides + bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer dashboard spec |
 | NavRail width | 48pt fixed (= chip width — was 64pt; reduced Luis 2026-05-25 after rail chrome was dropped) | NavRail spec |
 | Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
