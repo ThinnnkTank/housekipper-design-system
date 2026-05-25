@@ -16,7 +16,8 @@
 | NavRail width | 48pt fixed (= chip width — was 64pt; reduced Luis 2026-05-25 after rail chrome was dropped) | NavRail spec |
 | Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
 | Col 2 (flex) row heights | Driven by content — no fixed-height frames | Dropped 2026-05-25 (the 420/144/144 frames overflowed Calendar's content into MaintenanceList) |
-| Inter-column gap | `Space.snug` (12pt) | Prior-engineer dashboard spec |
+| Inter-column gap (col 2 → col 3) | `Space.snug` (12pt) | Prior-engineer dashboard spec |
+| Inter-column gap (NavRail → col 2) | `Space.snug` (12pt HStack) + extra `Space.tight` (8pt) `.padding(.leading)` on col 2 = 20pt effective | Luis 2026-05-25 — wanted more breathing between rail + content column specifically |
 | Inter-row gap (col 2) | `Space.tight` (8pt) | Luis 2026-05-25 yellow vet |
 | Inter-row gap (col 3) | `Space.tight` (8pt) | Same |
 | HStack height source | **Col 2's natural via `.fixedSize(vertical: true)`** | Luis 2026-05-25 floor-alignment fix — ActiveProject's bottom = the floor for NavRail + col 3 |
