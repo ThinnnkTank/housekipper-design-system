@@ -61,7 +61,7 @@ Resolved palettes: rest × severity, plus pressed (overrides severity).
 
 | Severity | Fill | Border | Icon | Label | Border width |
 |---|---|---|---|---|---|
-| `healthy`   | clear | `ink` | `ink` | `ink` | 1pt (`Border.Width.normal`) |
+| `healthy`   | `ink05` (subtle rest wash — same fill as `DsButton.secondary`, added Luis 2026-05-25) | `ink` | `ink` | `ink` | 1pt (`Border.Width.normal`) |
 | `attention` | clear | `signal` | `signal` | `ink` | 2pt (`Border.Width.strong`) |
 | `urgent`    | `signalTint` | `signal` | `signal` | `ink` | 2pt |
 
@@ -78,7 +78,7 @@ Per the **invert** strategy:
 | Icon   | `BackgroundToken.primary` (paper) |
 | Label  | `BackgroundToken.primary` (paper) |
 
-Asymmetric animation: instant on press, `Motion.standard` (300ms) on release — same pattern as `DsButton`. Hit area is the full tile shape via `.contentShape(...)` — required because `.healthy` uses a clear fill, which otherwise leaves dead corners (SwiftUI hit-tests rendered pixels only).
+Asymmetric animation: instant on press, `Motion.standard` (300ms) on release — same pattern as `DsButton`. Hit area is the full tile shape via `.contentShape(...)` — set up originally because `.healthy` used a `.clear` fill that left dead corners; still in place after the 2026-05-25 ink05 fill swap as belt-and-suspenders (the wash IS very subtle and behaves like a hit-test boundary, but `contentShape` makes it explicit).
 
 ## SemanticTokens used
 
