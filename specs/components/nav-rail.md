@@ -16,7 +16,7 @@ NavRail is a Component — composes Primitives only, owns no token values. Selec
 ## Anatomy
 
 ```
-NavRail (64pt wide × safe-area-height tall, NO fill, NO border — pure transparent column of chips)
+NavRail (48pt wide — chip width — × safe-area-height tall, NO fill, NO border — pure column of chips)
 └── VStack(spacing: 0)
     ├── Main cluster — VStack(spacing: Space.snug = 12pt)
     │   ├── Item: Home    (IconCatalog.Nav.home)
@@ -39,7 +39,7 @@ NavRail (64pt wide × safe-area-height tall, NO fill, NO border — pure transpa
 - **Shape:** `RoundedRectangle(cornerRadius: Radius.md)` (12pt corners — soft, not pill, not sharp)
 - **Inter-item gap (main cluster):** `Space.snug` (12pt) — Luis 2026-05-25 ("increase the gap between buttons on the top cluster"). More breathing for HOME/TASKS/SPACES/ALERTS.
 - **Inter-item gap (utility cluster):** `Space.tight` (8pt) — settings + avatar paired tighter.
-- **Outer rail padding:** 8pt horizontal each side — 48pt chip centers inside 64pt-wide rail (8 + 48 + 8 = 64)
+- **Outer rail padding:** 0pt horizontal — rail width = chip width (48pt). History: rail was 64pt wide with 8pt L/R invisible padding when it had a paper2 fill + ink20 border defining a card surface; with chrome dropped, the invisible padding pushed the chip off the Screen's content-left edge (Luis 2026-05-25: chip didn't align with TopBar's sun icon). Collapsing rail bounds onto chip bounds restores the alignment — chip left edge sits flush with the dashboard's 16pt content gutter.
 - **Cluster-to-cluster:** `Spacer()` between main and utility — vertical space stretches to fill safe-area height
 - **Asymmetric vertical padding:** `Space.tight` (8pt) at the top, `Space.bodyPadding` (16pt) at the bottom. The avatar sits in the utility cluster and would otherwise read as flush against the rail's bottom edge; the extra bottom padding gives it an elevated feel, respecting the margin like the rest of the items respect the rail's interior.
 
@@ -93,9 +93,9 @@ It does NOT extract a `DsNavItem` Primitive — nav-item geometry is component-i
 - **Settings lives in the utility cluster**, not the main cluster — that legacy rule from the paprLCD spec survives.
 - **No dashed strokes anywhere on NavRail.** The legacy "active = dashed ink border" rule was incompatible with our `foundations.md → Border` discipline (dashed reserved for `DsDivider`). Replaced by the persistent-invert treatment above (Luis 2026-05-24, option B).
 - **Severity badges only.** Don't use NavRail badges for non-actionable counts (e.g. "12 rooms total"). Badges signal "needs your attention" — same discipline as DsKeyButton.
-- **Rail width is fixed at 64pt.** Don't responsive-collapse; on iPhone, the screen omits NavRail entirely rather than shrinking it. iPad portrait + landscape both render at 64pt.
+- **Rail width is fixed at 48pt (= chip width).** Don't responsive-collapse; on iPhone, the screen omits NavRail entirely rather than shrinking it. iPad portrait + landscape both render at 48pt.
 - **NavRail does not own positioning.** Parent Screen places NavRail in an `HStack` alongside the main canvas. NavRail doesn't `.ignoresSafeArea` on its own; the Screen decides whether the rail extends under safe areas.
-- **NavRail has NO surface chrome (final, Luis 2026-05-25).** History: started as a self-defined floating card with paper2 fill + ink20 outline + Radius.md corners. Iteration 1 dropped the paper2 fill — rail became an outlined transparent column. Iteration 2 dropped the border too — rail is now a pure transparent column of chips floating against the Screen's paper background. Active chip's ink invert is the only visual anchor; the rail's geometry comes from the 64pt width frame and the chips' 48pt tap targets. No surrounding fill, border, or corner — the rail recedes entirely until you tap an item.
+- **NavRail has NO surface chrome (final, Luis 2026-05-25).** History: started as a self-defined floating card with paper2 fill + ink20 outline + Radius.md corners. Iteration 1 dropped the paper2 fill — rail became an outlined transparent column. Iteration 2 dropped the border too — rail is now a pure transparent column of chips floating against the Screen's paper background. Active chip's ink invert is the only visual anchor; the rail's geometry comes from the 48pt width frame (= chip width). No surrounding fill, border, or corner — the rail recedes entirely until you tap an item.
 
 ## Cross-references
 
@@ -105,7 +105,7 @@ It does NOT extract a `DsNavItem` Primitive — nav-item geometry is component-i
 
 ## Decisions log (this spec)
 
-- **Rail width 64pt** (Luis 2026-05-24): iPad sidebar conventions sit 60–80pt. 64pt comfortably hosts a 44pt tap target with 8pt left padding.
+- **Rail width 64pt → 48pt** (Luis 2026-05-24 → 2026-05-25). Started at 64pt to match iPad sidebar conventions (60–80pt range) with 8pt L/R invisible padding around a 48pt chip. After chrome was stripped (paper2 fill → none, border → none), the invisible padding stopped serving any purpose AND pushed the chip off the Screen's content-left edge. Reduced to 48pt so rail bounds = chip bounds — chip left edge aligns flush with the dashboard's content gutter (and thus with TopBar's sun icon + sublabel).
 - **Active state = persistent invert** (Luis 2026-05-24, option B): rejected the legacy "dashed ink border" treatment which conflicts with our dashed-only-for-dividers rule. Borrows the invert vocabulary from DsKeyButton press feedback — same composition, persistent role.
 - **No new DsNavItem Primitive** (Luis 2026-05-24): item rendering inlined inside NavRail. Component-internal geometry; extract only when a second surface reuses the chip shape.
 - **IconCatalog from day one** (Luis 2026-05-24): NavRail consumes `IconCatalog.Nav.*` rather than literal SF Symbol strings. Sets the call-site convention going forward.

@@ -13,7 +13,7 @@
 |---|---|---|
 | Outer top padding | `SpacingToken.s36` (36pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in ("NOTHING ELSE PUSHES THE TOP") |
 | Outer sides + bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer dashboard spec |
-| NavRail width | 64pt fixed | NavRail spec |
+| NavRail width | 48pt fixed (= chip width — was 64pt; reduced Luis 2026-05-25 after rail chrome was dropped) | NavRail spec |
 | Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
 | Col 2 (flex) row heights | Driven by content — no fixed-height frames | Dropped 2026-05-25 (the 420/144/144 frames overflowed Calendar's content into MaintenanceList) |
 | Inter-column gap | `Space.snug` (12pt) | Prior-engineer dashboard spec |
