@@ -1,9 +1,24 @@
 # Dashboard — Screen
 
 **Layer:** Screen
-**Status:** 🟡 Draft (planning) — locks when implementation matches the source mockup on iPad
-**Implementation:** TBD `houseKipper/houseKipper/Screens/DashboardScreen.swift`
+**Status:** 🟡 Implementation in mock (`_DashboardMock.swift`) — locks when iPad sign-off lands; then promotes to `houseKipper/houseKipper/Screens/DashboardScreen.swift`
+**Implementation:** TBD `houseKipper/houseKipper/Screens/DashboardScreen.swift` (currently mocked at `houseKipper/houseKipper/DesignSystem/_DashboardMock.swift`)
 **Source mockup:** user-provided dashboard reference (2026-05-23) — save into `design-sys/refs/dashboard-v1.png` when ready
+
+> **Current state of truth:** this spec was written as a planning doc before Components shipped. For the *as-implemented* dashboard (3-column grid spec, locked outer-padding contract, all Component versions), see `CHANGELOG.md` entries dated 2026-05-25 + `_DashboardMock.swift` inline lock-in notes. The "Build order" + "Open decisions" sections below are partially historical; the Round-1 Primitives and Round-2 Components are all built. Round 3 (real `DashboardScreen.swift`) is the next promotion.
+
+### Locked dimensions (from `_DashboardMock`)
+
+| Geometry | Value | Source |
+|---|---|---|
+| Outer top padding | `SpacingToken.s36` (36pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in ("NOTHING ELSE PUSHES THE TOP") |
+| Outer sides + bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer dashboard spec |
+| NavRail width | 64pt fixed | NavRail spec |
+| Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
+| Col 2 (flex) row heights | Driven by content — no fixed-height frames | Dropped 2026-05-25 (the 420/144/144 frames overflowed Calendar's content into MaintenanceList) |
+| Inter-column gap | `Space.snug` (12pt) | Prior-engineer dashboard spec |
+| Inter-row gap (col 2) | `Space.tight` (8pt) | Luis 2026-05-25 yellow vet |
+| Inter-row gap (col 3) | `Space.tight` (8pt) | Same |
 
 ## Overview
 

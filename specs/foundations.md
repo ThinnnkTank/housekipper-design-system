@@ -46,15 +46,16 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 | Style | Face / weight | Size | Tracking | Case | Use |
 |---|---|---|---|---|---|
 | `Type.Display.lg` | DM Sans Medium | 38pt | 0 | — | Brand wordmark, onboarding hero. Once-per-screen presence. |
-| `Type.Title.xl` | **DM Mono Medium** | 30pt | -0.6 (tight) | — | **H1** — active-house heading, room/project/settings titles. LCD locked-up look. |
+| `Type.Title.xl` | **DM Mono Medium** | 26pt | -0.6 (tight) | — | **H1** — TopBar heading, room/project/settings titles. LCD locked-up look. Dropped 30→26 Luis 2026-05-25 (new `size26` BaseToken). |
 | `Type.Title.lg` | DM Sans Bold | 22pt | -0.8 (tighter) | — | **H2** — card headlines. Bold + tighter tracking gives the title a confident locked-up feel. |
-| `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles within a card. |
+| `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles, MaintenanceRow title. |
 | `Type.Body.md` | DM Sans Regular | 14pt | 0 | — | Paragraph + list-row copy. |
 | `Type.Label.lg` | DM Mono Medium | 14pt | +0.8 (label) | UPPER | Large button labels, primary affordances. |
-| `Type.Label.md` | DM Mono Medium | 13pt | +0.2 (snug) | UPPER | Small button labels, DsKeyButton tile labels. |
-| `Type.Label.sm` | DM Mono Medium | 13pt | +0.9 (micro) | UPPER | Micro button labels, weather/meta utility lines. |
+| `Type.Label.md` | DM Mono Medium | 13pt | +0.2 (snug) | UPPER | Small button labels. |
+| `Type.Label.sm` | DM Mono Medium | 12pt | +0.9 (micro) | UPPER | Micro button labels, DsKeyButton tile labels, weather/meta utility lines. History: 12 → 13 → 12 (final, Luis 2026-05-25). |
 | `Type.Label.xs` | DM Mono Medium | 10pt | +0.8 (label) | UPPER | NavRail chip labels, DsLabeledDivider labels, eyebrows. **Consumers MUST use `TextToken.primary` (ink) foreground** — at 10pt the role needs full ink contrast to stay legible. |
-| `Type.Data.md` | **DM Sans Bold** | 13pt | 0 | — | DsBadge content (counts + `!!`). The system's only Bold weight. |
+| `Type.Data.lg` | DM Mono Regular | 13pt | 0 | — | CalendarMonth date numbers. Larger tabular data needing more presence than `.sm`. Added Luis 2026-05-25. |
+| `Type.Data.md` | **DM Sans Bold** | 13pt | 0 | — | DsBadge content (counts + `!!`), ActiveProjectCard progress %. The system's only Bold weight. |
 | `Type.Data.sm` | DM Mono Regular | 12pt | 0 | — | Tabular meta — timestamps, maintenance metadata, descriptive captions. |
 | `Type.Data.xs` | DM Mono Regular | 9pt | 0 | — | Smallest data text, micro-labels. |
 

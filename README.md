@@ -58,9 +58,23 @@ Zero violations required. Pre-commit hook coming in Phase 1.
 | 1a | DsLabeledDivider primitive | ✅ Locked |
 | 1a | DsWeatherChip primitive | 🟡 Implemented (dummy, pending iPad vet) |
 | 1b | NavRail component | ✅ Locked |
-| 1b | SpaceCard component | ✅ Locked |
+| 1b | SpaceCard component | ✅ Locked (bordered chrome added 2026-05-25) |
 | 1b | TopBar component | 🟡 Implemented (pending iPad vet) |
 | 1b | NextUpCard component | 🟡 Implemented (pending iPad vet) |
-| 1c-2 | Patterns / Screens | Not started |
+| 1b | MaintenanceRow component | 🟡 Implemented (pending iPad vet) |
+| 1b | MaintenanceList component | 🟡 Implemented (pending iPad vet) |
+| 1b | CalendarMonth component | 🟡 Implemented (pending iPad vet) |
+| 1b | ActiveProjectCard component | 🟡 Implemented (pending iPad vet) |
+| 1c-2 | Patterns / Screens | 🟡 Dashboard in mock (`_DashboardMock` — locked outer-padding contract; promotes to `DashboardScreen.swift` after iPad sign-off) |
+
+### Dev tools (audit-exempt `_` prefix, `#if DEBUG`-gated)
+
+| File | Role | Status |
+|---|---|---|
+| `_Swatches.swift` | Live preview of every populated token + Primitive + Component | Live — `INSPECT` toggle + Type Lab tab |
+| `_Inspector.swift` | Touch-to-context: long-press an annotated view → identity copies to clipboard | ✅ v0 shipped (2026-05-24) |
+| `_FontPairing.swift` | Type Lab — audition alternative typeface pairings against the 12-style scale | ✅ v0 shipped (2026-05-24) |
+| `_DashboardMock.swift` | Vetting canvas for the dashboard layout | 🟡 Active, pending promotion to `DashboardScreen.swift` |
+| `_Root.swift` | Router — toggle between Swatches and Dashboard via floating signal-orange chip | ✅ Shipped (2026-05-25) |
 
 [BACKLOG.md](BACKLOG.md) · [CHANGELOG.md](CHANGELOG.md) · [devops.md](devops.md) (tooling, swatch app, audit, build) · [_legacy/](_legacy/) (archived paprLCD sources — v1 markdown + v1/vnext HTML style sheets)

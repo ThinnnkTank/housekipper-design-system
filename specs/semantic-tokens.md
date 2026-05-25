@@ -140,6 +140,7 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 |---|---|---|
 | `Space.hairline`         | `s4`  | Tiny gaps, divider padding |
 | `Space.tight`            | `s8`  | Icon-to-label, inside chips |
+| `Space.snug`             | `s12` | Between elements that belong together but need a beat (header→list, section→content, hero icon→content) |
 | `Space.bodyPadding`      | `s16` | Default horizontal padding |
 | `Space.cardPadding`      | `s20` | Inside cards |
 | `Space.safeGutter`       | `s24` | Screen edge from safe area |
@@ -156,6 +157,10 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 ### Adding a new intent
 
 Add row → add alias to `Space.swift` → then use in Primitive. **Never** reach for `SpacingToken.sXX` directly.
+
+### Unmapped raw stops
+
+`SpacingToken.s36` lives on the BaseToken ladder (added Luis 2026-05-25, dashboard top inset) but has no `Space.*` semantic alias yet — only `_DashboardMock` consumes it via a screen-local constant, and that file is audit-exempt by `_` prefix. When a second consumer surfaces, promote to a named `Space.*` alias.
 
 ---
 
@@ -189,21 +194,22 @@ withAnimation(Motion.standard) { isOn.toggle() }
 
 ## Typography — `Type.{category}.{size}`
 
-12 complete styles. Each style bundles face + size + weight + tracking + case. Applied via `.typeStyle(_:)` — single modifier per call site, no manual tracking/case.
+13 complete styles. Each style bundles face + size + weight + tracking + case. Applied via `.typeStyle(_:)` — single modifier per call site, no manual tracking/case.
 
 | Style | Face / weight | Size | Tracking | Case | Use |
 |---|---|---|---|---|---|
 | `Type.Display.lg` | DM Sans Medium | 38 | 0 | — | Brand wordmark, onboarding hero |
-| `Type.Title.xl`   | DM Mono Medium | 30 | -0.6 (tight) | — | **H1** — active-house heading, room/project/settings titles |
+| `Type.Title.xl`   | DM Mono Medium | 26 | -0.6 (tight) | — | **H1** — active-house heading (`TopBar`), room/project/settings titles. Dropped 30→26 Luis 2026-05-25 (new `size26` BaseToken). |
 | `Type.Title.lg`   | DM Sans Bold | 22 | -0.8 (tighter) | — | **H2** — card headlines (NextUpCard, ActiveProjectCard, modal titles) |
-| `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles |
+| `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles, MaintenanceRow title |
 | `Type.Body.md`    | DM Sans Regular | 14 | 0 | — | Paragraph + list-row copy |
 | `Type.Label.lg`   | DM Mono Medium | 14 | +0.8 | UPPER | `DsButton.large` labels |
-| `Type.Label.md`   | DM Mono Medium | 13 | +0.2 | UPPER | `DsButton.small`, `DsKeyButton` tile labels |
-| `Type.Label.sm`   | DM Mono Medium | 13 | +0.9 | UPPER | `DsButton.micro`, `DsWeatherChip`, weather/meta utility (bumped 12→13 for visual weight) |
-| `Type.Label.xs`   | DM Mono Medium | 10 | +0.8 | UPPER | `NavRail` chip labels, `DsLabeledDivider` labels, eyebrows. **Consumers MUST use `TextToken.primary` foreground** — at 10pt the role needs full ink contrast to remain legible. |
-| `Type.Data.md`    | DM Sans Bold | 13 | 0 | — | `DsBadge` content. Only Bold weight in the system. |
-| `Type.Data.sm`    | DM Mono Regular | 12 | 0 | — | Timestamps, maintenance metadata, descriptive captions |
+| `Type.Label.md`   | DM Mono Medium | 13 | +0.2 (snug) | UPPER | `DsButton.small` labels |
+| `Type.Label.sm`   | DM Mono Medium | 12 | +0.9 (micro) | UPPER | `DsButton.micro`, `DsKeyButton` tile labels, `DsWeatherChip`, MaintenanceRow location, NextUpCard dueLabel, MaintenanceList eyebrow. History: 12 → 13 → 12 (final, Luis 2026-05-25 dashboard density). |
+| `Type.Label.xs`   | DM Mono Medium | 10 | +0.8 (label) | UPPER | `NavRail` chip labels, `DsLabeledDivider` labels, eyebrows. **Consumers MUST use `TextToken.primary` foreground** — at 10pt the role needs full ink contrast to remain legible. |
+| `Type.Data.lg`    | DM Mono Regular | 13 | 0 | — | CalendarMonth date numbers. Larger tabular data that needs more presence than `.sm`. Added Luis 2026-05-25. |
+| `Type.Data.md`    | DM Sans Bold | 13 | 0 | — | `DsBadge` content, ActiveProjectCard progress %. Only Bold weight in the system. |
+| `Type.Data.sm`    | DM Mono Regular | 12 | 0 | — | Timestamps, maintenance metadata, descriptive captions, CalendarMonth legend today swatch |
 | `Type.Data.xs`    | DM Mono Regular | 9 | 0 | — | Smallest data text, micro-labels |
 
 ### Reuse rule

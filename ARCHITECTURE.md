@@ -1,5 +1,7 @@
 # houseKipper Design System — Architecture Plan
 
+> ⚠️ **Historical planning doc.** Written at Phase 0a kickoff (2026-05-22). The architecture model, folder layout, and spec discipline described below are still authoritative — but the "We are in Phase 0a" framing is stale. For current state-of-truth see [`CHANGELOG.md`](CHANGELOG.md) (every shipped change) + [`README.md`](README.md) status table. Phase 1b is mid-flight (8 Components shipped, dashboard in mock-vet); Round 3 (real `DashboardScreen.swift`) is the next promotion.
+
 ## Context
 
 iOS (SwiftUI) app for ADHD household management. The DS must survive Pandya's "session amnesia": every new agent session produces the same visual quality as the first.

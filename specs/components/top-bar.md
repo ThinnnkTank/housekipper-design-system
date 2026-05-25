@@ -24,7 +24,7 @@ TopBar (borderless — no fill, no outline, no internal padding)
     ├── VStack(alignment: .leading, spacing: Space.hairline)         [LEFT ZONE — flex]
     │   ├── HStack(spacing: Space.tight)
     │   │   ├── Image(headingIcon)?    SF Symbol, hkPageHeading-anchored, signal-tinted
-    │   │   └── Text(heading)          .typeStyle(Type.Title.xl) — 30pt DM Mono Medium + trackingTight (H1)
+    │   │   └── Text(heading)          .typeStyle(Type.Title.xl) — 26pt DM Mono Medium + trackingTight (H1)
     │   └── DsWeatherChip(summary: weatherSummary)
     ├── Spacer()
     └── HStack(spacing: Space.bodyPadding, alignment: .center)       [RIGHT CLUSTER — fixed]

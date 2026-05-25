@@ -127,7 +127,7 @@ It does NOT extract a `CalendarDayCell` Primitive — cell layout is component-i
 
 These were accepted in the sizing pass (Luis 2026-05-25) to preserve "reuse existing Primitives first":
 
-1. **Date pill font:** spec wants `10pt mono 700 / 0.14em`; we land `13pt mono 500 / micro tracking` via `DsButton.primary.micro` (which uses `Type.Label.sm`). +3pt size, lighter weight, similar visual family. Acceptable for reuse.
+1. **Date pill font:** spec wants `10pt mono 700 / 0.14em`; we land `12pt mono 500 / micro tracking` via `DsButton.primary.micro` (which uses `Type.Label.sm`). +2pt size, lighter weight, similar visual family. Acceptable for reuse. (Label.sm was 13pt at initial decision; reverted to 12pt later in the same session.)
 2. **DOW label font:** spec wants `11pt mono 500`; we land `10pt mono 500` via `Type.Label.xs`. -1pt, avoids inventing an 11pt Type role for a single surface.
 3. **Nav button aspect:** spec wants `36×22` rectangular; we land `24×24` square via `DsButton.micro` icon-only. Same DS family; aspect differs.
 4. **Today background opacity:** spec wants `ink-10` (11%); we keep solid ink (Luis 2026-05-24).

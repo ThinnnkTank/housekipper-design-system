@@ -69,9 +69,9 @@ Use the smallest stop that fits the corner.
 
 ### Sizes
 
-`9 · 10 · 11 · 12 · 13 · 14 · 17 · 22 · 30 · 38` (size9, size10, …, size38)
+`9 · 10 · 11 · 12 · 13 · 14 · 17 · 22 · 26 · 30 · 38` (size9, size10, …, size38)
 
-`size9/11/13` are explicit exemptions to the 4-grid — needed for micro-utility text.
+`size9/11/13` are explicit exemptions to the 4-grid — needed for micro-utility text. `size26` added Luis 2026-05-25 — bridges 22→30 for H1 (`Type.Title.xl`); 30pt felt too big in the dashboard's iPad context. `size30` retained for a future heavier-H1 variant.
 
 ### Weights
 
