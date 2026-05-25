@@ -1,7 +1,7 @@
 # SpaceCard — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-24)
+**Status:** ✅ Locked (2026-05-24) — bordered chrome added 2026-05-25
 **Implementation:** `houseKipper/houseKipper/Components/SpaceCard.swift`
 
 ## Overview
@@ -151,3 +151,4 @@ It does NOT extract `RoomsRail` / `OutdoorRail` / `SystemsRail` as separate Comp
 - **Identical padding on both `ViewThatFits` branches** (Luis 2026-05-24, iter 4): the padding sat only on the scroll branch initially, causing an 8pt vertical position shift when items count crossed the flex → scroll threshold. Now both branches apply the same padding inside their content, so rail geometry stays stable regardless of which layout `ViewThatFits` picks.
 - **Section inner spacing reduced to `Space.tight` (8pt)** (Luis 2026-05-24, iter 5): the rail's internal 8pt badge-overhang padding was silently making the below-label gap 24pt while the above-label gap stayed at 16pt. Reduced sectionView's inner VStack spacing from `bodyPadding` (16pt) to `tight` (8pt). Total visible gap below label = 8pt + 8pt internal = 16pt, matching the 16pt above. Equal spacing on both sides of the label.
 - **Odd-count Z-pattern column alignment** (Luis 2026-05-24, iter 3): bottom row keeps the same slot count as the top row when items count is odd. Missing tiles render as transparent flex placeholders. Matches the original paprLCD reference's column alignment.
+- **Outer border added** (Luis 2026-05-25 dashboard vet — "why doesnt spacecard have a border also?"): `RoundedRectangle(cornerRadius: Radius.md).strokeBorder(Border.Color.muted, lineWidth: Border.Width.normal)`. SpaceCard now visually matches the bordered chrome of NextUpCard / ActiveProjectCard / CalendarMonth. **Zero internal horizontal padding** — dashed section dividers run border-to-border, and tile rows retain their full content width so the 8-pill SYSTEMS row doesn't get squeezed below tileMinWidth on iPad 11 landscape. Vertical padding = `Space.snug` (12pt) for small breathing room top/bottom.

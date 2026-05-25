@@ -23,7 +23,7 @@ DsLabeledDivider
     │   ├── .typeStyle(Type.Data.xs)                                9pt DM Mono Regular
     │   ├── .tracking(HkType.trackingWider)                  +1.8pt
     │   ├── .textCase(.uppercase)
-    │   └── .foregroundStyle(TextToken.secondary)            ink60
+    │   └── .foregroundStyle(TextToken.muted)               ink40 (matches line color)
     └── DsDivider(style: style, color: Border.Color.muted).frame(maxWidth: .infinity)   right segment, flex-grow, ink40 line
 ```
 
@@ -46,7 +46,7 @@ No interactive states. Render-only.
 
 ## SemanticTokens used
 
-`Type.Data.xs` · `HkType.trackingWider` · `TextToken.secondary` · `Border.Color.muted` · `Space.bodyPadding`
+`Type.Data.xs` · `HkType.trackingWider` · `TextToken.muted` · `Border.Color.muted` · `Space.bodyPadding`
 
 Plus the tokens `DsDivider` itself consumes (`Border.Width.normal`, `Border.dashPattern`) — but only transitively through the composed primitive. The line color is passed explicitly (`.muted` instead of DsDivider's default `.subtle`) — line and label sit one ink step darker than ordinary dividers because section headers need a touch more presence.
 
@@ -75,4 +75,5 @@ VStack(alignment: .leading, spacing: Space.tight) {
 - **Composes `DsDivider` rather than re-stroking dashes** (Luis 2026-05-24): keeps the dashed-only-for-dividers rule honest. The new Primitive is a *labeled* divider; the line segments are still `DsDivider` instances.
 - **`Space.bodyPadding` (16pt) gap around label** (Luis 2026-05-24): enough breathing room that the dashed line doesn't visually crash into the uppercase label glyphs. Smaller gaps (tight/hairline) made the label feel hemmed in.
 - **Default `.dashed` style** (2026-05-24): dominant use case is eyebrow-style section headers, which are always dashed. Solid available for harder demarcation.
-- **Line color `.muted`, label `.secondary`** (Luis 2026-05-24, iter 2): initial draft used `Border.Color.subtle` (ink20) line + `TextToken.muted` (ink40) label. On iPad both read too faint to anchor a section header. Each bumped one step darker — line ink20 → ink40 (new `Border.Color.muted` added to the semantic-token layer), label ink40 → ink60 (`TextToken.secondary`). Section headers now have enough presence to belong to the content they label without reading as decoration.
+- **Line color `.muted`, label `.secondary`** (Luis 2026-05-24, iter 2): initial draft used `Border.Color.subtle` (ink20) line + `TextToken.muted` (ink40) label. On iPad both read too faint to anchor a section header. Each bumped one step darker — line ink20 → ink40 (new `Border.Color.muted` added to the semantic-token layer), label ink40 → ink60 (`TextToken.secondary`).
+- **Label softened back to `.muted` ink40** (Luis 2026-05-25, dashboard vet): with the dashboard's compact tile labels (Type.Label.sm dropped 13→12pt), the ink60 section header dominated the section content. Label now matches the line color (ink40) — both at the same weight, section headers recede into the rhythm rather than competing with tiles.

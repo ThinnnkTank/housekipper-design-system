@@ -35,7 +35,7 @@ DsStatusDot
 | Size      | Diameter | Ring width            | Use |
 |---|---|---|---|
 | `.regular`| 12pt     | 2.5pt (hollow modes) | Legend, labeled severity rows — paprLCD canonical reference weight |
-| `.small`  | 8pt      | 2pt (hollow modes)   | Calendar day cell, list-row markers — denser surfaces |
+| `.small`  | 6pt      | 2pt (hollow modes)   | Calendar day cell, list-row markers — denser surfaces |
 
 **Ring weight is size-driven, not severity-driven.** Healthy and attention share the same stroke thickness at any given size — only the color differs. Heavier strokes on the smaller dot would dominate the circle; thinner strokes on the larger dot would read anemic next to body text. Same principle as DsKeyButton — stroke is proportional to the surface it sits on, not to which severity is being expressed.
 
@@ -101,3 +101,4 @@ The mapping (day → severity) lives at the CalendarMonth Component, not inside 
 - **Iter 5 (2026-05-24):** Healthy ring color bumped `TextToken.faint` (ink20, 22%) → `TextToken.muted` (ink40, 50%). Luis on iPad: ink20 was nearly invisible. Doubling the perceived weight while still reading quieter than attention/urgent (which use full signal). Local to DsStatusDot only — other consumers of `TextToken.faint` (placeholder, disabled-ish text) remain unchanged.
 - **Iter 6 (2026-05-24):** Small diameter 6pt → 8pt per Luis. Initially tried "healthy +1pt thicker than attention" to compensate for ink40's lower visual weight — overreach, reverted in iter 7.
 - **Iter 7 (2026-05-24):** Locked the rule: **hollow ring thickness is purely size-driven, same for all hollow severities at a given size.** Color alone carries severity. Final values: regular 2.5pt, small 2pt. The 3pt-at-regular tried in iter 6 was too heavy; 2.5pt reads strong without dominating. Swatch panel label corrected (was still "6pt" after the diameter bump).
+- **Iter 8 (2026-05-25):** Reverted small diameter `8pt → 6pt` per the paprLCD calendar spec Luis re-shared during the CalendarMonth sizing pass. Reasoning: iter 6 bumped 6→8 to compensate for standalone visibility on iPad; in calendar context the dot sits directly under a 12pt mono date number, so the visual pairing reads correctly at 6pt — bigger looked over-emphasised. Other consumers of `DsStatusDot.small` (none active yet besides calendar; legend swatches in the swatch app + the calendar legend) all match the calendar's denser context. Spec docstring already said 6pt — implementation now aligned.

@@ -41,11 +41,11 @@ Canonical paprLCD vnext palette. Light-mode values shown. Dark mode lives in `As
 
 ## Spacing
 
-12 stops. Vnext-canonical (8) + iOS extras (44/48/64/80).
+13 stops. Vnext-canonical (8) + iOS extras (44/48/64/80) + dashboard inset (36).
 
-`SpacingToken.s4 · s8 · s12 · s16 · s20 · s24 · s32 · s40 · s44 · s48 · s64 · s80`
+`SpacingToken.s4 · s8 · s12 · s16 · s20 · s24 · s32 · s36 · s40 · s44 · s48 · s64 · s80`
 
-`s44` = iOS minimum tap target.
+`s44` = iOS minimum tap target. `s36` added Luis 2026-05-25 — fills the gap between `sectionGap` (32) and `blockSeparator` (48) for the dashboard's locked top inset and similar "more than sectionGap, less than blockSeparator" cases. A `Space.*` semantic alias will be added when a second consumer surfaces.
 
 ---
 

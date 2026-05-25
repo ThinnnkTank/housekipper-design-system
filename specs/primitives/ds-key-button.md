@@ -82,7 +82,7 @@ Asymmetric animation: instant on press, `Motion.standard` (300ms) on release —
 
 ## SemanticTokens used
 
-`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon size anchor) · `Type.Label.sm` (label — tracking + UPPER baked) · `IconWeight.action` · `Motion.standard`
+`StatusToken.tint(_:)` / `softFill(_:)` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Width.normal` / `Border.Width.strong` · `Inventory.tileHeight` / `tileMinWidth` · `Space.tight` · `Radius.sm` (rect shape) / `Capsule()` (pill shape) · `Type.Body.md` (icon size anchor) · `Type.Label.sm` (label — **12pt** mono medium + tracking + UPPER baked, dropped 13→12 Luis 2026-05-25 for dashboard tile density) · `IconWeight.action` · `Motion.standard`
 
 ## Example
 

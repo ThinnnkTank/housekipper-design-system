@@ -89,9 +89,11 @@ DM Sans + DM Mono `.ttf` files in `houseKipper/houseKipper/Fonts/`. Registered v
 
 Tight, disciplined, 4-base scale. Vnext-canonical with iOS-relevant additions for tap targets and hero layouts.
 
-### The ladder (12 stops)
+### The ladder (13 stops)
 
-`4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 44 · 48 · 64 · 80`
+`4 · 8 · 12 · 16 · 20 · 24 · 32 · 36 · 40 · 44 · 48 · 64 · 80`
+
+`36` added Luis 2026-05-25 — locked dashboard top inset; fills the gap between `sectionGap` (32) and `blockSeparator` (48).
 
 ### Rules
 
