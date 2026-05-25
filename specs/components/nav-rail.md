@@ -16,15 +16,15 @@ NavRail is a Component — composes Primitives only, owns no token values. Selec
 ## Anatomy
 
 ```
-NavRail (64pt wide × safe-area-height tall, paper2 fill, 1pt ink20 full outline, Radius.md corners)
-└── VStack(spacing: Space.tight)
-    ├── Main cluster (top)
+NavRail (64pt wide × safe-area-height tall, NO fill, 1pt ink20 full outline, Radius.md corners)
+└── VStack(spacing: 0)
+    ├── Main cluster — VStack(spacing: Space.snug = 12pt)
     │   ├── Item: Home    (IconCatalog.Nav.home)
     │   ├── Item: Tasks   (IconCatalog.Nav.tasks)    + optional DsBadge
     │   ├── Item: Spaces  (IconCatalog.Nav.spaces)
     │   └── Item: Alerts  (IconCatalog.Nav.alerts)   + optional DsBadge
     ├── Spacer  (flexible)
-    └── Utility cluster (bottom)
+    └── Utility cluster — VStack(spacing: Space.tight = 8pt)
         ├── Item: Settings (IconCatalog.Nav.settings)
         └── DsAvatar(initial: ...)
 ```
@@ -37,7 +37,8 @@ NavRail (64pt wide × safe-area-height tall, paper2 fill, 1pt ink20 full outline
   - **Label:** `Type.Label.xs` (10pt DM Mono Medium + trackingLabel + UPPER, all baked, must use `TextToken.primary` foreground). Same family/weight as `DsKeyButton` tile labels (`Type.Label.sm`, 13pt) — three size steps down. Tracking and uppercase are baked into the style; consumers just apply `.typeStyle(Type.Label.xs)` + ink foreground.
   - **Settings is icon-only.** "SETTINGS" (8 chars) at 10pt + trackingLabel still overflows the 48pt chip. The gear icon (`gearshape`) is universally recognized; iOS sidebars commonly treat Settings as icon-only. Other four items keep their labels.
 - **Shape:** `RoundedRectangle(cornerRadius: Radius.md)` (12pt corners — soft, not pill, not sharp)
-- **Inter-item gap:** `Space.tight` (8pt)
+- **Inter-item gap (main cluster):** `Space.snug` (12pt) — Luis 2026-05-25 ("increase the gap between buttons on the top cluster"). More breathing for HOME/TASKS/SPACES/ALERTS.
+- **Inter-item gap (utility cluster):** `Space.tight` (8pt) — settings + avatar paired tighter.
 - **Outer rail padding:** 8pt horizontal each side — 48pt chip centers inside 64pt-wide rail (8 + 48 + 8 = 64)
 - **Cluster-to-cluster:** `Spacer()` between main and utility — vertical space stretches to fill safe-area height
 - **Asymmetric vertical padding:** `Space.tight` (8pt) at the top, `Space.bodyPadding` (16pt) at the bottom. The avatar sits in the utility cluster and would otherwise read as flush against the rail's bottom edge; the extra bottom padding gives it an elevated feel, respecting the margin like the rest of the items respect the rail's interior.
@@ -94,11 +95,12 @@ It does NOT extract a `DsNavItem` Primitive — nav-item geometry is component-i
 - **Severity badges only.** Don't use NavRail badges for non-actionable counts (e.g. "12 rooms total"). Badges signal "needs your attention" — same discipline as DsKeyButton.
 - **Rail width is fixed at 64pt.** Don't responsive-collapse; on iPhone, the screen omits NavRail entirely rather than shrinking it. iPad portrait + landscape both render at 64pt.
 - **NavRail does not own positioning.** Parent Screen places NavRail in an `HStack` alongside the main canvas. NavRail doesn't `.ignoresSafeArea` on its own; the Screen decides whether the rail extends under safe areas.
-- **NavRail is a self-defined floating card.** Full outline (`Border.Color.subtle` × 1pt, all four edges) + `Radius.md` rounded corners + paper2 fill. Earlier draft used a right-edge-only stroke with sharp corners, assuming "always docked to screen leading edge" — that locked the Component to one layout context. The self-defined card works whether docked to the edge (left corners align with the screen frame, visually neutral) or floating with padding (full card definition).
+- **NavRail is a self-defined floating card.** Full outline (`Border.Color.subtle` × 1pt, all four edges) + `Radius.md` rounded corners. Earlier draft used a right-edge-only stroke with sharp corners, assuming "always docked to screen leading edge" — that locked the Component to one layout context. The self-defined card works whether docked to the edge (left corners align with the screen frame, visually neutral) or floating with padding (full card definition).
+- **No fill (paper2 dropped Luis 2026-05-25).** Rail now reads as an outlined transparent column rather than a paper2 surface. Chips inside (active = ink invert; rest = transparent) provide all the in-rail visual weight; the rail's surface itself recedes. Border (ink20) stays so the rail remains a defined region of the screen.
 
 ## Cross-references
 
-- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.tight`, `Radius.md`, `BackgroundToken.primary` / `.secondary`, `TextToken.primary`, `Border.Color.subtle`, `Border.Width.normal`, `Type.Title.md`, `Inventory.badgeOverhangRect`
+- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.snug` / `Space.tight`, `Radius.md`, `BackgroundToken.primary` (active-chip foreground only), `TextToken.primary`, `Border.Color.subtle`, `Border.Width.normal`, `Type.Title.md`, `Inventory.badgeOverhangRect`
 - Used by: every Screen except onboarding / sheets / modals
 - Active-state vocabulary peer: `DsKeyButton` press state (same invert palette, persistent here)
 
