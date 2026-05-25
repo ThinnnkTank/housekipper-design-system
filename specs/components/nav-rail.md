@@ -16,7 +16,7 @@ NavRail is a Component — composes Primitives only, owns no token values. Selec
 ## Anatomy
 
 ```
-NavRail (64pt wide × safe-area-height tall, NO fill, 1pt ink20 full outline, Radius.md corners)
+NavRail (64pt wide × safe-area-height tall, NO fill, NO border — pure transparent column of chips)
 └── VStack(spacing: 0)
     ├── Main cluster — VStack(spacing: Space.snug = 12pt)
     │   ├── Item: Home    (IconCatalog.Nav.home)
@@ -95,12 +95,11 @@ It does NOT extract a `DsNavItem` Primitive — nav-item geometry is component-i
 - **Severity badges only.** Don't use NavRail badges for non-actionable counts (e.g. "12 rooms total"). Badges signal "needs your attention" — same discipline as DsKeyButton.
 - **Rail width is fixed at 64pt.** Don't responsive-collapse; on iPhone, the screen omits NavRail entirely rather than shrinking it. iPad portrait + landscape both render at 64pt.
 - **NavRail does not own positioning.** Parent Screen places NavRail in an `HStack` alongside the main canvas. NavRail doesn't `.ignoresSafeArea` on its own; the Screen decides whether the rail extends under safe areas.
-- **NavRail is a self-defined floating card.** Full outline (`Border.Color.subtle` × 1pt, all four edges) + `Radius.md` rounded corners. Earlier draft used a right-edge-only stroke with sharp corners, assuming "always docked to screen leading edge" — that locked the Component to one layout context. The self-defined card works whether docked to the edge (left corners align with the screen frame, visually neutral) or floating with padding (full card definition).
-- **No fill (paper2 dropped Luis 2026-05-25).** Rail now reads as an outlined transparent column rather than a paper2 surface. Chips inside (active = ink invert; rest = transparent) provide all the in-rail visual weight; the rail's surface itself recedes. Border (ink20) stays so the rail remains a defined region of the screen.
+- **NavRail has NO surface chrome (final, Luis 2026-05-25).** History: started as a self-defined floating card with paper2 fill + ink20 outline + Radius.md corners. Iteration 1 dropped the paper2 fill — rail became an outlined transparent column. Iteration 2 dropped the border too — rail is now a pure transparent column of chips floating against the Screen's paper background. Active chip's ink invert is the only visual anchor; the rail's geometry comes from the 64pt width frame and the chips' 48pt tap targets. No surrounding fill, border, or corner — the rail recedes entirely until you tap an item.
 
 ## Cross-references
 
-- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.snug` / `Space.tight`, `Radius.md`, `BackgroundToken.primary` (active-chip foreground only), `TextToken.primary`, `Border.Color.subtle`, `Border.Width.normal`, `Type.Title.md`, `Inventory.badgeOverhangRect`
+- Uses: `DsAvatar`, `DsBadge`, `IconCatalog.Nav`, `Space.tapTarget` / `Space.snug` / `Space.tight`, `Radius.md` (per-chip active-state corner only), `BackgroundToken.primary` (active-chip foreground), `TextToken.primary`, `Type.Title.md`, `Inventory.badgeOverhangRect`
 - Used by: every Screen except onboarding / sheets / modals
 - Active-state vocabulary peer: `DsKeyButton` press state (same invert palette, persistent here)
 
