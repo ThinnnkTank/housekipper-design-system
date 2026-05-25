@@ -145,7 +145,7 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 | `Space.cardPadding`      | `s20` | Inside cards |
 | `Space.safeGutter`       | `s24` | Screen edge from safe area |
 | `Space.sectionGap`       | `s32` | Between sections |
-| `Space.pageInset`        | `s36` | Additive page-chrome top breathing (Screen-layer use; sits on top of SwiftUI safe-area inset). First consumer: DashboardScreen 2026-05-25. |
+| `Space.pageInset`        | `s40` | Symmetric breathing around the page heading — applied above AND below TopBar in Screens. History: introduced 2026-05-25 at `s36` (top-only); bumped to `s40` later same day after iPad vet ("make it 40 even both sides"). First consumer: DashboardScreen. |
 | `Space.blockSeparator`   | `s48` | Major content blocks |
 | `Space.tapTarget`        | `s44` | iOS min tap height |
 | `Space.buttonPaddingLg`  | `s16` | Large button horizontal padding |
