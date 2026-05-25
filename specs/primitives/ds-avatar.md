@@ -1,7 +1,7 @@
 # DsAvatar — Primitive
 
 **Layer:** Primitive
-**Status:** 🟡 Implemented (2026-05-24) — pending iPad vetting, locks after Luis sign-off
+**Status:** ✅ Locked (2026-05-25)
 **Implementation:** `houseKipper/houseKipper/DesignSystem/Primitives/DsAvatar.swift`
 
 ## Overview

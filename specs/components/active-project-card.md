@@ -1,7 +1,7 @@
 # ActiveProjectCard — Component
 
 **Layer:** Component
-**Status:** 🟡 Implemented (2026-05-25) — pending iPad vetting, locks after Luis sign-off
+**Status:** ✅ Locked (2026-05-25)
 **Implementation:** `houseKipper/houseKipper/Components/ActiveProjectCard.swift`
 **Reference:** dashboard mock + paprLCD canonical Active Project surface
 

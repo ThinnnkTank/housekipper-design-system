@@ -1,7 +1,7 @@
 # SignalButton — Primitive
 
 **Layer:** Primitive
-**Status:** 🟡 Implemented (pending vet) (2026-05-25)
+**Status:** ✅ Locked (2026-05-25)
 **Implementation:** `houseKipper/houseKipper/DesignSystem/Primitives/SignalButton.swift`
 
 ## Overview

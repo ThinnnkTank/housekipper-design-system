@@ -1,7 +1,7 @@
 # MaintenanceRow — Component
 
 **Layer:** Component
-**Status:** 🟡 Implemented (2026-05-24) — pending iPad vetting, locks after Luis sign-off
+**Status:** ✅ Locked (2026-05-25)
 **Implementation:** `houseKipper/houseKipper/Components/MaintenanceRow.swift`
 **Reference:** legacy `_legacy/paprlcd-vnext-style-sheet.html` → "Card-chip family" → split chip variant
 
