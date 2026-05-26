@@ -149,8 +149,8 @@ Component-internal geometry for the `SpaceCard` Component and its rails (Rooms /
 |---|---|---|
 | `InventoryToken.tileHeight`        | 60  | Visible tile height (uniform across rect + pill) |
 | `InventoryToken.tileMinWidth`      | 100 | Tile min-width before horizontal scroll |
-| `InventoryToken.railColumnGap`     | 6   | Between tiles horizontally |
-| `InventoryToken.railRowGap`        | 6   | Between Z-pattern rows |
+| `InventoryToken.railColumnGap`     | 8   | Between tiles horizontally — bumped 6→8 Luis 2026-05-25 (tiles looked too packed) |
+| `InventoryToken.railRowGap`        | 8   | Between Z-pattern rows — bumped 6→8 same vet |
 | `InventoryToken.badgeSize`         | 20  | Badge min diameter; capsule extends horizontally for multi-char content |
 | `InventoryToken.badgeSizeSmall`    | 17  | Cramped contexts (rare) |
 | `InventoryToken.badgePaddingH`     | 6   | Inner horizontal padding inside the capsule (breathing room for digits) |

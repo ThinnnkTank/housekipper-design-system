@@ -61,7 +61,7 @@ Resolved palettes: rest × severity, plus pressed (overrides severity).
 
 | Severity | Fill | Border | Icon | Label | Border width |
 |---|---|---|---|---|---|
-| `healthy`   | `ink05` (subtle rest wash — same fill as `DsButton.secondary`, added Luis 2026-05-25) | `ink` | `ink` | `ink` | 1pt (`Border.Width.normal`) |
+| `healthy`   | `ink05` (subtle rest wash — same fill as `DsButton.secondary`) | `ink40` (`Border.Color.muted` — softened from full ink Luis 2026-05-25) | `ink` | `ink` | 1pt (`Border.Width.normal`) |
 | `attention` | clear | `signal` | `signal` | `ink` | 2pt (`Border.Width.strong`) |
 | `urgent`    | `signalTint` | `signal` | `signal` | `ink` | 2pt |
 
