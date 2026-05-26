@@ -21,12 +21,12 @@ MaintenanceRow (full-width, Radius.sm rounded press surface)
 └── HStack(spacing: Space.bodyPadding)
     ├── DsAvatar(initial: assignee, style: .outline)   leading — 32pt ring + ink letter
     ├── VStack(alignment: .leading) {
-    │     Text(title)                     Type.Body.md (14pt DM Sans Regular) — bumped down from Title.md 17pt Luis 2026-05-25
+    │     Text(title)                     Type.Title.md (17pt DM Sans Medium)
     │     Text(location)                  Type.Label.sm + TextToken.secondary
     │   }
     ├── Spacer()
     └── VStack(alignment: .trailing) {
-          Text(date)                      Type.Data.md (13pt DM Sans Bold) — bumped from Data.sm mono Regular Luis 2026-05-25 ("dates [bold]"). Trade-off: loses tabular mono alignment; the short MaintList dates ("May 2", "May 3") read OK at sans Bold.
+          Text(date)                      Type.Data.sm (12pt DM Mono Regular — tabular)
           Text(frequency)                 Type.Label.xs + TextToken.secondary
         }
 ```
@@ -85,11 +85,11 @@ It does NOT compose a `DsButton.micro` (e.g. checkmark). The row's primary affor
 - **Press invert is the only state feedback.** No hover, no focus highlight beyond what SwiftUI provides for free.
 - **Severity is not visualized here in v0.** Urgent items belong in `NextUpCard`; "needs attention" items land in the list and rely on sort + the date string ("Due in 2 days") to convey urgency. Add a `severity` param later if real screens demand it.
 - **Title `lineLimit(1)`.** Long task titles truncate rather than wrap — keeps row heights uniform across a list. Location also `lineLimit(1)`.
-- **Date column right-alignment is intentional.** Date now uses `Type.Data.md` (DM Sans Bold 13pt — bumped from `Type.Data.sm` mono Regular 12pt Luis 2026-05-25 for visual weight). The face change is a real trade-off — sans Bold doesn't tabular-align as cleanly as mono. Mitigated by the short MaintList dates ("May 2", "May 3", "May 4"); revisit if longer dates surface ("May 14" vs "May 4" mis-alignment could read off).
+- **Date column right-alignment is intentional.** Tabular date (`Type.Data.sm` DM Mono Regular) keeps glyph-stable across rows; right-aligning forms a visual second column that scans naturally for "next thing up."
 
 ## Cross-references
 
-- Uses: `DsAvatar`, `Type.Body.md` (title) / `Type.Label.sm` (location) / `Type.Data.md` (date) / `Type.Label.xs` (frequency), `TextToken.primary` / `.secondary`, `BackgroundToken.primary`, `Radius.sm`, `Space.cardPadding` / `.bodyPadding` / `.hairline` / `.tight` / `.tapTarget`, `Motion.standard`
+- Uses: `DsAvatar`, `Type.Title.md` / `Type.Label.sm` / `Type.Data.sm` / `Type.Label.xs`, `TextToken.primary` / `.secondary`, `BackgroundToken.primary`, `Radius.sm`, `Space.cardPadding` / `.bodyPadding` / `.hairline` / `.tight` / `.tapTarget`, `Motion.standard`
 - Used by: `MaintenanceList` (TBD) — vertical stack with container chrome
 - Press-strategy peers: `DsKeyButton` (transient invert on press), `NavRail` item (persistent invert when active)
 
