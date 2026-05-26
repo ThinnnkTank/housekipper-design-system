@@ -21,7 +21,7 @@ MaintenanceList
 └── VStack(spacing: Space.bodyPadding)
     ├── header
     │   └── HStack
-    │       ├── Text("UPCOMING MAINTENANCE")        Type.Label.xs + TextToken.primary
+    │       ├── Text("UPCOMING MAINTENANCE")        Type.Label.lg (14pt mono Medium UPPER) + TextToken.primary
     │       ├── Spacer
     │       └── DsButton("VIEW ALL",                .secondary, .small, trailing arrow.right
     │                    variant: .secondary,
@@ -105,6 +105,7 @@ It does NOT extract a `ListHeader` Primitive — the eyebrow + VIEW ALL pattern 
 - **Borderless / no outer card** (Luis 2026-05-24, ref image): matches the dashboard reference. The list breathes inside the right column without a competing frame.
 - **Dashed dividers between rows** (Luis 2026-05-24, ref image): consistent with the dashed-only-for-dividers rule. `DsDivider(.dashed)` is the canonical primitive.
 - **VIEW ALL: `.secondary` `.small` with trailing `arrow.right`** (Luis 2026-05-24, ref image): inline section affordance, doesn't compete with the eyebrow.
-- **Eyebrow scale-up + VIEW ALL → `.micro`** (Luis 2026-05-25 dashboard vet): bumped "UPCOMING MAINTENANCE" eyebrow `Type.Label.xs` (10pt) → `Type.Label.sm` (12pt — note: Label.sm was 13pt at the time of this bump, then reverted to 12pt later in the same session for tile-label density) for more visual weight against the row content. VIEW ALL → button correspondingly downsized `.small` → `.micro` to keep it inline-secondary against the now-bigger eyebrow rather than competing.
+- **Eyebrow scale-up + VIEW ALL → `.micro`** (Luis 2026-05-25 dashboard vet): bumped "UPCOMING MAINTENANCE" eyebrow `Type.Label.xs` (10pt) → `Type.Label.sm` (12pt) for more visual weight against the row content. VIEW ALL → button correspondingly downsized `.small` → `.micro`.
+- **Second eyebrow bump → `Type.Label.lg` (14pt mono Medium UPPER)** (Luis 2026-05-25 same-day): label still read weak at Label.sm. Bumped one stop bigger. The Type system has no mono Bold weight — size is how we add eyebrow visual weight without switching face.
 - **`Item` struct nested inside MaintenanceList** (2026-05-24): simple flat shape for now. When the real model arrives, it replaces `Item` at the Screen layer and MaintenanceList accepts the model directly.
 - **Snoozed + completed treatments deferred to Screen wiring** (Luis 2026-05-24): these are cross-Component interactions (NextUpCard mark-complete / snooze → MaintenanceList row state), not self-contained list behavior. Logged in BACKLOG; implemented during Screen assembly.

@@ -18,7 +18,7 @@ NavRail is a Component — composes Primitives only, owns no token values. Selec
 ```
 NavRail (48pt wide — chip width — × safe-area-height tall, NO fill, NO border — pure column of chips)
 └── VStack(spacing: 0)
-    ├── Main cluster — VStack(spacing: Space.snug = 12pt)
+    ├── Main cluster — VStack(spacing: Space.bodyPadding = 16pt)
     │   ├── Item: Home    (IconCatalog.Nav.home)
     │   ├── Item: Tasks   (IconCatalog.Nav.tasks)    + optional DsBadge
     │   ├── Item: Spaces  (IconCatalog.Nav.spaces)
@@ -37,7 +37,7 @@ NavRail (48pt wide — chip width — × safe-area-height tall, NO fill, NO bord
   - **Label:** `Type.Label.xs` (10pt DM Mono Medium + trackingLabel + UPPER, all baked, must use `TextToken.primary` foreground). Same family/weight as `DsKeyButton` tile labels (`Type.Label.sm`, 13pt) — three size steps down. Tracking and uppercase are baked into the style; consumers just apply `.typeStyle(Type.Label.xs)` + ink foreground.
   - **Settings is icon-only.** "SETTINGS" (8 chars) at 10pt + trackingLabel still overflows the 48pt chip. The gear icon (`gearshape`) is universally recognized; iOS sidebars commonly treat Settings as icon-only. Other four items keep their labels.
 - **Shape:** `RoundedRectangle(cornerRadius: Radius.md)` (12pt corners — soft, not pill, not sharp)
-- **Inter-item gap (main cluster):** `Space.snug` (12pt) — Luis 2026-05-25 ("increase the gap between buttons on the top cluster"). More breathing for HOME/TASKS/SPACES/ALERTS.
+- **Inter-item gap (main cluster):** `Space.bodyPadding` (16pt). History: 8 → 12 → 16, Luis 2026-05-25 ("add more gap between the navrail buttons").
 - **Inter-item gap (utility cluster):** `Space.tight` (8pt) — settings + avatar paired tighter.
 - **Outer rail padding:** 0pt horizontal — rail width = chip width (48pt). History: rail was 64pt wide with 8pt L/R invisible padding when it had a paper2 fill + ink20 border defining a card surface; with chrome dropped, the invisible padding pushed the chip off the Screen's content-left edge (Luis 2026-05-25: chip didn't align with TopBar's sun icon). Collapsing rail bounds onto chip bounds restores the alignment — chip left edge sits flush with the dashboard's 16pt content gutter.
 - **Cluster-to-cluster:** `Spacer()` between main and utility — vertical space stretches to fill safe-area height

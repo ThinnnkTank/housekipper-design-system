@@ -15,6 +15,7 @@
 | Padding below TopBar | `Space.snug` (12pt) — applied as TopBar's own `.padding(.bottom)`; outer VStack spacing forced to 0 to prevent double-stacking | Same lock — 20 top + 12 bottom reads better than 16/16 even. |
 | Page side padding | `Space.bodyPadding` (16pt) | Prior-engineer spec |
 | Page bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer spec |
+| Calendar height | Matched to SpaceCard via `SpaceCardHeightKey` PreferenceKey | Luis 2026-05-25 — Calendar's natural was taller than SpaceCard, eating MaintList vertical. Now Calendar = SpaceCard exactly; MaintList gets the freed room. |
 | Outer sides + bottom padding | `Space.bodyPadding` (16pt) | Prior-engineer dashboard spec |
 | NavRail width | 48pt fixed (= chip width — was 64pt; reduced Luis 2026-05-25 after rail chrome was dropped) | NavRail spec |
 | Calendar column width | 390pt fixed | Prior-engineer dashboard spec |
