@@ -48,7 +48,7 @@ enum ButtonShape     { case pill, rounded }
 
 | Size  | Visible height | Tap area | H-padding | Font | Tracking |
 |---|---|---|---|---|---|
-| large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | 20 (`Space.buttonPaddingLg`) | `Type.Label.lg` — 14pt DM Mono Medium | baked: +0.8 (label) |
+| large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | **24 for `.primary`** (`Space.buttonPaddingPrimaryLg`) / 20 for others (`Space.buttonPaddingLg`) | `Type.Label.lg` — 14pt DM Mono Medium | baked: +0.8 (label) |
 | small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 (`Space.buttonPaddingSm`) | `Type.Label.md` — 13pt DM Mono Medium | baked: +0.2 (snug) |
 | micro | 24 (`Space.buttonHeightMicro`) | ≥44 (outer)             | 12 (`Space.buttonPaddingSm`) | `Type.Label.sm` — 13pt DM Mono Medium | baked: +0.9 (micro) |
 
@@ -108,7 +108,7 @@ Image(systemName: icon).fontWeight(IconWeight.action)
 
 ## SemanticTokens used
 
-`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.Width.normal` · `Type.Label.{lg, md, sm}` (applied via `.typeStyle(_:)`; tracking + uppercase baked in) · `Motion.quick`
+`ActionToken.{fill, border, foreground, fillDisabled, borderDisabled, foregroundDisabled, fillPressed, borderPressed, foregroundPressed}` · `Space.{buttonPaddingLg, buttonPaddingPrimaryLg, buttonPaddingSm, buttonHeightLg, buttonHeightSm, buttonHeightMicro, tapTarget, tight}` · `Radius.md` · `Border.Width.normal` · `Type.Label.{lg, md, sm}` (applied via `.typeStyle(_:)`; tracking + uppercase baked in) · `Motion.quick`
 
 ## Example
 

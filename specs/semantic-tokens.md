@@ -148,8 +148,9 @@ Intent-named. **Primitives use these, never `SpacingToken.sXX`.** Audit enforces
 | `Space.pageInset`        | `s36` | Additive page-chrome top breathing (Screen-layer use; sits on top of SwiftUI safe-area inset). First consumer: DashboardScreen 2026-05-25. |
 | `Space.blockSeparator`   | `s48` | Major content blocks |
 | `Space.tapTarget`        | `s44` | iOS min tap height |
-| `Space.buttonPaddingLg`  | `s16` | Large button horizontal padding |
-| `Space.buttonPaddingSm`  | `s12` | Small + micro button horizontal padding |
+| `Space.buttonPaddingLg`        | `s20` | Large button horizontal padding — secondary / ghost / urgent at large |
+| `Space.buttonPaddingPrimaryLg` | `s24` | **Primary** at large gets +4pt L/R extra so the screen's main CTA carries more visual weight than peers (Luis 2026-05-25) |
+| `Space.buttonPaddingSm`        | `s12` | Small + micro button horizontal padding (all variants) |
 | `Space.buttonHeightLg`   | `s40` | Large button visible height |
 | `Space.buttonHeightSm`   | `s32` | Small button visible height |
 | `Space.buttonHeightMicro`| `s24` | Micro button (icon control) |
