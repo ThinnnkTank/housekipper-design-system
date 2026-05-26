@@ -24,7 +24,7 @@ Canonical paprLCD vnext palette. Light-mode values shown. Dark mode lives in `As
 
 | Token | Light | Dark |
 |---|---|---|
-| `paper`  | `#E0E3D8` | `#161A17` |
+| `paper`  | `#E0E2DC` | `#161A17` |
 | `paper2` | `#DDE1DA` | `#1E2420` |
 
 ### Signal
