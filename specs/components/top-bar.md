@@ -8,7 +8,7 @@
 
 The top-of-screen chrome that frames every dashboard-class Screen. Two-zone layout:
 
-- **Left:** page heading (large sans) with optional leading icon, plus `DsWeatherChip` below
+- **Left:** page heading (large sans) with optional leading icon, plus optional `DsWeatherChip` below — both nilable for a lean variant (Luis 2026-05-26 — reduce visual clutter; DashboardScreen now uses the lean form)
 - **Right cluster:** theme menu trigger · `DsSearchField` · "+ ADD" `SignalButton` (in that order, trailing-flush). The ADD button was promoted from `DsButton.primary` → `SignalButton` 2026-05-25 — it's the dashboard's singular Dieter-Rams signal action.
 
 Caller-driven via bindings + callbacks; TopBar owns no app state.
@@ -25,7 +25,7 @@ TopBar (borderless — no fill, no outline, no internal padding)
     │   ├── HStack(spacing: Space.tight)
     │   │   ├── Image(headingIcon)?    SF Symbol, hkPageHeading-anchored, signal-tinted
     │   │   └── Text(heading)          .typeStyle(Type.Title.lg) — 22pt DM Sans Bold + tighter (Luis 2026-05-25: was Title.xl 26pt — too "Fisher Price" at 26pt; tried `large instead of XL`, landed there)
-    │   └── DsWeatherChip(summary: weatherSummary)
+    │   └── DsWeatherChip(summary: weatherSummary)?      conditional — only when weatherSummary != nil
     ├── Spacer()
     └── HStack(spacing: Space.bodyPadding, alignment: .center)       [RIGHT CLUSTER — fixed]
         ├── Menu { theme picker } label: { themeIcon + chevron.down } — 44pt tap target, bare (no chrome)
@@ -70,7 +70,7 @@ struct TopBar: View {
 
     let heading: String                 // typically house.name from the active House model
     var headingIcon: String?            // SF Symbol name (expected via IconCatalog.*); nil hides
-    let weatherSummary: String          // dummy text for DsWeatherChip; future: structured weather data
+    var weatherSummary: String?         // optional — nil = lean variant (drops the weather chip). Mirrors `headingIcon`'s optional shape. Dummy text when present; future: structured weather data.
     @Binding var searchText: String
     @Binding var themeMode: ThemeMode
     var onAdd: () -> Void
@@ -91,7 +91,8 @@ It does NOT extract a `DsIconMenuTrigger` Primitive for the theme button. The ba
 
 - **TopBar is layout-agnostic about positioning AND borderless.** Parent Screen places it (typically pinned to the top safe area) and owns edge insets / safe-area handling. TopBar applies no fill, outline, padding, or shadow of its own — per the dashboard reference, its content sits directly on the Screen's paper background. Surrounding cards (NavRail, SpaceCard, etc.) have their own chrome; TopBar does not.
 - **Theme menu defers to iOS-native presentation.** Don't reach for the (backlog) ActionSheet pattern just for theme; native Menu does the right thing on every device class.
-- **DsWeatherChip is dummy.** Caller passes a pre-formatted string. When real weather data integrates, the chip's internals change — TopBar's API stays.
+- **DsWeatherChip is dummy AND optional.** Caller passes a pre-formatted string when they want the chip; nil hides it entirely. When real weather data integrates, the chip's internals change — TopBar's API stays.
+- **Two variants from one Component:** "full" (icon + heading + weather chip) vs "lean" (heading only). DashboardScreen currently uses lean (Luis 2026-05-26 — visual clutter reduction). Other Screens can opt back into the full form by passing both `headingIcon` and `weatherSummary`.
 - **Heading icon stays optional.** Don't force every screen to set one; some surfaces (settings, onboarding) have no natural icon.
 
 ## Cross-references
