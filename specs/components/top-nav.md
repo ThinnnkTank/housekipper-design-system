@@ -1,7 +1,7 @@
 # TopNav — Component
 
 **Layer:** Component
-**Status:** 🟡 Implemented (2026-05-27) — built for `DashboardScreenAlt` chrome; locks when alt is vetted
+**Status:** ✅ Locked (2026-05-27)
 **Implementation:** `houseKipper/houseKipper/Components/TopNav.swift`
 
 ## Overview

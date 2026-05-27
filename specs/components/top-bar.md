@@ -1,7 +1,7 @@
 # TopBar — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-25)
+**Status:** ✗ Removed (2026-05-27) — was ✅ Locked (2026-05-25). TopBar was the sidebar-dashboard chrome (heading + weather + theme + search + ADD); replaced when the top-tab dashboard (`TopNav`) won the A/B vet. Swift file deleted; spec retained for history. The `ThemeMode` enum was moved into `TopNav` as its new home.
 **Implementation:** `houseKipper/houseKipper/Components/TopBar.swift`
 
 ## Overview

@@ -1,7 +1,7 @@
 # NavRail — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-24)
+**Status:** ✗ Removed (2026-05-27) — was ✅ Locked (2026-05-24). NavRail was the sidebar-dashboard's vertical 48pt rail (HOME/TASKS/SPACES/ALERTS + utility cluster). Replaced when the top-tab dashboard (`TopNav` + `DsTabItem`) won the A/B vet. Swift file deleted; spec retained for history. If a sub-screen later needs vertical chip nav (iPhone settings detail?), re-instate from git history at commit prior to deletion.
 **Implementation:** `houseKipper/houseKipper/Components/NavRail.swift`
 
 ## Overview

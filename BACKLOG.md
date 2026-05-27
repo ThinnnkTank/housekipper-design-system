@@ -1,5 +1,16 @@
 # Design System Backlog (deferred — do not action)
 
+## Next up — dashboard polish round (Luis 2026-05-27 post-promotion)
+
+Promoted from inline backlog after the alt dashboard became the official dashboard. These are the four areas Luis flagged for the next pixel-tweaking pass.
+
+- **Hero card (NextUpCard) styling refinements.** The urgent NextUpCard reads correctly but needs another pass on internal spacing, the spine + indicator weight, and the MARK COMPLETE / SNOOZE button proportions at the new TopNav `.small` scale. Decide whether the card chrome should also deaccent (smaller buttons inside, tighter padding) now that the surrounding row has dropped to 32pt.
+- **Upcoming Maintenance row styles.** MaintenanceRow + MaintenanceList typography + spacing pass. Luis flagged: the eyebrow ("UPCOMING MAINTENANCE") + the date column + the title can still tune. Specific opens — title size relative to date, weight balance, optional location/frequency styling, hover/press behaviors on iPad.
+- **Overall content size + scroll behavior.** When `MaintenanceList` overflows col 3's bounded scroll area, scroll currently engages internally. Open questions: should the WHOLE body scroll instead on iPhone / smaller iPads? Should the right column scroll independently from the left (current behavior) or together? When the user reaches the bottom of MaintList, how is the scroll boundary signaled (fade? hairline?)? Cross-screen pattern decisions, not just dashboard-specific.
+- **Minor TopNav row adjustments.** Pixel-level tweaks Luis identified during vet: tab strip horizontal spacing, theme menu icon size relative to the tab text, search field internal padding, ADD button breathing relative to search. Probably small constant adjustments (Space.tight ↔ Space.snug, etc.) rather than architectural changes.
+
+---
+
 - **Popover Pattern + Primitives** (formerly "ActionSheet"). The rich-content popover anchored to "+ ADD" on the dashboard TopBar: list of options with icon + label + subtitle, separable groups via dashed dividers (e.g. routine actions vs. "Urgent repair" emergency mode in a separate group). iPad-native popover with arrow anchor; iPhone falls back to a confirmation dialog or sheet. SwiftUI: `.popover(isPresented:)` with a custom view inside (stock `Menu` can't render rich rows). Item rows use `Press.invert` (per the established vocabulary).
   - **Primitive needed:** `DsPopoverItem` — icon + label + subtitle row with invert press.
   - **Pattern needed:** `Popover` (or `DsPopover`) — wraps the SwiftUI popover with our chrome (paper2 fill, ink border, Radius.md, group separation via DsLabeledDivider or DsDivider.dashed).

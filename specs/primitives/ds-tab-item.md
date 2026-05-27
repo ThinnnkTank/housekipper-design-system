@@ -1,7 +1,7 @@
 # DsTabItem — Primitive
 
 **Layer:** Primitive
-**Status:** 🟡 Implemented (2026-05-27) — built for `TopNav` alt-dashboard chrome; locks when DashboardScreenAlt is vetted
+**Status:** ✅ Locked (2026-05-27)
 **Implementation:** `houseKipper/houseKipper/DesignSystem/Primitives/DsTabItem.swift`
 
 ## Overview
