@@ -45,7 +45,7 @@ iPad-first composition. iPhone is a stacking adaptation (separate spec when surf
 DashboardScreen
 ├── NavRail                       (left, full height)
 └── Main canvas
-    ├── TopBar                    title · weather · theme toggle · search · ADD
+    ├── TopBar                    title only (lean variant — no headingIcon, no weatherSummary) · theme toggle · search · ADD. Luis 2026-05-26 visual-clutter reduction.
     ├── Two-column lockup
     │   ├── Left column
     │   │   ├── SpaceCard                       wrapper composing three rails:
