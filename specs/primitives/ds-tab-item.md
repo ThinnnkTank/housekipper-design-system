@@ -18,7 +18,7 @@ DsTabItem
 └── Button(action: onTap) { Color.clear }
     └── DsTabItemStyleImpl (computes palette per state)
         └── Text(label)
-            ├── .typeStyle(Type.Title.md)               17pt DM Sans Medium
+            ├── .typeStyle(Type.Title.sm)               13pt DM Sans Bold (unified with MaintenanceRow titles)
             ├── foreground: ink (rest/active) or paper (pressed)
             ├── padding: 12pt H · 8pt V (primitive-internal carve-out)
             ├── background: RoundedRectangle(Radius.md).fill(...)
@@ -50,7 +50,7 @@ Asymmetric press animation: instant on press, `Motion.standard` (220ms) on relea
 
 ## SemanticTokens used
 
-`Type.Title.md` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Color.subtle` · `Border.Width.normal` · `Radius.md` · `Space.tapTarget` · `Motion.standard`
+`Type.Title.sm` · `TextToken.primary` · `BackgroundToken.primary` · `Border.Color.subtle` · `Border.Width.normal` · `Radius.md` · `Space.tapTarget` · `Motion.standard`
 
 Primitive-internal carve-outs: `horizontalPadding: 12` · `verticalPadding: 8`.
 
@@ -68,7 +68,7 @@ HStack(spacing: Space.tight) {
 
 - **2026-05-27 — Active style = subtle pill (Option C), not underline.** Luis picked option C from a 3-style menu (A=underline, C=subtle pill, D=typography-only). Pill reads "card-like" and inherits the `ink05` rest-tint vocabulary from `DsButton.secondary` / `DsKeyButton.healthy`.
 - **Press strategy = invert.** Same vocabulary as DsKeyButton + MaintenanceRow + NavRail active. Keeps the DS coherent — every "card-like" interactive element flips to ink-on-press.
-- **Font = `Type.Title.md` (17pt sans Medium).** No new Type role created. If 17pt reads chunky in the actual strip, surface a "Title.sm" or "Body.semiboldSm" addition.
+- **Font = `Type.Title.sm` (13pt sans Bold).** Initially built at `Type.Title.md` (17pt sans Medium) 2026-05-27 morning; Luis vet that afternoon flagged "needs to be smaller and bolder" + asked to unify with MaintenanceRow titles. New `Type.Title.sm` role added (13pt sans Bold), both consumers switched.
 
 ## Cross-references
 

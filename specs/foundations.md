@@ -48,7 +48,8 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 | `Type.Display.lg` | DM Sans Medium | 38pt | 0 | — | Brand wordmark, onboarding hero. Once-per-screen presence. |
 | `Type.Title.xl` | **DM Sans Bold** | 26pt | 0 | — | **H1** — TopBar heading, room/project/settings titles. History: mono Medium 30pt → mono Medium 26pt → **sans Bold 26pt** (Luis 2026-05-25 — mono read too utility/data-ish for the H1). Mono is now reserved for utility/data text only; H1 + H2 share family. |
 | `Type.Title.lg` | DM Sans Bold | 22pt | -0.8 (tighter) | — | **H2** — card headlines. Bold + tighter tracking gives the title a confident locked-up feel. |
-| `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles, MaintenanceRow title. |
+| `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles. |
+| `Type.Title.sm` | **DM Sans Bold** | 13pt | 0 | — | **H4 / compact item title.** Added Luis 2026-05-27 — unifies TopNav tab labels + MaintenanceRow titles under one role. Same config as `Type.Data.md` but read as title (not data) at the call site. |
 | `Type.Body.md` | DM Sans Regular | 14pt | 0 | — | Paragraph + list-row copy. |
 | `Type.Label.lg` | DM Mono Medium | 14pt | +0.8 (label) | UPPER | Large button labels, primary affordances. |
 | `Type.Label.md` | DM Mono Medium | 13pt | +0.2 (snug) | UPPER | Small button labels. |

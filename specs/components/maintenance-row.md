@@ -21,7 +21,7 @@ MaintenanceRow (full-width, Radius.sm rounded press surface)
 └── HStack(spacing: Space.bodyPadding)
     ├── DsAvatar(initial: assignee, style: .outline)   leading — 32pt ring + ink letter
     ├── VStack(alignment: .leading) {
-    │     Text(title)                     Type.Title.md (17pt DM Sans Medium)
+    │     Text(title)                     Type.Title.sm (13pt DM Sans Bold) — unified with TopNav tab labels Luis 2026-05-27
     │     Text(location)                  Type.Label.sm + TextToken.secondary
     │   }
     ├── Spacer()
@@ -89,7 +89,7 @@ It does NOT compose a `DsButton.micro` (e.g. checkmark). The row's primary affor
 
 ## Cross-references
 
-- Uses: `DsAvatar`, `Type.Title.md` / `Type.Label.sm` / `Type.Data.sm` / `Type.Label.xs`, `TextToken.primary` / `.secondary`, `BackgroundToken.primary`, `Radius.sm`, `Space.cardPadding` / `.bodyPadding` / `.hairline` / `.tight` / `.tapTarget`, `Motion.standard`
+- Uses: `DsAvatar`, `Type.Title.sm` / `Type.Label.sm` / `Type.Data.sm` / `Type.Label.xs`, `TextToken.primary` / `.secondary`, `BackgroundToken.primary`, `Radius.sm`, `Space.cardPadding` / `.bodyPadding` / `.hairline` / `.tight` / `.tapTarget`, `Motion.standard`
 - Used by: `MaintenanceList` (TBD) — vertical stack with container chrome
 - Press-strategy peers: `DsKeyButton` (transient invert on press), `NavRail` item (persistent invert when active)
 
