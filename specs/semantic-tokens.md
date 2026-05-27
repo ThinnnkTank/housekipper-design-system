@@ -204,7 +204,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Type.Title.xl`   | **DM Sans Bold** | 26 | 0 | — | **H1** — active-house heading (`TopBar`), room/project/settings titles. History: mono Medium 30 → mono Medium 26 → **sans Bold 26** (Luis 2026-05-25 — mono read too utility for the H1; sans Bold restores hierarchy and matches H2 family). |
 | `Type.Title.lg`   | DM Sans Bold | 22 | -0.8 (tighter) | — | **H2** — card headlines (NextUpCard, ActiveProjectCard, modal titles) |
 | `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles |
-| `Type.Title.sm`   | **DM Sans Bold** | 13 | 0 | — | **H4 / compact item title.** Used by TopNav tab labels + MaintenanceRow titles. Same config as `Type.Data.md` but read as title (not data) at the call site. Added Luis 2026-05-27 ("smaller and bolder"). |
+| `Type.Title.sm`   | **DM Sans Bold** | 14 | 0 | — | **H4 / compact item title.** Used by MaintenanceRow titles. History: introduced 2026-05-27 at 13pt as a unified role (TopNav + MaintRow); same day TopNav tabs moved to `Type.Label.lg.font` (mono Medium), Title.sm bumped 13 → 14pt for MaintRow. |
 | `Type.Body.md`    | DM Sans Regular | 14 | 0 | — | Paragraph + list-row copy |
 | `Type.Label.lg`   | DM Mono Medium | 14 | +0.8 | UPPER | `DsButton.large` labels |
 | `Type.Label.md`   | DM Mono Medium | 13 | +0.2 (snug) | UPPER | `DsButton.small` labels |
