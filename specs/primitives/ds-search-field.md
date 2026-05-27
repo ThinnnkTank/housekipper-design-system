@@ -33,7 +33,7 @@ DsSearchField
                     .foregroundStyle(TextToken.muted)   ink40 — subtle, not alarming
         }
     Padding: .horizontal Space.bodyPadding (16pt)
-    Frame height: Space.buttonHeightLg (40pt)
+    Frame height: per size — Space.buttonHeightLg (40pt) for .large, Space.buttonHeightSm (32pt) for .small (added 2026-05-27)
     Background: ZStack
                   • Capsule() fill BackgroundToken.secondary (paper2) — always
                   • Capsule() fill ink05 wash — only when @FocusState is true
@@ -47,7 +47,10 @@ DsSearchField
 struct DsSearchField: View {
     @Binding var text: String
     var placeholder: String = "Search"
+    var size: Size = .large    // added Luis 2026-05-27 — alt dashboard wants .small (32pt) chrome to match small buttons
 }
+
+enum Size { case large, small }
 ```
 
 Argument order: `text, [placeholder]`.
@@ -134,7 +137,7 @@ DsSearchField(text: $query, placeholder: "Search rooms")
 - **Inline clear button** (2026-05-23): standard iOS search affordance. `xmark.circle.fill` at `TextToken.muted` keeps it subtle.
 - **paper2 fill + 1pt ink border** (2026-05-23): differentiates the input area from paper background (fill) while signaling "this is interactive" (border). Quieter than `DsButton`, which uses border for primary affordance.
 - **Focused state darkens the background** (Luis 2026-05-24): tactile feedback while typing. Compose `ink05` wash over the paper2 baseline via ZStack — no new BaseToken (per "search first" discipline; the existing wash tokens were available). Animated with `Motion.standard`. Note: when a second input Primitive ships, lift this rule to `foundations.md` so all inputs share the focus-darkens behavior consistently.
-- **40pt height** (2026-05-23): matches `Space.buttonHeightLg` — search and the primary button feel like the same affordance family.
+- **40pt height at `.large`** (2026-05-23): matches `Space.buttonHeightLg` — search and the primary button feel like the same affordance family. **`.small` (32pt) added 2026-05-27** (`Space.buttonHeightSm`) for alt dashboard's deaccented TopNav row.
 - **`Radius.md` (12pt) corners** (2026-05-23): iOS-native search field feel without being fully capsule. Future `DsInput` variants will likely share this radius. **Superseded** by the capsule shape per iter below — `DsInput` (when it ships) will be the home of `Radius.md` for input fields.
 - **Capsule shape, not RoundedRectangle** (Luis 2026-05-24, iter 3): search inputs specifically get capsule (fully rounded) endcaps — visually distinct from generic text inputs. The reference dashboard's search field uses capsule ends; rounded-rect reads as a generic input. When `DsInput` ships for plain text / numeric / multiline, it keeps `Radius.md` per the iter-1 decision above.
 - **ActionCard deferred** (Luis 2026-05-23): the "+ add an item" card that often pairs with search lives in BACKLOG.

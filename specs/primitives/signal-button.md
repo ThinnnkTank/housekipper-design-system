@@ -32,26 +32,28 @@ The one orange CTA. A Dieter Rams "signal button" — reserved for the single hi
 ```swift
 struct SignalButton: View {
     let label: String
+    var size: Size = .large               // added 2026-05-27 — large default; .small deaccents
     var icon: String? = nil               // SF Symbol name
     var iconPosition: IconPosition = .leading
     var isDisabled: Bool = false
     let action: () -> Void
 }
 
+enum Size         { case large, small }
 enum IconPosition { case leading, trailing, iconOnly }
 ```
 
 ## Dimensions
 
-| Property | Value | Source |
+| Property | `.large` | `.small` (added 2026-05-27) |
 |---|---|---|
-| Visible height | 40pt | `Space.buttonHeightLg` |
-| Tap area | ≥44pt | `Space.tapTarget` (outer `.frame(minHeight:)`) |
-| H-padding (each side) | 32pt | `Space.buttonPaddingLg` (20) + 12pt extra |
-| Font | `Type.Label.lg` (14pt DM Mono Medium, trackingLabel, uppercase) |  |
-| Corner | Capsule | — |
+| Visible height | 40pt (`Space.buttonHeightLg`) | 32pt (`Space.buttonHeightSm`) |
+| Tap area | ≥44pt (`Space.tapTarget`) | ≥44pt (`Space.tapTarget`) |
+| H-padding (each side) | 32pt = `buttonPaddingLg` (20) + **12** extra | 24pt = `buttonPaddingSm` (12) + **12** extra |
+| Font | `Type.Label.lg` (14pt DM Mono Medium UPPER + tracking) | `Type.Label.md` (13pt DM Mono Medium UPPER + tracking) |
+| Corner | Capsule | Capsule |
 
-The +12pt extra padding is a primitive-internal carve-out (foundations.md primitive-interior rule). Documented here rather than promoted to a token because it exists for exactly one purpose: SignalButton's special status.
+The +12pt extra padding is a primitive-internal carve-out (foundations.md primitive-interior rule). **Stays +12pt at every size** so SignalButton's "more breathing than peers" character holds across sizes.
 
 ## States
 

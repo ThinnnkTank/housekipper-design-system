@@ -20,7 +20,7 @@ DsTabItem
 └── DsButton
         label:     <tab name>
         variant:   isActive ? .primary : .ghost
-        size:      .micro            (24pt visible height; ≥44pt tap area)
+        size:      .small            (32pt visible height; ≥44pt tap area). Bumped .micro → .small Luis 2026-05-27 to normalize with search + ADD height.
         shape:     .pill             (Capsule — matches CalendarMonth's date pill)
         // typeStyle NOT overridden — uses DsButton's default at micro
         // (Type.Label.sm = mono Medium 12pt + tracking + UPPERCASE).
