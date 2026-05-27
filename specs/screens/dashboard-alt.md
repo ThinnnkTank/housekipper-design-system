@@ -1,7 +1,7 @@
 # DashboardScreen (Alt) — Screen
 
 **Layer:** Screen
-**Status:** 🟡 Experimental stub (2026-05-26) — alternate layout being prototyped alongside the locked `DashboardScreen` for A/B vet on iPad. Currently renders only a placeholder; real content build comes next.
+**Status:** 🟡 Experimental sibling (2026-05-27) — alternate layout being prototyped alongside the locked `DashboardScreen` for A/B vet on iPad. Content built; pending real-iPad sign-off.
 **Implementation:** `houseKipper/houseKipper/Screens/DashboardScreenAlt.swift`
 
 ## Overview
@@ -10,7 +10,7 @@ Alternate dashboard layout exploring **horizontal top-tab navigation** in place 
 
 **Source sketch:** user-provided sketch (2026-05-26) — see CHANGELOG entry of that date for the asks captured from Luis's hand-drawn layout.
 
-## Anatomy (target — not yet built)
+## Anatomy
 
 ```
 DashboardScreenAlt
@@ -63,17 +63,22 @@ DashboardScreenAlt
 - `SignalButton` (✅ locked)
 - `DsAvatar` (✅ locked)
 
-**New surfaces to build:**
-- `DsTabItem` Primitive — underline-on-active tab text + tap target
-- `TopNav` Component — composes tabs + theme menu + search + ADD + avatar
-- 4 stub sub-screens routed from the tabs: `SpacesScreen`, `DocsFilesScreen`, `FinancesScreen`, `WarrantiesPlansScreen` (placeholder content; alt focuses on the chrome + Home tab)
+**New surfaces built 2026-05-27:**
+- `DsTabItem` Primitive (🟡) — subtle-pill on active. Spec: [primitives/ds-tab-item.md](../primitives/ds-tab-item.md)
+- `TopNav` Component (🟡) — composes 5 tabs + theme menu + search + ADD + avatar. Spec: [components/top-nav.md](../components/top-nav.md)
+- 4 stub sub-screens routed from the tabs: `SpacesScreen`, `DocsFilesScreen`, `FinancesScreen`, `WarrantiesPlansScreen` (each renders `ComingSoonStub` with the tab name)
+- `ComingSoonStub` helper view — shared placeholder body for the 4 non-Home stubs
+
+## Resolved decisions (2026-05-27 build)
+
+- **Settings location** → tap-the-avatar menu (Luis option 1A). Menu rows: Profile · Settings · Sign out. Same iOS-canonical pattern as Mail/Calendar/Maps.
+- **Active-tab style** → subtle pill (Luis option C from A/C/D menu). `ink05` fill + `ink20` border + `Radius.md`. See `primitives/ds-tab-item.md` decisions log for the full comparison.
+- **Avatar tap behavior** → opens the account menu (above). Never direct nav.
+- **Non-Home tab stubs** → centered "Coming soon" body via `ComingSoonStub` helper. Single source so all 4 stubs stay consistent; easy to delete when each tab gets real content.
 
 ## Open decisions
 
-- **Settings location** — locked dashboard has a Settings gear in NavRail utility cluster. In the alt, where does Settings live? Tap-the-avatar menu? Sixth tab? Tracked here pending Luis call.
-- **Active-tab style** — sketch shows underline-on-active (clean, light). Alternatives surveyed if Luis wants to test: pill, ghost button with active fill, color shift. Default to sketch.
-- **Avatar tap behavior** — open profile sheet, open settings menu, sign-out menu? Open question.
-- **Tab styling for the non-Home tabs** — when they're stub Screens, what does the stub look like? Just a centered "Coming soon" with the tab name?
+- **Tab routing semantics when more tabs ship for real.** Current pattern: each tab is a Screen, DashboardScreenAlt switches the body inline. If sub-screens get deep nav (e.g. Spaces → Room detail), we'll need a NavigationStack per tab. Defer until a tab actually has nav depth.
 
 ## Promotion / deprecation path
 
