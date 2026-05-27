@@ -18,7 +18,7 @@ DsTabItem
 └── Button(action: onTap) { Color.clear }
     └── DsTabItemStyleImpl (computes palette per state)
         └── Text(label)
-            ├── .font(Type.Label.lg.font)               14pt DM Mono Medium, no upper bake (DsSearchField pattern)
+            ├── .typeStyle(Type.Menu.lg)                13pt DM Sans Bold, mixed case, no tracking (dedicated nav role)
             ├── foreground: ink (rest/active) or paper (pressed)
             ├── padding: 12pt H · 8pt V (primitive-internal carve-out)
             ├── background: RoundedRectangle(Radius.md).fill(...)
@@ -43,14 +43,15 @@ struct DsTabItem: View {
 | State | Fill | Border | Foreground |
 |---|---|---|---|
 | Inactive (rest) | clear | clear | `ink` |
-| **Active** | `ink05` | `ink20` (`Border.Color.subtle`) | `ink` |
-| Pressed (any) | `ink` | `ink` | `paper` |
+| **Active** | `ink` | `ink` | `paper` |
+| Pressed (inactive) | `ink` | `ink` | `paper` (previews the active treatment) |
+| Pressed (active) | `ink` | `ink` | `paper` (no change — already there) |
 
 Asymmetric press animation: instant on press, `Motion.standard` (220ms) on release — matches `DsButton`/`DsKeyButton`.
 
 ## SemanticTokens used
 
-`Type.Label.lg.font` (mono Medium 14pt, no upper bake — DsSearchField pattern) · `TextToken.primary` · `BackgroundToken.primary` · `Border.Color.subtle` · `Border.Width.normal` · `Radius.md` · `Space.tapTarget` · `Motion.standard`
+`Type.Menu.lg` (mono Medium 14pt, no upper bake — DsSearchField pattern) · `TextToken.primary` · `BackgroundToken.primary` · `Border.Color.subtle` · `Border.Width.normal` · `Radius.md` · `Space.tapTarget` · `Motion.standard`
 
 Primitive-internal carve-outs: `horizontalPadding: 12` · `verticalPadding: 8`.
 
@@ -68,7 +69,8 @@ HStack(spacing: Space.tight) {
 
 - **2026-05-27 — Active style = subtle pill (Option C), not underline.** Luis picked option C from a 3-style menu (A=underline, C=subtle pill, D=typography-only). Pill reads "card-like" and inherits the `ink05` rest-tint vocabulary from `DsButton.secondary` / `DsKeyButton.healthy`.
 - **Press strategy = invert.** Same vocabulary as DsKeyButton + MaintenanceRow + NavRail active. Keeps the DS coherent — every "card-like" interactive element flips to ink-on-press.
-- **Font iteration 2026-05-27.** Three passes same day:<br>1. Initial: `Type.Title.md` (17pt sans Medium).<br>2. Luis: "needs to be smaller and bolder + same as MaintRow titles." Added new `Type.Title.sm` role (13pt sans Bold), pointed both consumers at it.<br>3. Luis: "lets try the style used in DsSearchField" → tabs switched to `Type.Label.lg.font` (14pt **DM Mono Medium**, no upper bake — same pattern DsSearchField uses for its text). MaintRow stayed on Title.sm, which got bumped to 14pt independently. The two roles are now DIFFERENT — sans Bold 14 vs mono Medium 14. Face change surfaced per CLAUDE.md.
+- **Font iteration 2026-05-27 (4 passes).**<br>1. Initial: `Type.Title.md` (17pt sans Medium).<br>2. Luis "smaller and bolder + same as MaintRow titles" → new `Type.Title.sm` role (13pt sans Bold), pointed both consumers at it.<br>3. Luis "lets try DsSearchField's style" → tabs switched to `Type.Label.lg.font` (14pt mono Medium, no upper bake). MaintRow stayed on Title.sm, which got bumped to 14pt.<br>4. **Luis: "this was a mistake we should have left that Sans. let's harden this, warn me before such changes even if im being explicit. I think its sensible to have a different class for the menu"** → reverted from mono → added dedicated `Type.Menu.lg` (13pt sans Bold, no tracking, mixed case). Hardened surface rule in CLAUDE.md ("warn even when explicit").
+- **Active state 2026-05-27 — subtle pill → full invert.** Initial (Luis option C): `ink05` fill + `ink20` border. Same-day vet "for selected style make it like a primary black bg paper font" → switched to full invert (ink fill + paper text). Active now reads as a primary-button treatment, not a tab-chip treatment. Press collapses: active visual == pressed visual, so pressed-active is a no-op transition; pressed-inactive previews the active treatment.
 
 ## Cross-references
 

@@ -64,10 +64,11 @@ DashboardScreenAlt
 - `DsAvatar` (✅ locked)
 
 **New surfaces built 2026-05-27:**
-- `DsTabItem` Primitive (🟡) — subtle-pill on active. Spec: [primitives/ds-tab-item.md](../primitives/ds-tab-item.md)
-- `TopNav` Component (🟡) — composes 5 tabs + theme menu + search + ADD + avatar. Spec: [components/top-nav.md](../components/top-nav.md)
-- 4 stub sub-screens routed from the tabs: `SpacesScreen`, `DocsFilesScreen`, `FinancesScreen`, `WarrantiesPlansScreen` (each renders `ComingSoonStub` with the tab name)
-- `ComingSoonStub` helper view — shared placeholder body for the 4 non-Home stubs
+- `DsTabItem` Primitive (🟡) — full-invert active (ink fill + paper text). Spec: [primitives/ds-tab-item.md](../primitives/ds-tab-item.md)
+- `TopNav` Component (🟡) — composes 4 tabs (Home / Spaces / File Cabinet / Ledger) + theme menu + search + ADD + avatar. Spec: [components/top-nav.md](../components/top-nav.md)
+- 3 stub sub-screens routed from the tabs: `SpacesScreen`, `FileCabinetScreen`, `LedgerScreen` (each renders `ComingSoonStub` with the tab name)
+- `ComingSoonStub` helper view — shared placeholder body for the 3 non-Home stubs
+- `Type.Menu.lg` SemanticToken (13pt DM Sans Bold, mixed case, no tracking) — dedicated nav-label role
 
 ## Resolved decisions (2026-05-27 build)
 

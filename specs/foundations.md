@@ -50,6 +50,7 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 | `Type.Title.lg` | DM Sans Bold | 22pt | -0.8 (tighter) | — | **H2** — card headlines. Bold + tighter tracking gives the title a confident locked-up feel. |
 | `Type.Title.md` | DM Sans Medium | 17pt | 0 | — | **H3** — sub-section titles. |
 | `Type.Title.sm` | **DM Sans Bold** | 14pt | 0 | — | **H4 / compact item title.** Used by MaintenanceRow titles. Started at 13pt 2026-05-27 unifying TopNav tabs + MaintRow titles; same day TopNav tabs moved to `Type.Label.lg.font` (mono Medium), Title.sm bumped to 14pt for MaintRow per Luis. |
+| `Type.Menu.lg` | **DM Sans Bold** | 13pt | 0 | — | **Top-tab nav label.** Dedicated role — sans Bold, mixed case, no tracking. Distinct from `Label` (mono + uppercase) and `Title.sm` (sans Bold 14pt). Added Luis 2026-05-27 after the tab-label face iteration; the dedicated role makes nav typography editable without dragging item-title styling. |
 | `Type.Body.md` | DM Sans Regular | 14pt | 0 | — | Paragraph + list-row copy. |
 | `Type.Label.lg` | DM Mono Medium | 14pt | +0.8 (label) | UPPER | Large button labels, primary affordances. |
 | `Type.Label.md` | DM Mono Medium | 13pt | +0.2 (snug) | UPPER | Small button labels. |
@@ -63,7 +64,8 @@ Five intent-categories, sized modifiers. Each style is **complete** — face, si
 **Categories:**
 
 - **`Display`** — hero/wordmark presence. One size; reserved for the largest visual element on a screen.
-- **`Title`** — heading hierarchy (H1/H2/H3). Whole ramp is sans (content-readable). H1 + H2 = Bold; H3 = Medium. Mono is no longer used here — reserved for `Label` (utility) and `Data` (tabular).
+- **`Title`** — heading hierarchy (H1/H2/H3/H4 — H4 added 2026-05-27 as `Title.sm` for compact item titles). Whole ramp is sans. H1/H2/H4 = Bold; H3 = Medium. Mono is no longer used here — reserved for `Label` (utility) and `Data` (tabular).
+- **`Menu`** — top-tab nav labels. Sans Bold, mixed case. Added 2026-05-27 as a dedicated category so nav typography evolves independently of `Title` (item-level) and `Label` (utility uppercase).
 - **`Body`** — paragraph + list copy. Sans regular.
 - **`Label`** — uppercase utility text: button labels, eyebrows, nav labels, divider labels. Always Medium weight, always uppercase, always with tracking.
 - **`Data`** — tabular / metadata text, mixed-case. No tracking or case bakes — used for timestamps, descriptive captions, and any data display.

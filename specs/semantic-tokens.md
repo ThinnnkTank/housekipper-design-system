@@ -196,7 +196,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 
 ## Typography — `Type.{category}.{size}`
 
-14 complete styles. Each style bundles face + size + weight + tracking + case. Applied via `.typeStyle(_:)` — single modifier per call site, no manual tracking/case.
+15 complete styles. Each style bundles face + size + weight + tracking + case. Applied via `.typeStyle(_:)` — single modifier per call site, no manual tracking/case.
 
 | Style | Face / weight | Size | Tracking | Case | Use |
 |---|---|---|---|---|---|
@@ -205,6 +205,7 @@ withAnimation(Motion.standard) { isOn.toggle() }
 | `Type.Title.lg`   | DM Sans Bold | 22 | -0.8 (tighter) | — | **H2** — card headlines (NextUpCard, ActiveProjectCard, modal titles) |
 | `Type.Title.md`   | DM Sans Medium | 17 | 0 | — | **H3** — sub-section titles |
 | `Type.Title.sm`   | **DM Sans Bold** | 14 | 0 | — | **H4 / compact item title.** Used by MaintenanceRow titles. History: introduced 2026-05-27 at 13pt as a unified role (TopNav + MaintRow); same day TopNav tabs moved to `Type.Label.lg.font` (mono Medium), Title.sm bumped 13 → 14pt for MaintRow. |
+| `Type.Menu.lg`    | **DM Sans Bold** | 13 | 0 | — | **Top-tab nav label.** Dedicated role for TopNav tabs — mixed case, sans Bold, no tracking. Distinct from `Label` (mono + uppercase) and `Title.sm` (size 14 sans Bold). Added Luis 2026-05-27 after the tab-label face iteration: Title.md (17 sansMed) → Title.sm (13 sansBold) → Label.lg.font (14 monoMed, **REVERTED**, "this was a mistake we should have left that Sans") → Menu.lg (13 sansBold, dedicated). |
 | `Type.Body.md`    | DM Sans Regular | 14 | 0 | — | Paragraph + list-row copy |
 | `Type.Label.lg`   | DM Mono Medium | 14 | +0.8 | UPPER | `DsButton.large` labels |
 | `Type.Label.md`   | DM Mono Medium | 13 | +0.2 (snug) | UPPER | `DsButton.small` labels |
