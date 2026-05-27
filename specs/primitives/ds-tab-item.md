@@ -22,7 +22,9 @@ DsTabItem
         variant:   isActive ? .primary : .ghost
         size:      .micro            (24pt visible height; ≥44pt tap area)
         shape:     .pill             (Capsule — matches CalendarMonth's date pill)
-        typeStyle: Type.Menu.lg      (sans Bold 13pt mixed case, no tracking — overrides Label.sm default)
+        // typeStyle NOT overridden — uses DsButton's default at micro
+        // (Type.Label.sm = mono Medium 12pt + tracking + UPPERCASE).
+        // Tabs read in UPPERCASE: HOME · SPACES · FILE CABINET · LEDGER.
         action:    onTap
 ```
 
@@ -81,7 +83,7 @@ HStack(spacing: Space.tight) {
 - **2026-05-27 — Composed via DsButton + `typeStyle` override (Luis C-1 refactor).** Earlier the same day, DsTabItem owned its own chrome (RoundedRectangle fill + overlay + size constants). After Luis raised the reusability lens ("you could have said, ok i can reuse these two styles in the menu"), refactored: DsButton gained an optional `typeStyle: TypeStyle?` param; DsTabItem became a 5-line wrapper that picks the variant by `isActive` and passes `Type.Menu.lg`. `Type.Menu.lg` stays the dedicated nav role so future templates can change nav typography without touching DsButton.
 - **Active state — full invert (`.primary.micro`).** Initial implementation used the subtle-pill (ink05 fill + ink20 border) per Luis option C; same-day vet flipped to "primary black bg paper font." Active reads as a primary affordance, not a chip.
 - **Capsule shape, not RoundedRectangle.** Matches CalendarMonth's date pill (also `DsButton(.primary, .micro)` capsule). Tab chip aesthetic stays consistent with the calendar pill aesthetic.
-- **Font iteration history (4 passes, 2026-05-27).**<br>1. `Type.Title.md` (17pt sans Medium).<br>2. `Type.Title.sm` (13pt sans Bold) — Luis: "smaller and bolder."<br>3. `Type.Label.lg.font` (14pt mono Medium, no upper bake) — Luis: "lets try DsSearchField's style." **Reverted same day** ("this was a mistake we should have left that Sans").<br>4. `Type.Menu.lg` (13pt sans Bold, dedicated role) — final. CLAUDE.md surface rule hardened in this session: warn before face/family swaps even when user is explicit.
+- **Font iteration history (5 passes, 2026-05-27).**<br>1. `Type.Title.md` (17pt sans Medium).<br>2. `Type.Title.sm` (13pt sans Bold) — Luis: "smaller and bolder."<br>3. `Type.Label.lg.font` (14pt mono Medium, no upper bake) — Luis: "lets try DsSearchField's style." **Reverted same day** ("this was a mistake we should have left that Sans").<br>4. `Type.Menu.lg` (13pt sans Bold, dedicated role) — added per Luis "different class for the menu." CLAUDE.md surface rule hardened in this session.<br>5. **Reverted to DsButton default** — Luis: "i dont like that font. use the button as it was originally designed dude." DsButton's `.micro` default = `Type.Label.sm` (mono Medium 12pt + tracking + UPPERCASE). Tabs now read UPPERCASE. `Type.Menu.lg` orphaned (kept in code as a reserved slot — same pattern as `Space.pageInset`).
 
 ## Cross-references
 
