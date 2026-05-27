@@ -36,6 +36,7 @@ struct DsButton: View {
     var iconPosition: IconPosition = .leading
     var shape: ButtonShape = .pill        // default: Capsule
     var isDisabled: Bool = false
+    var typeStyle: TypeStyle? = nil       // OPTIONAL override; nil = size-based Label.* default. Added 2026-05-27 for DsTabItem reuse.
     let action: () -> Void
 }
 
@@ -44,9 +45,13 @@ enum IconPosition    { case leading, trailing, iconOnly }
 enum ButtonShape     { case pill, rounded }
 ```
 
+## Typography override
+
+`typeStyle: TypeStyle? = nil` (added 2026-05-27). When nil → size-based default (Label.lg / md / sm). When provided → the supplied TypeStyle replaces the default. Used by `DsTabItem` to compose DsButton chrome with `Type.Menu.lg` (sans Bold 13pt mixed case) instead of the uppercase-mono Label default. Available to any future template/consumer that wants button chrome with non-default typography.
+
 ## Sizes
 
-| Size  | Visible height | Tap area | H-padding | Font | Tracking |
+| Size  | Visible height | Tap area | H-padding | Default font (when `typeStyle: nil`) | Tracking |
 |---|---|---|---|---|---|
 | large | 40 (`Space.buttonHeightLg`)    | ≥44 (`Space.tapTarget`) | **24 for `.primary`** (`Space.buttonPaddingPrimaryLg`) / 20 for others (`Space.buttonPaddingLg`) | `Type.Label.lg` — 14pt DM Mono Medium | baked: +0.8 (label) |
 | small | 32 (`Space.buttonHeightSm`)    | ≥44 (outer)             | 12 (`Space.buttonPaddingSm`) | `Type.Label.md` — 13pt DM Mono Medium | baked: +0.2 (snug) |
