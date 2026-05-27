@@ -1,7 +1,7 @@
 # Dashboard — Screen
 
 **Layer:** Screen
-**Status:** ✅ Locked (2026-05-27) — promoted from `DashboardScreenAlt` after A/B vet on iPad; previous sidebar dashboard retired.
+**Status:** ✅ Locked (2026-05-27) — chrome architecture rewritten to absolute positioning to defeat tab-dependent TopNav drift.
 **Implementation:** `houseKipper/houseKipper/Screens/DashboardScreen.swift`
 
 ## History
@@ -9,8 +9,9 @@
 | Date | Phase |
 |---|---|
 | 2026-05-25 | Original `DashboardScreen` graduated from `_DashboardMock.swift`. Sidebar NavRail + 3-column body. ✅ Locked. |
-| 2026-05-26 | Luis sketched a top-tab alternate layout. Built as `DashboardScreenAlt` (experimental sibling) for A/B vet on iPad. `DsTabItem` Primitive + `TopNav` Component shipped. |
-| 2026-05-27 | Alt won. Original sidebar dashboard retired (`TopBar` + `NavRail` Components deleted; their specs marked ✗ Removed). `DashboardScreenAlt.swift` renamed → `DashboardScreen.swift` via `git mv` (history preserved). |
+| 2026-05-26 | Luis sketched a top-tab alternate layout. Built as `DashboardScreenAlt` for A/B vet on iPad. `DsTabItem` Primitive + `TopNav` Component shipped. |
+| 2026-05-27 (AM) | Alt won. Original sidebar dashboard retired. `DashboardScreenAlt.swift` renamed → `DashboardScreen.swift` via `git mv`. |
+| 2026-05-27 (PM) | Chrome drift bug surfaced (TopNav shifted 12.5pt down between Home and stub tabs). After iterating through `VStack`, `.safeAreaInset(edge: .top)`, and `.overlay(alignment: .top)` — all produced tab-dependent positions — diagnosed as SwiftUI declarative layout cascading from `homeBody`'s mixed HStack columns (`.fixedSize` + `.frame(maxHeight: .infinity)`). **Solution: absolute positioning via `GeometryReader` + `.frame` + `.offset`.** Pixel-verified 0 drift across all 4 tabs. |
 
 ## Overview
 
@@ -22,58 +23,108 @@ iPad-first (designed/vetted at iPad Pro 11" landscape, 1194 × 834). iPhone is a
 
 ```
 DashboardScreen
-└── ZStack
-    ├── BackgroundToken.primary (.ignoresSafeArea())
-    └── VStack
-        ├── TopNav                                        ✅ Locked Component
-        │   ├── DsTabItem("Home", active)                  (4 tabs at .small / 32pt)
-        │   ├── DsTabItem("Spaces")
-        │   ├── DsTabItem("File Cabinet")
-        │   ├── DsTabItem("Ledger")
-        │   ├── (Spacer)
-        │   ├── themeMenu                                  (bare-icon utility, 44pt tap)
-        │   ├── DsSearchField(.small)                      (32pt, capped 300pt width)
-        │   ├── SignalButton(.small, "ADD")                (32pt)
-        │   └── DsAvatar (top-right, 32pt)                 (taps → Profile / Settings / Sign out menu)
-        │       .padding(.bottom, Space.snug)              gap from TopNav to tab body
+└── GeometryReader { proxy in
+    └── ZStack(alignment: .topLeading) {
+        ├── BackgroundToken.primary             ← fills proxy.size (full screen)
         │
-        └── tabBody (switches by selectedTab)
-            ├── .home → HStack(spacing: Space.snug, alignment: .top)
-            │   ├── Left col (flex width, .fixedSize(vertical: true) — sets HStack height)
-            │   │   ├── SpaceCard
-            │   │   ├── NextUpCard
-            │   │   └── ActiveProjectCard
-            │   └── Right col (390pt fixed width, .frame(maxHeight: .infinity))
-            │       ├── CalendarMonth.sampleMay2026
-            │       └── ScrollView { MaintenanceList }     scrolls internally if it overflows
-            │
-            ├── .spaces      → SpacesScreen()              stub
-            ├── .fileCabinet → FileCabinetScreen()         stub
-            └── .ledger      → LedgerScreen()              stub
+        ├── tabBody                              ← BODY — absolute positioned
+        │   .padding(.horizontal, bodyPadding=16)
+        │   .padding(.bottom, snug=12)
+        │   .frame(width: proxy.size.width,
+        │          height: proxy.size.height - chromeHeight)
+        │   .offset(y: chromeHeight)            ← starts 96pt from screen top
+        │
+        └── TopNav                               ← CHROME — anchored top, fixed height
+            .padding(.top, chromeTopPadding=40) ← 40pt: clears status bar + 16pt breathing
+            .padding(.horizontal, bodyPadding=16)
+            .padding(.bottom, snug=12)
+            .frame(width: proxy.size.width,
+                   height: chromeHeight=100, alignment: .top)
+    }
+}
+.ignoresSafeArea()   ← GeometryReader owns the full screen; safe area is manual
+```
 
-Outer padding (locked):
-  .padding(.top, Space.cardPadding)        20pt above TopNav
-  .padding(.horizontal, Space.bodyPadding) 16pt sides
-  .padding(.bottom, Space.bodyPadding)     16pt page bottom
-  .frame(maxWidth: .infinity, alignment: .topLeading)
+### Why absolute positioning instead of declarative SwiftUI
+
+Three declarative iterations (VStack at root, `.safeAreaInset(edge: .top)`, `.overlay(alignment: .top)`) all produced **tab-dependent TopNav drift** of 12–27pt between the Home tab and the stub tabs. Pixel-precise screenshot diffing on the iPad simulator (2026-05-27) confirmed it wasn't perception.
+
+Root cause: SwiftUI's layout pass propagates sizing requests up the tree. `homeBody`'s HStack with mixed `.fixedSize(vertical: true)` left column + `.frame(maxHeight: .infinity)` right column (containing a `ScrollView`) produces a different "intrinsic content" measurement than the stubs' centered `ComingSoonStub`. That difference cascades up through every declarative chrome attachment and shifts the TopNav.
+
+`GeometryReader` + absolute `.frame` + `.offset` owns the layout ourselves. Body content cannot influence chrome position because chrome y-coordinate is a hard-coded value (`0 + chromeHeight` is the body offset; TopNav is anchored at y=0).
+
+Trade-off: less idiomatic SwiftUI, but the chrome is **pixel-locked** across every tab and every future Screen. The dashboard is the primary surface in the app — this rigidity is worth the unusual shape.
+
+### Tab body
+
+```
+tabBody = @ViewBuilder switch selectedTab {
+    case .home        → HomeTab()              ← own View struct (this file)
+    case .spaces      → SpacesScreen()         ← stub
+    case .fileCabinet → FileCabinetScreen()    ← stub
+    case .ledger      → LedgerScreen()         ← stub
+}
+```
+
+**Sibling-symmetry rule:** every tab returns its own `View` struct — never an inline `@ViewBuilder` computed var. When tabs are structural peers, SwiftUI's layout pass treats them uniformly. (The earlier mix of inline `homeBody` + struct-based stubs was one source of the cascade asymmetry.)
+
+### HomeTab anatomy
+
+```
+HomeTab
+└── HStack(alignment: .top, spacing: snug=12)
+    ├── leftColumn                              ← flex width
+    │   .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    │   └── VStack(alignment: .leading, spacing: tight=8)
+    │       ├── SpaceCard (rooms / outdoor / systems)
+    │       ├── NextUpCard (urgent state)
+    │       ├── ActiveProjectCard
+    │       └── Spacer(minLength: 0)
+    │
+    └── rightColumn                             ← 390pt fixed width
+        .frame(width: 390, alignment: .topLeading)
+        .frame(maxHeight: .infinity)
+        └── VStack(alignment: .leading, spacing: tight=8)
+            ├── CalendarMonth.sampleMay2026
+            └── ScrollView(.vertical) { MaintenanceList }
 ```
 
 ## Locked dimensions
 
 | Geometry | Value | Source |
 |---|---|---|
-| Top padding above TopNav | `Space.cardPadding` (20pt) — additive on SwiftUI safe-area inset | Luis 2026-05-25 lock-in (carried over from sidebar dashboard) |
-| Padding below TopNav | `Space.snug` (12pt) | Gap from TopNav row to tab body |
-| Page side padding | `Space.bodyPadding` (16pt) | Locked |
-| Page bottom padding | `Space.bodyPadding` (16pt) | Locked |
-| TopNav row height | 32pt visible (all 5 elements: tabs, theme, search, ADD, avatar) | Luis 2026-05-27 "deaccent + normalize" — search + ADD bumped down to `.small`, avatar already 32pt |
-| Inter-column gap (Home tab) | `Space.snug` (12pt) | HStack default |
-| Calendar column width (Home tab) | 390pt fixed | Prior-engineer spec |
-| HStack height source (Home tab) | Col 2's natural via `.fixedSize(vertical: true)` | Floor-alignment fix carried over |
-| Col 3 overflow handling (Home tab) | `MaintenanceList` wrapped in `ScrollView(.vertical, showsIndicators: false)` | Same handling |
-| Tab style | Active = `DsButton(.primary, .small)` ink fill + paper text; Inactive = `DsButton(.ghost, .small)` bare text | `DsTabItem` |
-| ADD button | `SignalButton(.small)` orange + 12pt extra L/R padding | Luis 2026-05-27 |
-| Avatar diameter | 32pt (`Space.avatarRegular`) | Already 32pt; no change needed for the normalization pass |
+| **Chrome zone (TopNav frame)** | | |
+| Chrome height | 100pt = `chromeTopPadding` (44) + tapTarget (44) + `Space.snug` (12) | Screen-internal carve-out |
+| Chrome top padding | 44pt — clears status bar (~24pt) + 20pt breathing room | Luis 2026-05-27 — screen-internal carve-out |
+| Chrome side padding | `Space.bodyPadding` (16pt) | Luis 2026-05-27 (was `Space.cardPadding` 20pt) |
+| Chrome bottom padding | `Space.snug` (12pt) | Gap from TopNav row to body |
+| TopNav row visible height | 32pt (search/ADD/avatar at `.small`); 44pt tapTarget min enforces actual row | Luis 2026-05-27 "deaccent + normalize" |
+| Search field width cap | 256pt | Luis 2026-05-27 (was 300pt) |
+| ADD button | `SignalButton(.small)` + 24pt extra L/R padding | Luis 2026-05-27 — `.small` extra +12 → +24 |
+| **Body zone** | | |
+| Body top offset | 100pt (= chromeHeight) | Pushes body below chrome |
+| Body side padding | `Space.bodyPadding` (16pt) | Matches chrome |
+| Body bottom padding | `Space.snug` (12pt) | Locked |
+| **HomeTab specifics** | | |
+| Inter-column gap | `Space.snug` (12pt) | HStack default |
+| Calendar column width | 390pt fixed | Prior-engineer spec |
+| Right-col overflow handling | `MaintenanceList` wrapped in `ScrollView(.vertical, showsIndicators: false)` | Same handling |
+| **Tab styling** | | |
+| Tab style | Active = `DsButton(.primary, .small)`; Inactive = `DsButton(.ghost, .small)` | `DsTabItem` |
+| Avatar diameter | 32pt (`Space.avatarRegular`) | |
+
+## Chrome invariance rule (lock-in 2026-05-27)
+
+**The chrome — `chromeTopPadding` + TopNav row + chrome bottom padding — is pixel-invariant across every tab and every future Screen.** No tab body, no stub Screen, no future Screen may push TopNav down, shrink the outer padding, or alter the chrome's position. Content lives **inside** the body region (the rectangle starting at y=`chromeHeight`); when content exceeds it, scroll INSIDE the body — never displace the chrome.
+
+**Architectural enforcement (no code change can break this):**
+- DashboardScreen owns the chrome ONCE, via absolute positioning inside a GeometryReader.
+- TopNav's y-coordinate is a hard-coded `0` inside the ZStack; cannot be influenced by tab body content.
+- Body's y-coordinate is `chromeHeight` (offset). Body content fills the body region; if it overflows, it must wrap in a `ScrollView`.
+- Every tab body returns **content only** — no TopNav, no outer padding, no top/leading offsets.
+- Future Screens reusing this dashboard pattern: copy the GeometryReader + ZStack structure. Don't reinvent.
+
+If a future Screen needs different chrome (e.g. a modal sheet with no TopNav), it's a separate Screen pattern with its own spec — it does not silently mutate this one.
 
 ## Composed surfaces
 
@@ -84,7 +135,7 @@ Outer padding (locked):
 - `CalendarMonth` (✅ locked)
 - `MaintenanceList` (✅ locked) — wraps `MaintenanceRow` (✅ locked)
 - `DsSearchField` (✅ locked, gained `.small` Size 2026-05-27)
-- `SignalButton` (✅ locked, gained `.small` Size 2026-05-27)
+- `SignalButton` (✅ locked, gained `.small` Size 2026-05-27, `.small` extra padding 12 → 24 2026-05-27)
 - `DsAvatar` (✅ locked)
 
 **New for the alt that won:**
@@ -92,6 +143,7 @@ Outer padding (locked):
 - `TopNav` (✅ locked 2026-05-27)
 - 3 stub sub-screens: `SpacesScreen`, `FileCabinetScreen`, `LedgerScreen` — render `ComingSoonStub`
 - `ComingSoonStub` helper view
+- `HomeTab` (private View struct in `DashboardScreen.swift`)
 
 **Retired alongside the old dashboard:**
 - `TopBar` (✗ Removed 2026-05-27)
