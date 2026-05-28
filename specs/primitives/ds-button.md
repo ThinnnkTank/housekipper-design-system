@@ -37,6 +37,7 @@ struct DsButton: View {
     var shape: ButtonShape = .pill        // default: Capsule
     var isDisabled: Bool = false
     var typeStyle: TypeStyle? = nil       // OPTIONAL override; nil = size-based Label.* default. Added 2026-05-27 for DsTabItem reuse.
+    var extraHorizontalPadding: CGFloat = 0  // Added to the size-based horizontal padding default. Mirrors SignalButton's pattern. First consumer: DsTabItem (active pill +8pt L/R, Luis 2026-05-27).
     let action: () -> Void
 }
 

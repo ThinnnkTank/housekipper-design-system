@@ -54,7 +54,9 @@ final class Inspector {
 }
 ```
 
-Plumbed via `@Environment(\.inspector)`. `_Swatches` owns the instance; the header **INSPECT** `Toggle` drives `isEnabled`. Clearing `lastTouched` happens when the toggle flips OFF.
+Plumbed via `@Environment(\.dsInspector)`. `_Swatches` owns the instance; the header **INSPECT** `Toggle` drives `isEnabled`. Clearing `lastTouched` happens when the toggle flips OFF.
+
+> **2026-05-27 rename note:** the Environment key was originally `\.inspector` but collided with SwiftUI's iOS 17+ `View.inspector(isPresented:content:)` modifier — Swift's resolver disagreed with the indexer and emitted ~211 phantom "Cannot find type" errors across `_Swatches.swift` (Xcode's red squigglies disagreed with the actual compiler, which built clean). Renamed to `\.dsInspector` to disambiguate. EnvironmentKey type stayed `InspectorKey` (private); only the public extension property renamed. Two consumers: `IdentifyModifier` reads via `@Environment(\.dsInspector)`; `_Swatches` injects via `.environment(\.dsInspector, inspector)`.
 
 ## Identity payload (the format that lands on the clipboard)
 

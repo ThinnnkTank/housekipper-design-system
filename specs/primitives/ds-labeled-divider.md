@@ -18,13 +18,13 @@ A section-header divider — dashed line / centered label / dashed line. The lab
 ```
 DsLabeledDivider
 └── HStack(spacing: Space.bodyPadding)
-    ├── DsDivider(style: style, color: Border.Color.muted).frame(maxWidth: .infinity)   left segment, flex-grow, ink40 line
+    ├── DsDivider(style: style, color: Border.Color.subtle).frame(maxWidth: .infinity)   left segment, flex-grow, ink40 line
     ├── Text(label)
     │   ├── .typeStyle(Type.Data.xs)                                9pt DM Mono Regular
     │   ├── .tracking(HkType.trackingWider)                  +1.8pt
     │   ├── .textCase(.uppercase)
     │   └── .foregroundStyle(TextToken.muted)               ink40 (matches line color)
-    └── DsDivider(style: style, color: Border.Color.muted).frame(maxWidth: .infinity)   right segment, flex-grow, ink40 line
+    └── DsDivider(style: style, color: Border.Color.subtle).frame(maxWidth: .infinity)   right segment, flex-grow, ink40 line
 ```
 
 The two `DsDivider` segments share remaining horizontal space evenly because both have `maxWidth: .infinity`. The label takes its intrinsic width. `Space.bodyPadding` (16pt) gives breathing room on each side so the line doesn't visually crash into the text.
@@ -77,3 +77,4 @@ VStack(alignment: .leading, spacing: Space.tight) {
 - **Default `.dashed` style** (2026-05-24): dominant use case is eyebrow-style section headers, which are always dashed. Solid available for harder demarcation.
 - **Line color `.muted`, label `.secondary`** (Luis 2026-05-24, iter 2): initial draft used `Border.Color.subtle` (ink20) line + `TextToken.muted` (ink40) label. On iPad both read too faint to anchor a section header. Each bumped one step darker — line ink20 → ink40 (new `Border.Color.muted` added to the semantic-token layer), label ink40 → ink60 (`TextToken.secondary`).
 - **Label softened back to `.muted` ink40** (Luis 2026-05-25, dashboard vet): with the dashboard's compact tile labels (Type.Label.sm dropped 13→12pt), the ink60 section header dominated the section content. Label now matches the line color (ink40) — both at the same weight, section headers recede into the rhythm rather than competing with tiles.
+- **Lines softened ink40 → ink20** (Luis 2026-05-27, cosmetic round 3): plain `DsDivider` defaults to `Border.Color.subtle` (ink20) and is used by Tasks + Calendar; SpaceCard's labeled section dividers (ROOMS / OUTDOOR / SYSTEMS) were reading visibly darker (ink40) than those siblings. Flipped the labeled variant's lines to match — both segments now use `Border.Color.subtle`. Label color stays ink40 (`TextToken.muted`). Affects every consumer of `DsLabeledDivider`; only consumer at the time was SpaceCard.
