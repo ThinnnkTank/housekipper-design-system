@@ -464,7 +464,7 @@ Recent decision history lives in `CHANGELOG.md`. Deferred work in `BACKLOG.md`.
 
 ### Repo URL
 
-This mirror repo: **`<PUBLIC_MIRROR_URL>`** *(filled in by Luis after the mirror is created)*
+This mirror repo: **https://github.com/ThinnnkTank/housekipper-design-system**
 
 The mirror is a public subtree of the private parent repo (`ThinnnkTank/houseKipper`). It contains only `design-sys/` — no Swift, no app code. Cross-links inside `design-sys/` resolve fine; the small number of links that point OUT of the folder (into `houseKipper/*.swift` or repo-root files like `CLAUDE.md`) will 404 on the mirror. Expected — those are context for the SwiftUI side only.
 
