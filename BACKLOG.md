@@ -1,13 +1,21 @@
 # Design System Backlog (deferred — do not action)
 
-## Next up — dashboard polish round (Luis 2026-05-27 post-promotion)
+## Next up
 
-Promoted from inline backlog after the alt dashboard became the official dashboard. These are the four areas Luis flagged for the next pixel-tweaking pass.
+- **HeroCard refactor — unify NextUpCard + ActiveProjectCard into one Component.** Approved in plan (Luis 2026-05-27 "option 1") then deferred to a focused session. Both cards already share anatomy at the visual level: 44pt header rail, 48pt SF Symbol icon with 12pt L/R breathing, asymmetric 8/24 vertical padding, Title.lg title, Label.xs eyebrow, ink40 1pt border (or signal 2pt for urgent). **Refactor goal:** single `HeroCard` struct with `State` enum (`.task(TaskState)` covering NextUp.urgent + .upcoming; `.project(ProjectState)` covering ActiveProject; `.allClear(message)` covering NextUp.allClear). **Skeleton already drafted** in conversation — eyebrow + state-specific header trailing content via `@ViewBuilder` switch, then content row via state switch. Pure restructure, no visual change. Migration: delete `NextUpCard.swift` + `ActiveProjectCard.swift`, write `HeroCard.swift`, update `DashboardScreen.HomeTab` + `_Swatches` call sites, collapse two specs into `components/hero-card.md` (old two marked ✗ Removed). Estimated ~30 min.
 
-- **Hero card (NextUpCard) styling refinements.** The urgent NextUpCard reads correctly but needs another pass on internal spacing, the spine + indicator weight, and the MARK COMPLETE / SNOOZE button proportions at the new TopNav `.small` scale. Decide whether the card chrome should also deaccent (smaller buttons inside, tighter padding) now that the surrounding row has dropped to 32pt.
-- **Upcoming Maintenance row styles.** MaintenanceRow + MaintenanceList typography + spacing pass. Luis flagged: the eyebrow ("UPCOMING MAINTENANCE") + the date column + the title can still tune. Specific opens — title size relative to date, weight balance, optional location/frequency styling, hover/press behaviors on iPad.
-- **Overall content size + scroll behavior.** When `MaintenanceList` overflows col 3's bounded scroll area, scroll currently engages internally. Open questions: should the WHOLE body scroll instead on iPhone / smaller iPads? Should the right column scroll independently from the left (current behavior) or together? When the user reaches the bottom of MaintList, how is the scroll boundary signaled (fade? hairline?)? Cross-screen pattern decisions, not just dashboard-specific.
-- **Minor TopNav row adjustments.** Pixel-level tweaks Luis identified during vet: tab strip horizontal spacing, theme menu icon size relative to the tab text, search field internal padding, ADD button breathing relative to search. Probably small constant adjustments (Space.tight ↔ Space.snug, etc.) rather than architectural changes.
+---
+
+## Dashboard polish (Luis 2026-05-27 post-promotion) — partially landed
+
+- ✅ **Hero card styling refinements** — locked 2026-05-27. Shared anatomy, asymmetric padding, hammer icon for ActiveProject, 48pt icon with 12pt L/R breathing, `.secondary` arrows.
+- **Upcoming Maintenance row styles.** MaintenanceRow + MaintenanceList typography + spacing pass. Luis flagged earlier: the eyebrow ("UPCOMING MAINTENANCE") + the date column + the title can still tune. Eyebrow renamed to "Tasks" (Title.md, sans Medium 17pt). Date column bolder weight still pending — DM Mono only ships Regular + Medium (no Bold) — decision deferred. **Open:** title size relative to date, weight balance, optional location/frequency styling, hover/press behaviors on iPad.
+- **Overall content size + scroll behavior.** When `MaintenanceList` overflows the Tasks card scroll area, scroll engages internally. Open questions: should the WHOLE body scroll instead on iPhone / smaller iPads? Should the right column scroll independently from the left? When user reaches bottom of MaintList, how is the scroll boundary signaled (fade? hairline?)? Cross-screen pattern decisions.
+- ✅ **Minor TopNav row adjustments** — locked earlier 2026-05-27. Search width 256pt, ADD button .small +24pt extra padding, 44pt avatar/etc.
+
+## Calendar polish (Luis 2026-05-27 — "well talk calendar later")
+
+- Right column grid lock landed (calendar height = heroHeight × 2 + snug = 352pt; Tasks card wraps MaintList). Calendar's internal vertical compression at 352pt is functional but Luis flagged for follow-up vet — re-examine cell heights, dot prominence, legend density, and whether internal flex spacers feel balanced at the fixed height.
 
 ---
 

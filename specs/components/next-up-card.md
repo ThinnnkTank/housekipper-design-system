@@ -1,8 +1,12 @@
 # NextUpCard — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-25)
+**Status:** ✅ Locked (2026-05-27 — re-locked after hero-card unification round)
 **Implementation:** `houseKipper/houseKipper/Components/NextUpCard.swift`
+
+## 2026-05-27 update — hero-card anatomy unified with ActiveProjectCard
+
+Both hero cards now share anatomy. NextUpCard structure: `VStack(spacing: 0)` containing a **44pt header rail** (`HStack(alignment: .top)` with eyebrow + `Spacer`) above the content row (icon · content VStack · buttons VStack). Eyebrow uses `.font(Type.Label.lg.font)` (DM Mono Medium 14pt, no tracking/upper — matches DsSearchField + ActiveProject + MaintenanceList "TASKS"). 48pt SF Symbol urgent indicator gains `.padding(.horizontal, Space.snug)` (12pt L/R breathing). Outer padding asymmetric: `top: hairline (4)` / `horizontal: bodyPadding (16)` / `bottom: cardPadding (20)` / `leading +tight (8)` for spine clearance. HomeTab applies `.frame(height: 164)` — math: 4 + 44 + 0 + 96 (2-button stack tapTarget min) + 20 = 164.
 
 ## Overview
 

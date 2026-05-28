@@ -96,6 +96,17 @@ HomeTab
 | **Chrome zone (TopNav frame)** | | |
 | Chrome height | 100pt = `chromeTopPadding` (44) + tapTarget (44) + `Space.snug` (12) | Screen-internal carve-out |
 | Chrome top padding | 44pt — clears status bar (~24pt) + 20pt breathing room | Luis 2026-05-27 — screen-internal carve-out |
+| **Hero card height** | 164pt (`HomeTab.heroHeight`) — math: 4 top + 44 header rail + 0 inner spacing + 96 content row (NextUp's 2-button stack min) + 20 bottom | Luis 2026-05-27 lock |
+| Hero card padding | top 4 (`hairline`) / horizontal 16 (`bodyPadding`) / bottom 20 (`cardPadding`) — heroes only | Luis 2026-05-27 [explore] |
+| Hero card inner VStack spacing | 0 (audit:exempt — header rail provides breathing) | Luis 2026-05-27 |
+| Hero card header rail | 44pt (`Space.tapTarget`) — eyebrow top-aligned via `HStack(alignment: .top)` | Luis 2026-05-27 |
+| Hero card icon | 48pt SF Symbol + 12pt L/R breathing (`.padding(.horizontal, snug)`) | Luis 2026-05-27 |
+| Eyebrow typography (heroes + Tasks) | `.font(Type.Label.lg.font)` — DM Mono Medium 14pt, no tracking, no upper-bake (matches DsSearchField) | Luis 2026-05-27 |
+| SpaceCard padding | top 16 (`bodyPadding`) / horizontal 8 (`tight`) / bottom 24 (`safeGutter`) | Luis 2026-05-27 |
+| CalendarMonth padding | top 8 / horizontal 16 / bottom 24 — natural height (no fixed-height grid lock) | Luis 2026-05-27 |
+| MaintenanceList (Tasks card) padding | top 8 / bottom 24, inner horizontal 16 on header + rows | Luis 2026-05-27 |
+| MaintenanceList header | TASKS (uppercase) + VIEW ALL **pinned at top**; rows scroll internally under pinned header | Luis 2026-05-27 |
+| Inter-card gap (both columns) | `Space.snug` (12pt) | Luis 2026-05-27 |
 | Chrome side padding | `Space.bodyPadding` (16pt) | Luis 2026-05-27 (was `Space.cardPadding` 20pt) |
 | Chrome bottom padding | `Space.snug` (12pt) | Gap from TopNav row to body |
 | TopNav row visible height | 32pt (search/ADD/avatar at `.small`); 44pt tapTarget min enforces actual row | Luis 2026-05-27 "deaccent + normalize" |

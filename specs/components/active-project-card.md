@@ -1,9 +1,21 @@
 # ActiveProjectCard — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-25)
+**Status:** ✅ Locked (2026-05-27 — restructured to mirror NextUpCard anatomy)
 **Implementation:** `houseKipper/houseKipper/Components/ActiveProjectCard.swift`
 **Reference:** dashboard mock + paprLCD canonical Active Project surface
+
+## 2026-05-27 restructure — anatomy mirrors NextUpCard
+
+Significant API + visual restructure to make the two hero cards true visual peers:
+- **Removed `nextStep:` parameter** + "NEXT · INSTALL WALL ANCHORS" meta line.
+- **Removed PHOTO thumbnail placeholder** → 48pt `hammer.fill` SF Symbol icon, same treatment as NextUpCard's urgent indicator (`.padding(.horizontal, Space.snug)` for 12pt L/R breathing).
+- **Anatomy: VStack(spacing: 0) of [header rail (44pt tapTarget min, contains eyebrow + spacer + dots + spacer + arrows) ; content row (icon + content VStack)].** Eyebrow uses `.font(Type.Label.lg.font)` (matches DsSearchField + NextUp + MaintenanceList unified treatment). Arrows are `DsButton(.secondary, .micro, iconOnly)`.
+- **Outer padding asymmetric:** `top: hairline (4)` / `horizontal: bodyPadding (16)` / `bottom: cardPadding (20)`.
+- **Border:** `Border.Color.muted` (ink40) 1pt — matches NextUp's non-urgent default.
+- HomeTab applies `.frame(height: 164)` (same heroHeight as NextUp).
+
+Call sites updated: `DashboardScreen.HomeTab.leftColumn` + `_Swatches.activeProjectCardSection`.
 
 ## Overview
 

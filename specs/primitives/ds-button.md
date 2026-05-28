@@ -87,8 +87,8 @@ Three resolved palettes per variant: rest · disabled · pressed. Driver: `Actio
 
 **Press feedback reuses the disabled palette of a related variant.** Buttons momentarily "soften" rather than invert dramatically:
 
-- **primary press** → looks like **secondary-disabled** treatment (ink-05 fill, ink-40 border, ink-40 text)
-- **secondary press** → looks like **secondary-disabled** treatment (same)
+- **primary press** → looks like **secondary-disabled** treatment (ink-05 fill, ink-20 border, ink-40 text)
+- **secondary press** → dedicated softer treatment: **clear fill + ink-10 border + ink-40 text** (Luis 2026-05-27 ✅ Locked). Rest moved to ink-05 + ink-20 [explore], collapsing the previous "press == disabled palette" rule for this variant. Press now steps **one stop softer** than rest so there's visible daylight on touch-down.
 - **ghost press** → looks like **primary-disabled** treatment (ink-40 fill, paper text)
 - **urgent press** → looks like **urgent-disabled** treatment (signalTint fill, signalStrong text)
 

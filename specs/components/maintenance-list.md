@@ -1,9 +1,15 @@
 # MaintenanceList — Component
 
 **Layer:** Component
-**Status:** ✅ Locked (2026-05-25)
+**Status:** ✅ Locked (2026-05-27 — TASKS rename + card chrome + pinned header)
 **Implementation:** `houseKipper/houseKipper/Components/MaintenanceList.swift`
-**Reference:** Luis 2026-05-24 dashboard reference (UPCOMING MAINTENANCE card)
+**Reference:** Luis 2026-05-24 dashboard reference
+
+## 2026-05-27 update — TASKS rename + card chrome + pinned header
+
+- Header text "UPCOMING MAINTENANCE" → **"TASKS"** (uppercase). Typestyle: `.font(Type.Label.lg.font)` (DM Mono Medium 14pt — matches DsSearchField + hero eyebrows for a unified section-label treatment).
+- Gained outer card chrome: `Border.Color.muted` 1pt + `Radius.md` + `top: tight (8)` / `bottom: safeGutter (24)` padding (horizontal padding stays inside header + rows = 16pt internal).
+- **Pinned header pattern:** body is `VStack { header ; ScrollView { rows } }`. TASKS + VIEW ALL stays fixed at the card's top while rows scroll under it when the list overflows.
 
 ## Overview
 
