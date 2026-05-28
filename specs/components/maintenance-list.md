@@ -5,6 +5,10 @@
 **Implementation:** `houseKipper/houseKipper/Components/MaintenanceList.swift`
 **Reference:** Luis 2026-05-24 dashboard reference
 
+## 2026-05-27 update — paper card fill [explore]
+
+Card gained explicit paper fill (`.background(RoundedRectangle(cornerRadius: Radius.md).fill(BackgroundToken.primary))`) to lift it visually against the new darker page bg.
+
 ## 2026-05-27 update — TASKS rename + card chrome + pinned header
 
 - Header text "UPCOMING MAINTENANCE" → **"TASKS"** (uppercase). Typestyle: `.font(Type.Label.lg.font)` (DM Mono Medium 14pt — matches DsSearchField + hero eyebrows for a unified section-label treatment).

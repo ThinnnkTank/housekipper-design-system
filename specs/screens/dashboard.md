@@ -1,7 +1,11 @@
 # Dashboard — Screen
 
 **Layer:** Screen
-**Status:** ✅ Locked (2026-05-27) — chrome architecture rewritten to absolute positioning to defeat tab-dependent TopNav drift.
+**Status:** ✅ Locked (2026-05-27) — chrome architecture rewritten to absolute positioning to defeat tab-dependent TopNav drift. **Page bg + card-fill hierarchy** added 2026-05-27 [explore].
+
+## 2026-05-27 update — page bg + card-fill hierarchy [explore]
+
+Dashboard now uses a two-tier surface model: **page bg** (`BackgroundToken.page` = `#D5D7D1`) sits behind everything; **cards** paint `BackgroundToken.primary` (`paper` = `#E0E2DC`) on top, lifting them visually. The 11-unit luminance step is subtle but clearly readable as separation. Implementation: GeometryReader's bg switched `BackgroundToken.primary` → `.page`; every card (NextUpCard, ActiveProjectCard, SpaceCard, CalendarMonth, MaintenanceList) gained `.background(RoundedRectangle(cornerRadius: Radius.md).fill(BackgroundToken.primary))`. NextUpCard uses a single ZStack-background so the urgent spine layers correctly above the paper fill.
 **Implementation:** `houseKipper/houseKipper/Screens/DashboardScreen.swift`
 
 ## History

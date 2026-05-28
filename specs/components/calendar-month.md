@@ -5,6 +5,10 @@
 **Implementation:** `houseKipper/houseKipper/Components/CalendarMonth.swift`
 **Reference:** paprLCD vnext calendar redline (Luis 2026-05-25)
 
+## 2026-05-27 update — paper card fill [explore]
+
+Card gained explicit paper fill (`.background(RoundedRectangle(cornerRadius: Radius.md).fill(BackgroundToken.primary))`) to lift it visually against the new darker page bg.
+
 ## 2026-05-27 update — padding rhythm
 
 Outer padding: `top snug/horizontal cardPadding/bottom cardPadding (12/20/20)` → `top tight/horizontal bodyPadding/bottom safeGutter (8/16/24)`. Brings the calendar onto the same internal rhythm as the hero cards and Tasks card; calendar's date pill top edge now aligns with hero eyebrows. Natural height (an earlier attempt at fixed 352pt grid-lock was reverted — `.frame(height:)` doesn't clip and natural content overflowed the card frame's top edge).

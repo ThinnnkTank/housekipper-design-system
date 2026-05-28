@@ -10,8 +10,9 @@ Source: `houseKipper/houseKipper/DesignSystem/SemanticTokens/*.swift`.
 
 | Token | Maps to | Use |
 |---|---|---|
-| `BackgroundToken.primary`   | `paper`  | Default screen background |
-| `BackgroundToken.secondary` | `paper2` | Cards, sheets, recessed surfaces |
+| `BackgroundToken.primary`   | `paper`  | **Card fill** — what cards/chips/pills paint on top of the page bg |
+| `BackgroundToken.secondary` | `paper2` | Recessed input surfaces (DsSearchField fill, Inspector banner) |
+| `BackgroundToken.page`      | `pageBg` | **App / page background** — sits behind all cards. Added Luis 2026-05-27 [explore] — creates the "cards lift off the page" effect by being a notch darker than `primary`. |
 
 ---
 

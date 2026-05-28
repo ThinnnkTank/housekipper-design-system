@@ -5,6 +5,10 @@
 **Implementation:** `houseKipper/houseKipper/Components/ActiveProjectCard.swift`
 **Reference:** dashboard mock + paprLCD canonical Active Project surface
 
+## 2026-05-27 update — paper card fill [explore]
+
+Card gained explicit paper fill (`.background(RoundedRectangle(cornerRadius: Radius.md).fill(BackgroundToken.primary))`) to lift it visually against the new darker page bg. Border (`Border.Color.subtle` = ink20) renders over the fill via `.overlay`.
+
 ## 2026-05-27 restructure — anatomy mirrors NextUpCard
 
 Significant API + visual restructure to make the two hero cards true visual peers:

@@ -4,6 +4,10 @@
 **Status:** ✅ Locked (2026-05-27 — vertical padding aligned with dashboard grid)
 **Implementation:** `houseKipper/houseKipper/Components/SpaceCard.swift`
 
+## 2026-05-27 update — paper card fill [explore]
+
+Card gained explicit paper fill (`.background(RoundedRectangle(cornerRadius: Radius.md).fill(BackgroundToken.primary))`) to lift it visually against the new darker page bg.
+
 ## 2026-05-27 update — vertical padding
 
 Vertical padding: `.padding(.vertical, snug)` (12/12) → `.padding(.top, bodyPadding) + .padding(.bottom, safeGutter)` (16/24). The 16pt top adds breathing above the first "ROOMS" divider AND pushes the card bottom into alignment with the Tasks card's bottom (right column). L/R padding unchanged at 8pt (`tight`).

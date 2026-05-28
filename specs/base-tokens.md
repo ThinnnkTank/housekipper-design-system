@@ -22,10 +22,11 @@ Canonical paprLCD vnext palette. Light-mode values shown. Dark mode lives in `As
 
 ### Surfaces
 
-| Token | Light | Dark |
-|---|---|---|
-| `paper`  | `#E0E2DC` | `#161A17` |
-| `paper2` | `#DDE1DA` | `#1E2420` |
+| Token | Light | Dark | Role |
+|---|---|---|---|
+| `paper`  | `#E0E2DC` | `#161A17` | Card / chip / pill surface — sits on top of `pageBg` |
+| `paper2` | `#DDE1DA` | `#1E2420` | Recessed input surface (DsSearchField, Inspector banner) |
+| `pageBg` | `#D5D7D1` | `#0E120F` | Page / app background — sits **behind** all cards. Notably darker than `paper` so cards lift visually. Added Luis 2026-05-27 [explore] (iter trail: `#D2D6CC` → `#D5D7D1`). |
 
 ### Signal
 
